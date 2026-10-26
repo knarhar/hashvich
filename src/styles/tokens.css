@@ -79,8 +79,8 @@
 
   /* Named radii, per DESIGN.md */
   --radius-tags: 9999px;
-  --radius-cards: 28px;
-  --radius-inner: 18px;
+  --radius-cards: 3px;
+  --radius-inner: 3px;
   --radius-pills: 9999px;
   --radius-inputs: 8px;
   --radius-buttons: 28px;
@@ -104,4 +104,35 @@
   --card-padding-max: 48px;
   --element-gap-min: 16px;
   --element-gap-max: 24px;
+
+  /*
+    Elevation. DESIGN.md says "no shadows", but the project owner asked for
+    depth directly; recorded in docs/design-gaps.md. The shadows are warm —
+    tinted with the ink colour, not neutral black — so they sit with the
+    parchment palette instead of fighting it.
+  */
+  --shadow-color: 36 34 20; /* warm ink, as R G B for rgb() with alpha */
+  --shadow-sm:
+    0 1px 2px rgb(var(--shadow-color) / 0.04),
+    0 2px 6px rgb(var(--shadow-color) / 0.05);
+  --shadow-md:
+    0 2px 4px rgb(var(--shadow-color) / 0.05),
+    0 8px 20px rgb(var(--shadow-color) / 0.08);
+  --shadow-lg:
+    0 4px 8px rgb(var(--shadow-color) / 0.06),
+    0 18px 40px rgb(var(--shadow-color) / 0.12);
+  /* A lime-tinted glow for the hover state of lime elements. */
+  --shadow-lime: 0 10px 30px rgb(140 190 40 / 0.35);
+
+  /* Motion. One easing and two durations keep transitions coherent. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-mid: 320ms;
+  --duration-slow: 620ms;
+
+  /* Background pattern: a faint dot grid plus a soft lime bloom up top. */
+  --pattern-dot: rgb(20 20 15 / 0.045);
+  --pattern-dot-size: 22px;
+  --pattern-bloom: rgb(190 255 80 / 0.22);
 }

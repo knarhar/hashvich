@@ -1,18 +1,23 @@
 ---
 /**
  * Surface card. The three variants are the surface levels from DESIGN.md:
- * parchment, white and the rare dark island. Separation is tonal, never a
- * shadow.
+ * parchment, white and the rare dark island.
+ *
+ * DESIGN.md calls for tonal separation with no shadows; the project owner
+ * asked for depth, so cards now carry a soft resting shadow and, when
+ * `interactive`, lift on hover. Recorded in docs/design-gaps.md.
  */
 interface Props {
   surface?: "parchment" | "white" | "dark";
+  /** Adds the hover lift; use when the whole card is a link or button. */
+  interactive?: boolean;
   class?: string;
 }
 
-const { surface = "parchment", class: className = "" } = Astro.props;
+const { surface = "parchment", interactive = false, class: className = "" } = Astro.props;
 ---
 
-<div class:list={["card", surface, className]}>
+<div class:list={["card", surface, { interactive }, className]}>
   <slot />
 </div>
 
@@ -20,6 +25,11 @@ const { surface = "parchment", class: className = "" } = Astro.props;
   .card {
     padding: var(--card-padding-min);
     border-radius: var(--radius-cards);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--duration-mid) var(--ease-out),
+      box-shadow var(--duration-mid) var(--ease-out),
+      border-color var(--duration-mid) var(--ease-out);
   }
 
   @media (min-width: 768px) {
@@ -43,5 +53,29 @@ const { surface = "parchment", class: className = "" } = Astro.props;
   .dark {
     background: var(--surface-dark-island);
     color: var(--color-off-white-canvas);
+  }
+
+  /* The lift is applied by hovering the card's own box, which fills its link
+     wrapper, so hovering anywhere on the card triggers it. Only on devices
+     that actually hover, so touch taps do not leave a stuck state. */
+  @media (hover: hover) {
+    .interactive {
+      cursor: pointer;
+    }
+
+    .interactive:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .interactive.white:hover {
+      border-color: var(--color-off-black-ink);
+    }
+  }
+
+  /* Keyboard users get the same lift when the wrapping link is focused. */
+  :global(a:focus-visible) > .interactive {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
   }
 </style>

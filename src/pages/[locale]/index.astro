@@ -49,20 +49,20 @@ const websiteSchema = {
     <p class="intro">{t("pages.home.intro")}</p>
   </section>
 
-  <section class="grid" aria-label={t("pages.home.heading")}>
+  <section class="grid" aria-label={t("pages.home.heading")} data-stagger>
     {
       calculators.map((route) => {
         const name = t(`calculators.${route.key}.name`);
         const summary = t(`calculators.${route.key}.summary`);
         return route.enabled ? (
-          <a class="cell" href={pathFor(route.key, locale)}>
-            <Card surface="parchment">
+          <a class="cell reveal" href={pathFor(route.key, locale)}>
+            <Card surface="parchment" interactive>
               <h2>{name}</h2>
               <p>{summary}</p>
             </Card>
           </a>
         ) : (
-          <div class="cell">
+          <div class="cell reveal">
             <Card surface="white">
               <Tag>{t("common.comingSoon")}</Tag>
               <h2>{name}</h2>
@@ -98,12 +98,20 @@ const websiteSchema = {
     display: grid;
     gap: var(--spacing-20);
     padding-bottom: var(--spacing-80);
-    grid-template-columns: 1fr;
+    /* auto-fit so a card drops to its own row instead of overflowing a fixed
+       track at narrow widths. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
   }
 
   .cell {
     text-decoration: none;
     color: inherit;
+    min-width: 0;
+  }
+
+  /* The card fills the link, so the whole cell is the hit area and lift. */
+  .cell > :global(.card) {
+    height: 100%;
   }
 
   .cell :global(h2) {
@@ -129,14 +137,7 @@ const websiteSchema = {
     }
 
     .grid {
-      grid-template-columns: repeat(2, 1fr);
       gap: var(--spacing-24);
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
     }
   }
 </style>

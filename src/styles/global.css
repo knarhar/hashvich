@@ -73,17 +73,44 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Anchor jumps ease rather than snap; the wheel smoothing is a progressive
+     enhancement layered on top in JS. Overridden under reduced motion below. */
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background: var(--surface-page-canvas);
   color: var(--color-off-black-ink);
   font-family: var(--font-sans);
   font-size: var(--text-body);
   font-weight: var(--font-weight-regular);
   line-height: var(--text-body--line-height);
   -webkit-font-smoothing: antialiased;
+
+  /*
+    Layered background, anchored to the top of the page:
+      1. a soft lime bloom behind the top of the page,
+      2. a faint dot grid for texture,
+      3. the parchment-to-white canvas underneath.
+    All three are low-contrast so text contrast is untouched. Note: no
+    `background-attachment: fixed` — on mobile it forces a full-screen repaint
+    on every scroll frame and stutters badly. A scrolling background is cheap.
+  */
+  background-color: var(--surface-page-canvas);
+  background-image:
+    radial-gradient(
+      120% 60% at 50% -10%,
+      var(--pattern-bloom) 0%,
+      transparent 60%
+    ),
+    radial-gradient(var(--pattern-dot) 1px, transparent 1.4px);
+  background-size:
+    100% 640px,
+    var(--pattern-dot-size) var(--pattern-dot-size);
+  background-position:
+    top center,
+    center top;
+  background-repeat: no-repeat, repeat;
 }
 
 h1,
@@ -150,4 +177,35 @@ a {
 .skip-link:focus {
   left: var(--spacing-16);
   top: var(--spacing-16);
+}
+
+/*
+  Scroll reveal. Elements marked .reveal rise and fade in as they enter the
+  viewport. Gated behind html.js (set by an inline script) so content is never
+  hidden from crawlers, no-JS visitors, or a failed observer, and reset under
+  reduced motion so nothing animates there.
+*/
+html.js :where(.reveal) {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js :where(.reveal.is-visible) {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js :where(.reveal) {
+    opacity: 1;
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }

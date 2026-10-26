@@ -10,7 +10,9 @@
   "nav": {
     "home": "Home",
     "skipToContent": "Skip to content",
-    "switchLanguage": "Language"
+    "switchLanguage": "Language",
+    "calculators": "Calculators",
+    "closeMenu": "Close"
   },
   "pages": {
     "home": {

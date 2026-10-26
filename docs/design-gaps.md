@@ -157,3 +157,47 @@ Astro 7.4.2 requires Node ≥22.23.4; the machine had 22.23.3 and the build
 refused to run. Node 22.23.4 was installed via nvm and pinned in `.nvmrc`.
 TypeScript is held at 6.x because `astro check` does not yet support
 TypeScript 7.
+
+---
+
+## 11. Shadows, motion and a background pattern (owner override of DESIGN.md)
+
+DESIGN.md is explicit: "No shadows… Elevation is communicated by surface color
+shifts, not drop shadows," and it describes no motion or background texture.
+The project owner asked directly for shadows, card hover animations, scroll
+reveals, a smooth accelerating scroll and a background pattern. That direct
+instruction overrides the style guide for these points; it is recorded here as
+the guide requires.
+
+What was added, all as tokens (`src/styles/tokens.css`):
+- **Shadows** `--shadow-sm/md/lg/lime`. Warm, tinted with the ink colour rather
+  than neutral black, so they sit with the parchment palette. Cards carry a
+  soft resting shadow and lift on hover; the lime button gains a lime-tinted
+  glow on hover; the header gains a shadow once scrolled.
+- **Motion** `--ease-out`, `--duration-*`. Card and button hovers, the header
+  shadow, and a reveal-on-scroll (fade + 18px rise, staggered within a grid).
+  All of it is gated behind `prefers-reduced-motion: no-preference` and behind
+  an `html.js` class, so no-JS and reduced-motion visitors get the static page
+  with content fully visible.
+- **Background** a faint ink dot-grid plus a soft lime bloom at the top of the
+  page, both low-contrast so text contrast is unaffected (`--pattern-*`).
+- **Smooth scroll** momentum-eased wheel scrolling on fine-pointer devices only
+  (`src/scripts/enhance.ts`); touch keeps native momentum, reduced-motion keeps
+  native scroll.
+
+## 12. Header is a dropdown, and sticky
+
+The earlier header listed each calculator as an inline link, which looked bare
+with one calculator live and would crowd as more ship. At the owner's request
+it is now a single "Calculators" dropdown (all five listed; unbuilt ones shown
+disabled with a "coming soon" badge). The header is also sticky with a
+translucent blurred background. DESIGN.md specifies neither; simplest
+accessible option taken (button + `aria-expanded`, Escape and click-outside to
+close).
+
+## 13. Armenian groups four-digit numbers without a separator
+
+`Intl.NumberFormat("hy-AM")` renders 4 800 and 1 000 as "4800"/"1000" but
+15 000 as "15 000". This is the CLDR rule for Armenian (no grouping below five
+digits), not a bug, so it is left as the locale dictates rather than forced to
+match ru/en. Flagged for the native-language review (`hy` is TODO-REVIEW).

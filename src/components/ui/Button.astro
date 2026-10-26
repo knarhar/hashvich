@@ -37,12 +37,28 @@ const Tag = href ? "a" : "button";
     line-height: 1;
     text-decoration: none;
     cursor: pointer;
-    /* No box-shadow: the system separates layers by tone, not elevation. */
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
   }
 
   .primary {
     background: var(--color-electric-lime);
     color: var(--color-off-black-ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (hover: hover) {
+    .primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lime);
+    }
+  }
+
+  .primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
   }
 
   .ghost {

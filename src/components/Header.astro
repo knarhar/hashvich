@@ -1,6 +1,6 @@
 ---
 import type { Locale } from "../i18n/config.ts";
-import { HOME_KEY, enabledRoutes, pathFor } from "../i18n/routes.ts";
+import { HOME_KEY, ROUTES, pathFor } from "../i18n/routes.ts";
 import { t } from "../i18n/utils.ts";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
@@ -11,47 +11,135 @@ interface Props {
 
 const { locale, pageKey } = Astro.props;
 
-// Only built pages appear in navigation; reserved routes stay hidden.
-const navRoutes = enabledRoutes().filter((r) => r.key !== HOME_KEY);
+// All calculators appear in the dropdown; reserved ones show as "coming soon"
+// and are not links. This keeps the top bar to a logo, one menu and the
+// language switcher instead of a growing row of links.
+const items = ROUTES.filter((r) => r.key !== HOME_KEY);
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header>
   <div class="container-page bar">
     <a class="wordmark" href={pathFor(HOME_KEY, locale)}>{t("site.name", locale)}</a>
 
     <div class="right">
-      {
-        navRoutes.length > 0 && (
-          <nav aria-label={t("nav.home", locale)}>
-            <ul>
-              {navRoutes.map((route) => (
-                <li>
-                  <a href={pathFor(route.key, locale)}>
-                    {t(`calculators.${route.key}.name`, locale)}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )
-      }
+      <div class="menu" data-menu>
+        <button
+          type="button"
+          class="menu-trigger"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="calc-menu"
+          data-menu-trigger
+        >
+          <span>{t("nav.calculators", locale)}</span>
+          <svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <div class="panel" id="calc-menu" role="menu" data-menu-panel hidden>
+          <ul>
+            {
+              items.map((route) => {
+                const name = t(`calculators.${route.key}.name`, locale);
+                const summary = t(`calculators.${route.key}.summary`, locale);
+                return (
+                  <li role="none">
+                    {route.enabled ? (
+                      <a role="menuitem" href={pathFor(route.key, locale)}>
+                        <span class="name">{name}</span>
+                        <span class="summary">{summary}</span>
+                      </a>
+                    ) : (
+                      <span class="disabled" role="menuitem" aria-disabled="true">
+                        <span class="name">
+                          {name}
+                          <span class="badge">{t("common.comingSoon", locale)}</span>
+                        </span>
+                        <span class="summary">{summary}</span>
+                      </span>
+                    )}
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      </div>
+
       <LanguageSwitcher locale={locale} pageKey={pageKey} />
     </div>
   </div>
 </header>
 
+<script>
+  for (const menu of document.querySelectorAll<HTMLElement>("[data-menu]")) {
+    const trigger = menu.querySelector<HTMLButtonElement>("[data-menu-trigger]");
+    const panel = menu.querySelector<HTMLElement>("[data-menu-panel]");
+    if (!trigger || !panel) continue;
+
+    const open = () => {
+      panel.hidden = false;
+      // Reflow before adding the class so the transition runs.
+      void panel.offsetHeight;
+      menu.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+    };
+    const close = () => {
+      menu.classList.remove("is-open");
+      trigger.setAttribute("aria-expanded", "false");
+    };
+    const toggle = () => (trigger.getAttribute("aria-expanded") === "true" ? close() : open());
+
+    // Keep the panel in the DOM flow for the close transition, then hide it.
+    panel.addEventListener("transitionend", () => {
+      if (!menu.classList.contains("is-open")) panel.hidden = true;
+    });
+
+    trigger.addEventListener("click", toggle);
+
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target as Node)) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.classList.contains("is-open")) {
+        close();
+        trigger.focus();
+      }
+    });
+  }
+</script>
+
 <style>
   .site-header {
-    border-bottom: 1px solid var(--color-ash);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--surface-page-canvas) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out);
+  }
+
+  /* A shadow and hairline appear only once the page has scrolled. */
+  .site-header.is-scrolled {
+    border-bottom-color: var(--color-ash);
+    box-shadow: var(--shadow-sm);
+    background: color-mix(in srgb, var(--surface-page-canvas) 92%, transparent);
   }
 
   .bar {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-16);
-    padding-block: var(--spacing-20);
+    padding-block: var(--spacing-16);
   }
 
   .wordmark {
@@ -65,21 +153,143 @@ const navRoutes = enabledRoutes().filter((r) => r.key !== HOME_KEY);
   .right {
     display: flex;
     align-items: center;
-    gap: var(--spacing-16);
+    gap: var(--spacing-12);
   }
 
-  .right nav ul {
-    display: flex;
-    gap: var(--spacing-16);
+  .menu {
+    /* The panel is positioned against .bar, not this trigger, so it can be
+       kept on-screen whichever side of the header the trigger lands on when
+       the bar wraps at narrow widths. */
+    position: static;
+  }
+
+  .menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-8);
+    padding: var(--spacing-8) var(--spacing-16);
+    border: 1px solid var(--color-ash);
+    border-radius: var(--radius-pills);
+    background: var(--color-pure-white);
+    color: var(--color-off-black-ink);
+    font: inherit;
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+
+  .menu-trigger:hover {
+    border-color: var(--color-off-black-ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .chev {
+    transition: transform var(--duration-mid) var(--ease-out);
+  }
+
+  .menu.is-open .chev {
+    transform: rotate(180deg);
+  }
+
+  .panel {
+    position: absolute;
+    /* Anchored to the header bar. Right-aligned by default (the trigger sits
+       on the right on wide screens); the narrow-screen rule below flips it to
+       the left, where the trigger moves once the bar wraps. Either way it is
+       clamped to the viewport, so it never spills off an edge. */
+    right: 0;
+    left: auto;
+    top: calc(100% + var(--spacing-8));
+    width: min(340px, calc(100vw - 2 * var(--spacing-20)));
+    padding: var(--spacing-8);
+    background: var(--color-pure-white);
+    border: 1px solid var(--color-ash);
+    border-radius: var(--radius-cards);
+    box-shadow: var(--shadow-lg);
+    transform-origin: top right;
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+    transition:
+      opacity var(--duration-mid) var(--ease-out),
+      transform var(--duration-mid) var(--ease-out);
+  }
+
+  .menu.is-open .panel {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* When the bar wraps, the trigger moves to the left, so open the panel from
+     the left edge instead and grow it toward the roomier right side. */
+  @media (max-width: 639px) {
+    .panel {
+      left: 0;
+      right: auto;
+      transform-origin: top left;
+    }
+  }
+
+  .panel ul {
     margin: 0;
     padding: 0;
     list-style: none;
+    display: grid;
+    gap: 2px;
   }
 
-  .right nav a {
+  .panel a,
+  .panel .disabled {
+    display: grid;
+    gap: 2px;
+    padding: var(--spacing-12);
+    border-radius: var(--radius-inner);
+    text-decoration: none;
+    color: var(--color-off-black-ink);
+  }
+
+  .panel a {
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+
+  .panel a:hover,
+  .panel a:focus-visible {
+    background: var(--surface-off-white-card);
+  }
+
+  .panel .name {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
     font-size: var(--text-body-sm);
     font-weight: var(--font-weight-medium);
+  }
+
+  .panel .summary {
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    color: var(--color-graphite);
+  }
+
+  .panel .disabled {
+    cursor: default;
+  }
+
+  .panel .disabled .name,
+  .panel .disabled .summary {
+    color: var(--color-graphite);
+  }
+
+  .badge {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px var(--spacing-8);
+    border-radius: var(--radius-pills);
+    background: var(--color-electric-lime);
     color: var(--color-off-black-ink);
-    text-decoration: none;
   }
 </style>

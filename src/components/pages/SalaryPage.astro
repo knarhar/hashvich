@@ -116,7 +116,7 @@ const breadcrumbSchema = {
 
     <Calculator locale={locale} />
 
-    <section aria-labelledby="how">
+    <section class="reveal" aria-labelledby="how">
       <h2 id="how">{p("howItWorks.heading")}</h2>
       <p>{p("howItWorks.intro")}</p>
       <ol class="steps">
@@ -125,13 +125,13 @@ const breadcrumbSchema = {
       <p class="note">{p("howItWorks.note")}</p>
     </section>
 
-    <section aria-labelledby="examples">
+    <section class="reveal" aria-labelledby="examples">
       <h2 id="examples">{p("examples.heading")}</h2>
       <p>{p("examples.intro")}</p>
-      <div class="examples">
+      <div class="examples" data-stagger>
         {
           examples.map((example) => (
-            <Card surface="white">
+            <Card surface="white" class="reveal">
               <Tag>{tt("pages.salary.examples.caseLabel", {
                 ...copy,
                 gross: formatAmd(example.gross, locale),
@@ -161,7 +161,7 @@ const breadcrumbSchema = {
       </div>
     </section>
 
-    <section aria-labelledby="faq">
+    <section class="reveal" aria-labelledby="faq">
       <h2 id="faq">{p("faq.heading")}</h2>
       <div class="faq">
         {
@@ -177,7 +177,7 @@ const breadcrumbSchema = {
       </div>
     </section>
 
-    <section aria-labelledby="sources">
+    <section class="reveal" aria-labelledby="sources">
       <h2 id="sources">{p("sources.heading")}</h2>
       <p>{p("sources.intro")}</p>
       <ul class="sources">
@@ -221,7 +221,7 @@ const breadcrumbSchema = {
       </p>
     </section>
 
-    <section aria-labelledby="disclaimer" class="disclaimer">
+    <section class="reveal disclaimer" aria-labelledby="disclaimer">
       <h2 id="disclaimer">{p("disclaimer.heading")}</h2>
       <p>{p("disclaimer.text")}</p>
       <ul>
@@ -229,22 +229,22 @@ const breadcrumbSchema = {
       </ul>
     </section>
 
-    <section aria-labelledby="related">
+    <section class="reveal" aria-labelledby="related">
       <h2 id="related">{p("related.heading")}</h2>
-      <div class="related">
+      <div class="related" data-stagger>
         {
           related.map((route) => {
             const name = tt(`calculators.${route.key}.name`, copy);
             const summary = tt(`calculators.${route.key}.summary`, copy);
             return route.enabled ? (
-              <a class="related-cell" href={pathFor(route.key, locale)}>
-                <Card surface="parchment">
+              <a class="related-cell reveal" href={pathFor(route.key, locale)}>
+                <Card surface="parchment" interactive>
                   <h3>{name}</h3>
                   <p>{summary}</p>
                 </Card>
               </a>
             ) : (
-              <div class="related-cell">
+              <div class="related-cell reveal">
                 <Card surface="white">
                   <Tag>{tt("common.comingSoon", copy)}</Tag>
                   <h3>{name}</h3>
@@ -496,6 +496,13 @@ const breadcrumbSchema = {
   .related-cell {
     text-decoration: none;
     color: inherit;
+    min-width: 0;
+  }
+
+  /* Cards in both grids stretch to equal height so the hover lift reads evenly. */
+  .related-cell > :global(.card),
+  .examples > :global(.card) {
+    height: 100%;
   }
 
   .related-cell :global(h3) {

@@ -10,7 +10,9 @@
   "nav": {
     "home": "Գլխավոր",
     "skipToContent": "Անցնել բովանդակությանը",
-    "switchLanguage": "Լեզու"
+    "switchLanguage": "Լեզու",
+    "calculators": "Հաշվիչներ",
+    "closeMenu": "Փակել"
   },
   "pages": {
     "home": {

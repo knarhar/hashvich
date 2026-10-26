@@ -6,7 +6,7 @@
 - Sources may be in Armenian or Russian: read them in the original language.
 
 # Design and build rules
-- /docs/design.md is the single source of truth for visuals. Never invent colors, fonts, spacing or components that contradict it. If something is missing from it, pick the simplest option, and list the assumption in /docs/design-gaps.md.
+- /docs/design.md is the main source of truth for visuals, but it also can be overwrited if user wants. Never invent colors, fonts, spacing or components that contradict it. If something is missing from it, pick the simplest option, and list the assumption in /docs/design-gaps.md.
 - All design values live as tokens (CSS variables / Tailwind theme), never hardcoded in components.
 - Fonts must fully support Armenian, Cyrillic and Latin glyphs (check this before choosing; Noto Sans Armenian or a family with real Armenian coverage). Self-host them.
 - Mobile-first. Test at 360px, 768px, 1280px.

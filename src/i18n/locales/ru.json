@@ -10,7 +10,9 @@
   "nav": {
     "home": "Главная",
     "skipToContent": "Перейти к содержанию",
-    "switchLanguage": "Язык"
+    "switchLanguage": "Язык",
+    "calculators": "Калькуляторы",
+    "closeMenu": "Закрыть"
   },
   "pages": {
     "home": {
