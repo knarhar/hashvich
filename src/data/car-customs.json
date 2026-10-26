@@ -1,0 +1,2356 @@
+{
+  "_readme": {
+    "purpose": "Source-backed data for the import payments on a passenger car (EAEU HS heading 8703) brought into Armenia: customs duty or the personal-use unified payment, VAT, excise, environmental tax and customs fees.",
+    "last_verified": "2026-10-26",
+    "value_format": "Same as src/data/salary-tax.json: every rule is a sourced value {value, unit, applies_to, effective_from, effective_to, source_url, source_name, evidence (original-language quote), evidence_en, last_verified, conflict, conflicting_sources, cross_checks, unsure, unsure_reason}. `calculation_parameters` holds the same numbers as plain values for src/lib/car-customs.ts; tests/car-customs.test.ts checks they agree.",
+    "logic": "docs/car-customs-logic.md explains the formula in plain words.",
+    "rules": [
+      "No value in this file was written from memory. Each one was read from the page named in source_url during the 2026-10-26 research session.",
+      "Primary sources: the EEC tariff and decisions, the RA Tax Code, Law on State Duty and Law on Customs Regulation on arlis.am, and the SRC (src.am, exim.src.am). Brokers, news and forums appear only in cross_checks and real_world_examples.",
+      "The SRC's own calculator (exim.src.am/transport) was run on 19 inputs on 2026-10-26; the formula reproduces every one to the dram. See official_calculator_cross_check.",
+      "Values with unsure=true must be re-checked before production use. See _open_questions."
+    ],
+    "warning": "ADVISORY DATA, NOT CUSTOMS ADVICE. The customs value itself is set by the SRC, which may not accept the declared price. Re-verify before relying on this."
+  },
+  "calculation_parameters": {
+    "_note": "Plain numbers used by src/lib/car-customs.ts. Each mirrors a sourced value elsewhere in this file; tests/car-customs.test.ts asserts they agree. Upper bounds are inclusive ('не превышает'); null means open-ended.",
+    "personal_unified": {
+      "up_to_3_years": [
+        {
+          "eur_to": 8500,
+          "percent": 54,
+          "min_eur_per_cc": 2.5
+        },
+        {
+          "eur_to": 16700,
+          "percent": 48,
+          "min_eur_per_cc": 3.5
+        },
+        {
+          "eur_to": 42300,
+          "percent": 48,
+          "min_eur_per_cc": 5.5
+        },
+        {
+          "eur_to": 84500,
+          "percent": 48,
+          "min_eur_per_cc": 7.5
+        },
+        {
+          "eur_to": 169000,
+          "percent": 48,
+          "min_eur_per_cc": 15
+        },
+        {
+          "eur_to": null,
+          "percent": 48,
+          "min_eur_per_cc": 20
+        }
+      ],
+      "over_3_to_5_years": [
+        {
+          "cc_to": 1000,
+          "eur_per_cc": 1.5
+        },
+        {
+          "cc_to": 1500,
+          "eur_per_cc": 1.7
+        },
+        {
+          "cc_to": 1800,
+          "eur_per_cc": 2.5
+        },
+        {
+          "cc_to": 2300,
+          "eur_per_cc": 2.7
+        },
+        {
+          "cc_to": 3000,
+          "eur_per_cc": 3
+        },
+        {
+          "cc_to": null,
+          "eur_per_cc": 3.6
+        }
+      ],
+      "over_5_years": [
+        {
+          "cc_to": 1000,
+          "eur_per_cc": 3
+        },
+        {
+          "cc_to": 1500,
+          "eur_per_cc": 3.2
+        },
+        {
+          "cc_to": 1800,
+          "eur_per_cc": 3.5
+        },
+        {
+          "cc_to": 2300,
+          "eur_per_cc": 4.8
+        },
+        {
+          "cc_to": 3000,
+          "eur_per_cc": 5
+        },
+        {
+          "cc_to": null,
+          "eur_per_cc": 5.7
+        }
+      ]
+    },
+    "tariff": {
+      "petrol": {
+        "new": [
+          {
+            "cc_to": 2800,
+            "percent": 15
+          },
+          {
+            "cc_to": null,
+            "percent": 12.5
+          }
+        ],
+        "used_3_to_7": [
+          {
+            "cc_to": 1000,
+            "percent": 20,
+            "min_eur_per_cc": 0.36
+          },
+          {
+            "cc_to": 1500,
+            "percent": 20,
+            "min_eur_per_cc": 0.4
+          },
+          {
+            "cc_to": 1800,
+            "percent": 20,
+            "min_eur_per_cc": 0.36
+          },
+          {
+            "cc_to": 3000,
+            "percent": 20,
+            "min_eur_per_cc": 0.44
+          },
+          {
+            "cc_to": null,
+            "percent": 20,
+            "min_eur_per_cc": 0.8
+          }
+        ],
+        "over_7": [
+          {
+            "cc_to": 1000,
+            "eur_per_cc": 1.4
+          },
+          {
+            "cc_to": 1500,
+            "eur_per_cc": 1.5
+          },
+          {
+            "cc_to": 1800,
+            "eur_per_cc": 1.6
+          },
+          {
+            "cc_to": 3000,
+            "eur_per_cc": 2.2
+          },
+          {
+            "cc_to": null,
+            "eur_per_cc": 3.2
+          }
+        ]
+      },
+      "diesel": {
+        "new": [
+          {
+            "cc_to": null,
+            "percent": 15
+          }
+        ],
+        "used_3_to_7": [
+          {
+            "cc_to": 1500,
+            "percent": 20,
+            "min_eur_per_cc": 0.32
+          },
+          {
+            "cc_to": 2500,
+            "percent": 20,
+            "min_eur_per_cc": 0.4
+          },
+          {
+            "cc_to": null,
+            "percent": 20,
+            "min_eur_per_cc": 0.8
+          }
+        ],
+        "over_7": [
+          {
+            "cc_to": 1500,
+            "eur_per_cc": 1.5
+          },
+          {
+            "cc_to": 2500,
+            "eur_per_cc": 2.2
+          },
+          {
+            "cc_to": null,
+            "eur_per_cc": 3.2
+          }
+        ]
+      },
+      "hybrid_electric_dominant_percent": 15,
+      "electric_percent": 15
+    },
+    "ev_duty_quota": {
+      "percent": 0,
+      "valid_to": "2026-12-31"
+    },
+    "vat_percent": 20,
+    "ev_vat_exemption": {
+      "any_ev": {
+        "from": "2026-01-01",
+        "to": "2026-01-31"
+      },
+      "newer_ev": {
+        "from": "2026-02-01",
+        "to": "2026-12-31",
+        "made_after": "2023-12-31"
+      }
+    },
+    "eaeu_personal_vat_free_cars_per_year": 1,
+    "environmental_tax": [
+      {
+        "age_to": 3,
+        "percent": 2
+      },
+      {
+        "age_to": 5,
+        "percent": 4
+      },
+      {
+        "age_to": 10,
+        "percent": 6
+      },
+      {
+        "age_to": 15,
+        "percent": 12
+      },
+      {
+        "age_to": null,
+        "percent": 24
+      }
+    ],
+    "state_duty_amd": {
+      "passenger_declaration": 3000,
+      "goods_declaration": 7000
+    }
+  },
+  "regimes": {
+    "personal_use": {
+      "value": "unified payment (duty and VAT together) + environmental tax",
+      "unit": "regime",
+      "applies_to": "individuals importing a petrol, diesel or hybrid car (8703, except pure electric 8703 80) for personal use from a non-EAEU country",
+      "effective_from": "2020-01-01",
+      "effective_to": null,
+      "source_url": "https://www.src.am/ru/getNews/299",
+      "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299)",
+      "evidence": "При таможенном оформлении легковых автомобилей, ввозимых физическими лицами, взимается единовременный таможенный сбор (независимо от возраста автомобиля)и экологический налог",
+      "evidence_en": "When clearing passenger cars imported by individuals, a one-time customs payment (whatever the car's age) and the environmental tax are charged.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Personal purpose, third country, petrol: lines «Միասնական դրույքաչափով վճար» (unified-rate payment), «ԱԱՀ — Չի կիրառվում» (VAT — not applied), «Բնապահպանական հարկ»"
+        },
+        {
+          "source_url": "https://base.garant.ru/70764836/3e22e51c74db8e0b182fad67b502e640/",
+          "source_name": "Treaty on Armenia's accession to the EAEU, Annex 3 point 30",
+          "evidence": "«не применяются в Республике Армения … до начала применения Республикой Армения ставок, установленных ЕТТ ЕАЭС» — the personal-use rates were suspended for Armenia only until it adopted ETT car rates (2020), so they apply now."
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "commercial": {
+      "value": "tariff duty + 20% VAT on (customs value + duty) + environmental tax",
+      "unit": "regime",
+      "applies_to": "companies and sole entrepreneurs, and individuals whose import is not personal use; also every electric car, including an individual's",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 61 part 2",
+      "evidence": "«Բաց թողնում՝ ներքին սպառման համար» մաքսային ընթացակարգով Հայաստանի Հանրապետություն ապրանքի ներմուծման դեպքում … ԱԱՀ-ով հարկման բազա է համարվում … մաքսային արժեքի, մաքսատուրքի … հանրագումարը",
+      "evidence_en": "For goods released for domestic consumption the VAT base is the customs value plus the customs duty (plus excise for excisable goods).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Business purpose, third country: lines «Մաքսատուրք» (customs duty), «ԱԱՀ» (VAT), «Բնապահպանական հարկ»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "electric_personal": {
+      "value": "aggregate customs payment = tariff duty + VAT (not the unified rate)",
+      "unit": "regime",
+      "applies_to": "individuals importing a pure electric car (8703 80 000) for personal use",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://zakon.uchet.kz/rus/docs/H17EV000107",
+      "source_name": "EEC Council Decision No. 107 of 20.12.2017, Annex 2, Table 2, item 3 (reprint on zakon.uchet.kz, consolidated to 24.02.2026), items 3 and 4",
+      "evidence": "3. Автомобили легковые … классифицируемые в товарной позиции 8703 ТН ВЭД ЕАЭС (за исключением транспортных средств, указанных в пунктах 1 и 4 настоящей таблицы) … 4. Автомобили легковые … содержащие в качестве ходовых исключительно электродвигатели … 8703 80 000 ТН ВЭД ЕАЭС — в виде совокупного таможенного платежа",
+      "evidence_en": "Item 3 (unified rates) excludes item 4; pure electric cars pay an aggregate customs payment, which by EAEU Customs Code Art. 266(16) is the sum of the duty and the taxes computed separately.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Personal purpose, electric 2025, €25,000: «Մաքսատուրք 1,515,413», «ԱԱՀ 2,323,633» — 15% duty and 20% VAT, same as business."
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    }
+  },
+  "personal_use_unified_payment": {
+    "up_to_3_years": {
+      "value": [
+        {
+          "value_eur_up_to": 8500,
+          "percent": 54,
+          "but_not_less_than_eur_per_cc": 2.5
+        },
+        {
+          "value_eur_up_to": 16700,
+          "percent": 48,
+          "but_not_less_than_eur_per_cc": 3.5
+        },
+        {
+          "value_eur_up_to": 42300,
+          "percent": 48,
+          "but_not_less_than_eur_per_cc": 5.5
+        },
+        {
+          "value_eur_up_to": 84500,
+          "percent": 48,
+          "but_not_less_than_eur_per_cc": 7.5
+        },
+        {
+          "value_eur_up_to": 169000,
+          "percent": 48,
+          "but_not_less_than_eur_per_cc": 15
+        },
+        {
+          "value_eur_up_to": null,
+          "percent": 48,
+          "but_not_less_than_eur_per_cc": 20
+        }
+      ],
+      "unit": "percent of the car's value, but not less than EUR per cm³ of engine volume (the larger of the two)",
+      "applies_to": "personal-use cars no more than 3 years old",
+      "effective_from": "2018-01-01",
+      "effective_to": null,
+      "source_url": "https://zakon.uchet.kz/rus/docs/H17EV000107",
+      "source_name": "EEC Council Decision No. 107 of 20.12.2017, Annex 2, Table 2, item 3 (reprint on zakon.uchet.kz, consolidated to 24.02.2026)",
+      "evidence": "в отношении автомобилей, с момента выпуска которых прошло не более 3 лет: стоимость которых не превышает 8 500 евро в эквиваленте … по единой ставке 54 процента от стоимости, но не менее 2,5 евро за 1 куб. см рабочего объема двигателя по единой ставке 48 процентов от стоимости, но не менее 3,5 евро за 1 куб. см … 48 процентов … не менее 20 евро за 1 куб. см",
+      "evidence_en": "Cars up to 3 years old: value up to €8,500 → 54% but not less than €2.5/cm³; then 48% with minimums €3.5 / 5.5 / 7.5 / 15 / 20 per cm³ for values up to €16,700 / 42,300 / 84,500 / 169,000 / above.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://www.src.am/ru/getNews/299",
+          "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299)",
+          "evidence": "«если стоимость автомобиля составляет до 8500 евро, то единовременный таможенный платеж составляет 54% от стоимости автомобиля, но не менее фактический объем двигателя (куб. см) x 2,5 евро» … same six tiers. Worked example: «автомобилю два года, объем двигателя 3000 куб. см, стоимость 30 000 евро … 16500 евро»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "over_3_to_5_years": {
+      "value": [
+        {
+          "cc_up_to": 1000,
+          "eur_per_cc": 1.5
+        },
+        {
+          "cc_up_to": 1500,
+          "eur_per_cc": 1.7
+        },
+        {
+          "cc_up_to": 1800,
+          "eur_per_cc": 2.5
+        },
+        {
+          "cc_up_to": 2300,
+          "eur_per_cc": 2.7
+        },
+        {
+          "cc_up_to": 3000,
+          "eur_per_cc": 3
+        },
+        {
+          "cc_up_to": null,
+          "eur_per_cc": 3.6
+        }
+      ],
+      "unit": "EUR per cm³ of engine volume (value plays no role)",
+      "applies_to": "personal-use cars more than 3 and not more than 5 years old",
+      "effective_from": "2018-01-01",
+      "effective_to": null,
+      "source_url": "https://www.src.am/ru/getNews/299",
+      "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299), question 3",
+      "evidence": "При таможенном оформлении автомобилей старше 3 лет и до 5 лет … до 1000 куб. см … х 1,5 евро … 1001-1500 … х 1,7 евро … 1501-1800 … х 2,5 евро … 1801-2300 … x 2,7 евро … 2301-3000 … х 3 евро … 3001 см и более … х 3,6 евро",
+      "evidence_en": "Cars over 3 and up to 5 years: €1.5 / 1.7 / 2.5 / 2.7 / 3 / 3.6 per cm³ for engines up to 1000 / 1500 / 1800 / 2300 / 3000 / above 3000 cm³.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://zakon.uchet.kz/rus/docs/H17EV000107",
+          "source_name": "EEC Council Decision No. 107 of 20.12.2017, Annex 2, Table 2, item 3 (reprint on zakon.uchet.kz, consolidated to 24.02.2026)",
+          "evidence": "«по единой ставке в размере 1,5 евро за 1 куб. см рабочего объема двигателя по единой ставке в размере 1,7 евро … 2,5 евро … 2,7 евро …» (table flattened in the reprint; pairings confirmed by the SRC FAQ)"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "over_5_years": {
+      "value": [
+        {
+          "cc_up_to": 1000,
+          "eur_per_cc": 3
+        },
+        {
+          "cc_up_to": 1500,
+          "eur_per_cc": 3.2
+        },
+        {
+          "cc_up_to": 1800,
+          "eur_per_cc": 3.5
+        },
+        {
+          "cc_up_to": 2300,
+          "eur_per_cc": 4.8
+        },
+        {
+          "cc_up_to": 3000,
+          "eur_per_cc": 5
+        },
+        {
+          "cc_up_to": null,
+          "eur_per_cc": 5.7
+        }
+      ],
+      "unit": "EUR per cm³ of engine volume (value plays no role)",
+      "applies_to": "personal-use cars more than 5 years old",
+      "effective_from": "2018-01-01",
+      "effective_to": null,
+      "source_url": "https://www.src.am/ru/getNews/299",
+      "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299), question 3",
+      "evidence": "При растаможивании автомобилей старше 5 лет … до 1000 куб. см … х 3 евро … 1001-1500 … х 3,2 евро … 1501-1800 … х 3,5 евро … 1801-2300 … х 4,8 евро … 2301-3000 … x 5 евро … 3001 см и более … x 5,7 евро",
+      "evidence_en": "Cars over 5 years: €3 / 3.2 / 3.5 / 4.8 / 5 / 5.7 per cm³ for engines up to 1000 / 1500 / 1800 / 2300 / 3000 / above 3000 cm³.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://zakon.uchet.kz/rus/docs/H17EV000107",
+          "source_name": "EEC Council Decision No. 107 of 20.12.2017, Annex 2, Table 2, item 3 (reprint on zakon.uchet.kz, consolidated to 24.02.2026)",
+          "evidence": "«по единой ставке в размере 5 евро за 1 куб. см рабочего объема двигателя по единой ставке в размере 5,7 евро за 1 куб. см рабочего объема двигателя»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "fuel_dependence": {
+      "value": "none: petrol, diesel and hybrid use the same table; engine volume of the combustion engine",
+      "unit": "rule",
+      "applies_to": "personal-use 8703 cars other than pure electric",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://zakon.uchet.kz/rus/docs/H17EV000107",
+      "source_name": "EEC Council Decision No. 107 of 20.12.2017, Annex 2, Table 2, item 3 (reprint on zakon.uchet.kz, consolidated to 24.02.2026)",
+      "evidence": "3. Автомобили легковые … классифицируемые в товарной позиции 8703 ТН ВЭД ЕАЭС (за исключением транспортных средств, указанных в пунктах 1 и 4 настоящей таблицы)",
+      "evidence_en": "The unified rates cover the whole heading 8703 except pure electric cars (item 4) and off-road quads (item 1); they do not split by fuel.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Diesel 2200 cm³ made 2020 → «Միասնական դրույքաչափով վճար 4,267,402» = 2200 × €4.8 × 404.11; petrol-hybrid 2500 cm³ made 2023 → 3,030,825 = 2500 × €3 × 404.11"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    }
+  },
+  "tariff_duty": {
+    "petrol": {
+      "value": {
+        "new": {
+          "up_to_2800_cc": 15,
+          "over_2800_cc": 12.5,
+          "unit": "percent"
+        },
+        "used_3_to_7_years": {
+          "percent": 20,
+          "min_eur_per_cc": {
+            "<=1000": 0.36,
+            "1000-1500": 0.4,
+            "1500-1800": 0.36,
+            "1800-3000": 0.44,
+            ">3000": 0.8
+          }
+        },
+        "over_7_years": {
+          "eur_per_cc": {
+            "<=1000": 1.4,
+            "1000-1500": 1.5,
+            "1500-1800": 1.6,
+            "1800-3000": 2.2,
+            ">3000": 3.2
+          }
+        }
+      },
+      "unit": "percent of customs value, or EUR per cm³",
+      "applies_to": "commercial imports of spark-ignition (petrol) cars 8703 21-24, ordinary passenger cars (not medical, motorhome or off-road; see unsure_reason)",
+      "effective_from": "2022-01-01",
+      "effective_to": null,
+      "source_url": "https://eec.eaeunion.org/comission/department/catr/ett/ru.2022/ru.87_2022_22.01.2026.pdf",
+      "source_name": "EAEU Common Customs Tariff (ETT, approved by EEC Council Decision No. 80 of 14.09.2021), group 87, official EEC consolidated text as of 22.01.2026",
+      "evidence": "8703 21 909 3 … более 7 лет шт 1,4 евро за 1 см3 объема двигателя; 8703 21 909 8 … прочие шт 20, но не менее 0,36 евро за 1 см3; 8703 22 909 3 … 1,5 евро; 8703 22 909 8 … 20, но не менее 0,4 евро; 8703 23 904 1 … 1,6 евро; 8703 23 904 9 … 20, но не менее 0,36 евро; 8703 23 908 1 … 2,2 евро; 8703 23 908 3 … 20, но не менее 0,44 евро; 8703 23 198 8 … прочие шт 12,5; 8703 24 909 3 … 3,2 евро; 8703 24 909 8 … 20, но не менее 0,8 евро",
+      "evidence_en": "Used 3-7 years: 20% but not less than €0.36-0.8/cm³ by engine band; over 7 years: €1.4-3.2/cm³; new: 15%, or 12.5% above 2800 cm³.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "HS lookups returned by the calculator: 8703231988 formula «12,5»; 8703239082 «20, но не менее 0,44 евро за 1 см3 объема двигателя»; 8703239081 «2,2 евро за 1 см3 объема двигателя»; 8703249093 «3,2 евро за 1 см3»"
+        }
+      ],
+      "unsure": true,
+      "unsure_reason": "Off-road vehicles ('автомобили повышенной проходимости', group 87 note 6) have different new-car rates above 2800 cm³ (15% / 12.5% / 10%) and motorhomes have their own lines; these are not modelled. The 3-5 and 5-7 year rates are printed identically, so they are merged."
+    },
+    "diesel": {
+      "value": {
+        "new": {
+          "all": 15,
+          "unit": "percent"
+        },
+        "used_3_to_7_years": {
+          "percent": 20,
+          "min_eur_per_cc": {
+            "<=1500": 0.32,
+            "1500-2500": 0.4,
+            ">2500": 0.8
+          }
+        },
+        "over_7_years": {
+          "eur_per_cc": {
+            "<=1500": 1.5,
+            "1500-2500": 2.2,
+            ">2500": 3.2
+          }
+        }
+      },
+      "unit": "percent of customs value, or EUR per cm³",
+      "applies_to": "commercial imports of compression-ignition (diesel) cars 8703 31-33",
+      "effective_from": "2022-01-01",
+      "effective_to": null,
+      "source_url": "https://eec.eaeunion.org/comission/department/catr/ett/ru.2022/ru.87_2022_22.01.2026.pdf",
+      "source_name": "EAEU Common Customs Tariff (ETT, approved by EEC Council Decision No. 80 of 14.09.2021), group 87, official EEC consolidated text as of 22.01.2026",
+      "evidence": "8703 31 909 8 – – – – – прочие шт 20, но не менее 0,32 евро за 1 см3 объема двигателя; 8703 32 909 4 … более 5 лет, но не более 7 лет шт 20, но не менее 0,4 евро за 1 см3; 8703 33 909 4 … 20, но не менее 0,8 евро; 8703 33 909 3 … более 7 лет шт 3,2 евро за 1 см3 объема двигателя",
+      "evidence_en": "Diesel: new 15%; used 3-7 years 20% but not less than €0.32 / 0.4 / 0.8 per cm³; over 7 years €1.5 / 2.2 / 3.2 per cm³ (bands up to 1500 / 2500 / above).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "8703329094 formula «20, но не менее 0,4 евро за 1 см3 объема двигателя»; 8703321990 «15»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "hybrid": {
+      "value": {
+        "combustion_engine_stronger": "same bands and rates as petrol (8703 40/60) or diesel (8703 50/70)",
+        "otherwise": 15
+      },
+      "unit": "percent of customs value, or EUR per cm³",
+      "applies_to": "commercial imports of hybrids: 8703 40 / 50 (not plug-in) and 8703 60 / 70 (plug-in)",
+      "effective_from": "2022-01-01",
+      "effective_to": null,
+      "source_url": "https://eec.eaeunion.org/comission/department/catr/ett/ru.2022/ru.87_2022_22.01.2026.pdf",
+      "source_name": "EAEU Common Customs Tariff (ETT, approved by EEC Council Decision No. 80 of 14.09.2021), group 87, official EEC consolidated text as of 22.01.2026",
+      "evidence": "8703 40 603 1 … у которых мощность двигателя внутреннего сгорания больше максимальной 30- минутной мощности электрического двигателя шт 2,2 евро за 1 см3; 8703 40 603 2 – – – – – – – – прочие шт 15",
+      "evidence_en": "Each hybrid band splits on power: if the combustion engine is stronger than the electric motor's maximum 30-minute power, the petrol/diesel rates apply; otherwise a flat 15% at every age.",
+      "last_verified": "2026-10-26",
+      "conflict": true,
+      "conflicting_sources": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "claim": "The calculator never asks about power: a petrol hybrid 2000 cm³ made 2020 (business) got code 8703406034 «прочие» → 15%, i.e. it always assumes the electric motor is at least as strong."
+        }
+      ],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "Which branch applies needs the type-approval power figures (group 87 additional note 9). The calculator default (15%) will under-charge a hybrid whose combustion engine is stronger."
+    },
+    "electric": {
+      "value": 15,
+      "unit": "percent of customs value",
+      "applies_to": "pure electric cars 8703 80 000 3 / 000 5 (M1/M1G), every age, outside the quota",
+      "effective_from": "2026-01-22",
+      "effective_to": null,
+      "source_url": "https://eec.eaeunion.org/comission/department/catr/ett/ru.2022/ru.87_2022_22.01.2026.pdf",
+      "source_name": "EAEU Common Customs Tariff (ETT, approved by EEC Council Decision No. 80 of 14.09.2021), group 87, official EEC consolidated text as of 22.01.2026",
+      "evidence": "8703 80 000 3 – – – – легковые автомобили категории M1 или M1G шт 15 … 8703 80 000 5 – – – – легковые автомобили категории M1 или M1G шт 15",
+      "evidence_en": "Electric cars: 15% of customs value whatever their age.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://zakon.uchet.kz/rus/docs/H25EK000081",
+          "source_name": "EEC Collegium Decision No. 81 of 23.09.2025 (split of code 8703 80 000 2)",
+          "evidence": "«слова \"позиции 8703 80 000 2\" заменить словами \"позициях 8703 80 000 3 и 8703 80 000 5\"»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "age_split": {
+      "value": "new < 3 years; used 3-7 years; over 7 years",
+      "unit": "rule",
+      "applies_to": "tariff rates for 8703",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://eec.eaeunion.org/comission/department/catr/ett/ru.2022/ru.87_2022_22.01.2026.pdf",
+      "source_name": "EAEU Common Customs Tariff (ETT, approved by EEC Council Decision No. 80 of 14.09.2021), group 87, official EEC consolidated text as of 22.01.2026, additional note 1 to group 87",
+      "evidence": "термин \"бывшие в эксплуатации\" применяется к транспортным средствам, с момента выпуска которых прошло 3 года или более, независимо от величины пробега",
+      "evidence_en": "'Used' means 3 years or more since production, regardless of mileage.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    }
+  },
+  "electric_vehicles": {
+    "duty_quota_2026": {
+      "value": {
+        "percent": 0,
+        "units_total": 20000,
+        "units_dealers": 3500,
+        "units_non_dealers": 16500
+      },
+      "unit": "percent / units",
+      "applies_to": "electric cars 8703 80 000 3 and 000 5 released in Armenia within the quota, with a permit; resale to Russian/Kazakh (and for 000 5 Belarusian) citizens or residents restricted",
+      "effective_from": "2026-01-22",
+      "effective_to": "2026-12-31",
+      "source_url": "https://www.src.am/am/getNews/1696",
+      "source_name": "SRC news 2026-08-20 on Government decision 1234-Ն of 20.08.2026 (quota split); legal basis EEC Council Decision No. 111 of 05.12.2025 as amended by No. 79 of 09.07.2026",
+      "evidence": "դիլեր-դիստրիբյուտոր հանդիսացող սուբյեկտների համար` 3500 հատ, դիլեր-դիստրիբյուտոր չհանդիսացող սուբյեկտների համար` 16500 հատ",
+      "evidence_en": "Zero-duty quota: 3,500 units for dealer-distributors and 16,500 for everyone else, from 2026-08-21.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://zakon.uchet.kz/rus/docs/H25EV000111",
+          "source_name": "EEC Council Decision No. 111 of 05.12.2025 (reprint)",
+          "evidence": "«классифицируемые кодами 8703 80 000 3 и 8703 80 000 5 ТН ВЭД ЕАЭС и ввозимые в Республику Армения в количестве 15 тыс. шт. … по 31 декабря 2026 г. включительно»"
+        },
+        {
+          "source_url": "https://www.tks.ru/news/law/2026/08/10/0007/o-vnesenii-izmeneniya-v-podpunkt-7-1-81-punkta-7-resheniya-komissii-tamozhennogo-soyuza-ot-27-noyabrya-2009-g-n-130/",
+          "source_name": "EEC Council Decision No. 79 of 09.07.2026 (reprint on tks.ru)",
+          "evidence": "«в Республику Армения в количестве 20 тыс. шт.»"
+        }
+      ],
+      "unsure": true,
+      "unsure_reason": "EEC decisions read from reprints (zakon.uchet.kz, tks.ru), not from the official EEC legal portal."
+    },
+    "duty_quota_status": {
+      "value": "exhausted for non-dealers on 2026-10-10",
+      "unit": "status",
+      "applies_to": "individuals and other non-dealer importers of electric cars, rest of 2026",
+      "effective_from": "2026-10-10",
+      "effective_to": null,
+      "source_url": "https://news.mail.ru/economics/72709980/",
+      "source_name": "TASS 13.10.2026 quoting the SRC press service (via news.mail.ru)",
+      "evidence": "остаток квоты для субъектов, не являющихся дилерами-дистрибьюторами: 23 штуки, или использовано 99,86% … квота, предусмотренная для субъектов, не являющихся дилерами-дистрибьюторами, была исчерпана уже 10 октября",
+      "evidence_en": "As of 9 October 2026 only 23 units remained for non-dealers; the SRC says that quota was exhausted on 10 October. Dealers had 862 units left (75% used).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "Secondary report of an SRC statement; the SRC original was not fetched. The calculator therefore defaults evDutyQuota to false."
+    },
+    "vat_exemption_2026": {
+      "value": [
+        {
+          "from": "2026-01-01",
+          "to": "2026-01-31",
+          "applies_to": "every electric car"
+        },
+        {
+          "from": "2026-02-01",
+          "to": "2026-12-31",
+          "applies_to": "electric cars produced after 2023-12-31"
+        }
+      ],
+      "unit": "VAT exemption",
+      "applies_to": "import (customs release, personal-use release, or import from an EAEU state) and sale in Armenia of electric vehicles 8702 40 000, 8703 80 000, 8704 60 000, 8711 60",
+      "effective_from": "2026-01-01",
+      "effective_to": "2026-12-31",
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 64 part 2 points 58.1 and 58.2 (added by ՀՕ-487-Ն of 17.12.2025)",
+      "evidence": "58.2) 2026 թվականի փետրվարի 1-ից մինչև 2026 թվականի դեկտեմբերի 31-ը ներառյալ ԵԱՏՄ ԱՏԳ ԱԱ 8702 40 000, 8703 80 000, 8704 60 000 և 8711 60 ծածկագրերին դասվող և 2023 թվականի դեկտեմբերի 31-ից հետո թողարկված էլեկտրական շարժիչով տրանսպորտային միջոցների … ներմուծումը",
+      "evidence_en": "From 1 Feb to 31 Dec 2026, import of electric vehicles produced after 31 Dec 2023 is VAT-exempt (in January 2026 every EV was).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://www.src.am/am/getNews/1339",
+          "source_name": "SRC news 2026-01-09",
+          "evidence": "«2023թ․ դեկտեմբերի 31-ից հետո թողարկված»"
+        },
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "The calculator does not apply this automatically: it is a checkbox «Ազատված է ԱԱՀ-ից» (exempt from VAT) the user must tick."
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "environmental_tax_applies": {
+      "value": true,
+      "unit": "boolean",
+      "applies_to": "electric cars on import",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 171 table (rows 8702-8705) and Art. 172 part 1 point 2",
+      "evidence": "Art. 172(1): «Հայաստանի Հանրապետությունում գրանցված (հաշվառված) ավտոտրանսպորտային միջոցներից մթնոլորտային օդ վնասակար նյութեր արտանետելու համար բնապահպանական հարկից ազատվում են՝ … 2) հիբրիդային և էլեկտրականությամբ սնուցվող շարժիչներով աշխատող ավտոտրանսպորտային միջոցների համար»",
+      "evidence_en": "The only hybrid/EV exemption is from the annual emissions tax on registered vehicles; the import rows of Art. 171 cover all of 8703 with no EV carve-out.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Electric 2025, €25,000 → «Բնապահպանական հարկ 202,055» = 2% of 10,102,750"
+        }
+      ],
+      "unsure": true,
+      "unsure_reason": "Reading of the statute confirmed only by the SRC calculator; no SRC text states it."
+    }
+  },
+  "vat": {
+    "rate": {
+      "value": 20,
+      "unit": "percent",
+      "applies_to": "import VAT, third country and EAEU",
+      "effective_from": "2017-01-01",
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 63 part 1",
+      "evidence": "ԱԱՀ-ն հաշվարկվում է 20 տոկոս դրույքաչափով",
+      "evidence_en": "VAT is calculated at 20%.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "base_third_country": {
+      "value": "customs value + customs duty (+ excise, none for cars)",
+      "unit": "base",
+      "applies_to": "commercial import (and electric cars imported by individuals) from non-EAEU countries",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 61 part 2",
+      "evidence": "ԱԱՀ-ով հարկման բազա է համարվում ԵՏՄ միասնական մաքսային օրենսդրությամբ սահմանված կարգով որոշվող մաքսային արժեքի, մաքսատուրքի, իսկ … ակցիզային հարկով հարկման ենթակա ապրանքի ներմուծման դեպքում՝ նաև … ակցիզային հարկի հանրագումարը",
+      "evidence_en": "The VAT base is customs value plus customs duty (plus excise for excisable goods).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Business petrol 2000 cm³ new, €20,000: duty 1,212,330, VAT 1,858,906 = 20% × (8,082,200 + 1,212,330)"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "base_eaeu": {
+      "value": "acquisition (purchase) value",
+      "unit": "base",
+      "applies_to": "cars with EAEU status imported from an EAEU member state",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 61 part 3",
+      "evidence": "ԵՏՄ անդամ պետություններից Հայաստանի Հանրապետություն ԵՏՄ ապրանքի կարգավիճակ ունեցող ապրանքի ներմուծման դեպքում … ԱԱՀ-ով հարկման բազա է համարվում ներմուծվող ապրանքի ձեռքբերման արժեքը",
+      "evidence_en": "For EAEU-status goods imported from an EAEU state the VAT base is the purchase price.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "unified_payment_includes_vat": {
+      "value": true,
+      "unit": "boolean",
+      "applies_to": "personal-use petrol/diesel/hybrid cars from third countries",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.src.am/ru/getNews/299",
+      "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299)",
+      "evidence": "взимается единовременный таможенный сбор … и экологический налог",
+      "evidence_en": "Only the one-time payment and the environmental tax are charged; no separate VAT.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Personal, third country, petrol: «ԱԱՀ — Չի կիրառվում» (VAT — not applied)"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "eaeu_personal_threshold": {
+      "value": 1,
+      "unit": "car per tax year",
+      "applies_to": "individuals (not sole entrepreneurs) importing 8703 cars from EAEU states; above this the import is commercial and VAT is due",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/DocumentView.aspx?docid=178320",
+      "source_name": "RA Government Decision N 171-Ն of 13.02.2020, Annex 1 (as amended 25.05.23 N 809-Ն)",
+      "evidence": "8703 | Թեթև մարդատար ավտոմոբիլներ … | 1 հատ՝ յուրաքանչյուր հարկային տարում (column: «Սույն չափը գերազանցող մասը համարվում է ապրանքների ակնհայտ առևտրային քանակությունը»)",
+      "evidence_en": "1 car per tax year; the quantity above that is an obviously commercial quantity.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Note 5: «ԵԱՏՄ անդամ երկրներից ֆիզիկական անձանց կողմից ԱՏԳ ԱԱ 8703 … ԱԱՀ-ով չհարկվող շեմը սահմանված է յուրաքանչյուր հարկային տարում 1 հատ … հաշվիչը ԱԱՀ-ի չափը ցույց է տալիս այն ենթադրությամբ, որ … ներմուծվել է 2-րդ և ավելի ավտոմեքենա»"
+        }
+      ],
+      "unsure": true,
+      "unsure_reason": "The 8703 row was added by amendment N 809-Ն of 25.05.2023, whose exact start date was not found."
+    }
+  },
+  "excise": {
+    "value": null,
+    "unit": "not applicable",
+    "applies_to": "passenger cars",
+    "effective_from": null,
+    "effective_to": null,
+    "source_url": "https://www.arlis.am/hy/acts/230455",
+    "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 87 part 1",
+    "evidence": "Ակցիզային հարկով հարկման ենթակա ապրանքներն են՝ 1) էթիլային սպիրտը … 2) սպիրտային խմիչքները. 3) գարեջուրը. 4) գինին. 5) ծխախոտի արտադրանքը … 6) քսայուղը … 7) բենզինը … 8) դիզելային վառելիքը … 13) սեղմված բնական գազը",
+    "evidence_en": "The closed list of excisable goods (alcohol, tobacco, fuels, lubricants, gases) contains no vehicles, so cars carry no excise.",
+    "last_verified": "2026-10-26",
+    "conflict": false,
+    "conflicting_sources": [],
+    "cross_checks": [
+      {
+        "source_url": "https://exim.src.am/transport",
+        "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+        "evidence": "«Ակցիզային հարկ — Չի կիրառվում» (excise — not applied) in every case run"
+      }
+    ],
+    "unsure": true,
+    "unsure_reason": "ՀՕ-295-Ն of 03.07.2026 amends Art. 87 from 2027-02-01; its text was not read."
+  },
+  "environmental_tax": {
+    "rates": {
+      "value": [
+        {
+          "age_up_to_years": 3,
+          "percent": 2
+        },
+        {
+          "age_up_to_years": 5,
+          "percent": 4
+        },
+        {
+          "age_up_to_years": 10,
+          "percent": 6
+        },
+        {
+          "age_up_to_years": 15,
+          "percent": 12
+        },
+        {
+          "age_up_to_years": null,
+          "percent": 24
+        }
+      ],
+      "unit": "percent of the base",
+      "applies_to": "every import of 8702, 8703, 8704, 8705 vehicles, any fuel, personal or commercial, third country or EAEU",
+      "effective_from": "2024-06-01",
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 171 part 1 table (as amended by ՀՕ-358-Ն of 16.11.2023, Art. 5)",
+      "evidence": "8702, 8703, 8704, 8705 | մինչև 3 տարի ներառյալ թողարկման (արտադրության) տարեթիվ ունեցող տրանսպորտային միջոցներ | 2.0 … 3 տարուց ավելի մինչև 5 տարի ներառյալ | 4.0 … 5 տարուց ավելի մինչև 10 տարի ներառյալ | 6.0 … 10 տարուց ավելի մինչև 15 տարի ներառյալ | 12.0 … 15 տարուց ավելի | 24.0",
+      "evidence_en": "Up to 3 years 2%; over 3 to 5 years 4%; over 5 to 10 years 6%; over 10 to 15 years 12%; over 15 years 24%.",
+      "last_verified": "2026-10-26",
+      "conflict": true,
+      "conflicting_sources": [
+        {
+          "source_url": "https://www.src.am/ru/getNews/299",
+          "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299)",
+          "claim": "«в случае автомобиля младше 5 лет экологический налог не начисляется, … от 6 до 10 лет: стоимость автомобиля x 2% … от 11 до 15 лет … 10% … 16 лет и старше … 20%». This is the scale before 2024-06-01 (ՀՕ-358-Ն Art. 6(4): «5-րդ հոդվածն ուժի մեջ է մտնում 2024 թվականի հունիսի 1-ից»); the FAQ was never updated. Resolved in favour of the Tax Code."
+        }
+      ],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "2%, 4%, 6%, 12%, 24% all observed on 2026-10-26 runs (see official_calculator_cross_check)"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "base": {
+      "value": {
+        "third_country": "customs value",
+        "eaeu": "VAT base = purchase price"
+      },
+      "unit": "base",
+      "applies_to": "environmental tax on imported vehicles",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 165 part 5 point 1",
+      "evidence": "ա. … «Բացթողում՝ ներքին սպառման համար» մաքսային ընթացակարգով ներմուծվող … ապրանքների համար՝ այդ ապրանքների մաքսային արժեքը, բ. ԵՏՄ անդամ պետություններից … ներմուծվող … ԵՏՄ ապրանքի կարգավիճակ ունեցող ապրանքների համար՝ … ԱԱՀ-ով հարկման բազան",
+      "evidence_en": "Third-country imports: the customs value. EAEU imports: the VAT base (the purchase price).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "age_counting": {
+      "value": "exact date of production to date of the declaration (same as the duty)",
+      "unit": "rule",
+      "applies_to": "environmental tax age bands",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://exim.src.am/transport",
+      "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28), observed behaviour on 2026-10-26",
+      "evidence": "Petrol 2000 cm³ made 2021 (1 July 2021 assumed), cleared 2026-10-26 → «Բնապահպանական հարկ 242,466» = 6% of €10,000 × 404.11; made 2016 → 290,959 = 12% of €6,000 × 404.11",
+      "evidence_en": "The calculator puts a 2021 car (5 calendar years, 5.3 real years) in the 'over 5' band and a 2016 car (10 calendar years) in 'over 10'. So it counts exact age, not calendar years.",
+      "last_verified": "2026-10-26",
+      "conflict": true,
+      "conflicting_sources": [
+        {
+          "source_url": "https://www.src.am/ru/getNews/299",
+          "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299), question 5",
+          "claim": "«для расчета экологического налога-за период с даты производства автомобиля до года таможенного оформления» — age for the environmental tax runs to the YEAR of clearance, which would put a 2021 car at 5 years (4%)."
+        }
+      ],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "The Tax Code says 'having a year of production up to N years' without a counting rule. This file follows the SRC calculator; with the FAQ's reading, cars cleared in a later part of the year than their production month would fall one band lower."
+    }
+  },
+  "fees": {
+    "customs_state_duty": {
+      "value": {
+        "passenger_declaration": 3000,
+        "goods_declaration": 7000
+      },
+      "unit": "AMD",
+      "applies_to": "release of goods up to 3 t gross: passenger customs declaration (individuals, personal use) / goods declaration (commercial)",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230457",
+      "source_name": "RA Law on State Duty (ՀՕ-186), arlis.am current consolidated edition, Art. 8 and Art. 19.9 part 1 points 5ա and 6ա",
+      "evidence": "Բազային տուրքի չափ է սահմանվում 1000 դրամը … 5) մեկ ապրանքային հայտարարագրով … ա. մինչև 3 տոննա ներառյալ բրուտտո քաշով ապրանքների համար բազային տուրքի յոթնապատիկի չափով … 6) մեկ ուղևորային մաքսային հայտարարագրով … ա․ մինչև 3 տոննա ներառյալ … բազային տուրքի եռապատիկի չափով",
+      "evidence_en": "Base duty 1,000 AMD; goods declaration up to 3 t: 7 × base = 7,000 AMD; passenger declaration up to 3 t: 3 × base = 3,000 AMD. Doubled outside customs locations or hours (Art. 19.9 part 2).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "«Պետական տուրք — Համաձայն «Պետական տուրքի մասին» ՀՀ օրենքի 19.9-րդ և 28.2 հոդվածների» — shown but not computed, and not in the calculator's total"
+        }
+      ],
+      "unsure": true,
+      "unsure_reason": "Point 6 text as edited by 20.01.26 ՀՕ-8-Ն; whether a broker's goods-declaration route is used instead for individuals is a practical question not answered by the law."
+    },
+    "customs_state_duty_exemptions": {
+      "value": "personal-use goods moved free of duties and taxes; EAEU-registered cars of individuals",
+      "unit": "exemption",
+      "applies_to": "Art. 19.9 state duty",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230457",
+      "source_name": "RA Law on State Duty (ՀՕ-186), arlis.am current consolidated edition, Art. 28.2 part 1 points 3-4",
+      "evidence": "3) ֆիզիկական անձանց կողմից առանց մաքսատուրքերի և հարկերի վճարման կամ … ազատմամբ՝ … տեղափոխվող անձնական օգտագործման ապրանքները. 4) անհատ ձեռնարկատեր չհանդիսացող ֆիզիկական անձանց կողմից … տեղափոխվող` ԵԱՏՄ անդամ պետություններում հաշվառված թեթև մարդատար տրանսպորտային միջոցները",
+      "evidence_en": "Exempt: personal-use goods carried without, or exempt from, duties and taxes; passenger cars registered in EAEU states moved by private individuals.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "temporary_storage": {
+      "value": 5000,
+      "unit": "AMD per day from the 4th day",
+      "applies_to": "8703 cars held in customs temporary storage",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230457",
+      "source_name": "RA Law on State Duty (ՀՕ-186), arlis.am current consolidated edition, Art. 19.9 part 1 point 2դ (as reported by the research agent)",
+      "evidence": "բազային տուրքի 5-ապատիկի չափով",
+      "evidence_en": "5 × base duty per day.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "Row read by a research agent; not re-checked line by line."
+    },
+    "registration_not_customs": {
+      "value": {
+        "registration": 5000,
+        "certificate": 6000,
+        "standard_plate": 12000
+      },
+      "unit": "AMD",
+      "applies_to": "Road Police registration after clearance (not a customs payment; excluded from totals)",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230457",
+      "source_name": "RA Law on State Duty (ՀՕ-186), arlis.am current consolidated edition, Art. 14 point 5.2 and Art. 16 points 17 and 26",
+      "evidence": "Art. 14 p. 5.2 «բազային տուրքի 5-ապատիկի չափով»; Art. 16 p. 17 «բազային տուրքի տասներկուապատիկի չափով»",
+      "evidence_en": "Registration 5 × base = 5,000; registration certificate 6 × base = 6,000; plate 12 × base = 12,000 AMD.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://hartak.am/guides/%D5%B0%D5%A1%D5%B7%D5%BE%D5%A1%D5%BC%D5%B8%D6%82%D5%B4/",
+          "source_name": "hartak.am government guide",
+          "evidence": "«Ավտոմեքենայի հաշվառման համար անհրաժեշտ է վճարել 5,000, 6,000 և 12,000 դրամ»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    }
+  },
+  "customs_value_and_age": {
+    "customs_value_commercial": {
+      "value": "transaction value + transport, loading and insurance to the EAEU border",
+      "unit": "definition",
+      "applies_to": "commercial imports",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/180337",
+      "source_name": "EAEU Customs Code, Armenian official text on arlis.am, Art. 39 part 1 and Art. 40 part 1 points 4-6",
+      "evidence": "մաքսային արժեք է համարվում … գործարքի արժեքը, այսինքն՝ այն գինը, որը փաստացի վճարվել է կամ ենթակա է վճարման",
+      "evidence_en": "Customs value is the price actually paid or payable, plus transport, loading/unloading and insurance up to arrival in the EAEU customs territory.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "customs_value_personal": {
+      "value": "purchase price per documents, WITHOUT transport and insurance",
+      "unit": "definition",
+      "applies_to": "personal-use goods of individuals",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/180337",
+      "source_name": "EAEU Customs Code, Armenian official text on arlis.am, Art. 267",
+      "evidence": "չեն մտնում փոխադրման և ապահովագրության հետ կապված ծախսերը",
+      "evidence_en": "For personal-use goods, transport and insurance costs are not included; customs sets the value itself from price data if documents are missing or doubtful.",
+      "last_verified": "2026-10-26",
+      "conflict": true,
+      "conflicting_sources": [
+        {
+          "source_url": "https://www.src.am/am/showVehiclesSearchPage/114",
+          "source_name": "SRC car customs value page (content updated 2024-12-30)",
+          "claim": "«ձեռքբերման արժեքը և բոլոր այն հավելյալ ծախսերը (փոխադրում, ապահովագրություն, բեռնում, բեռնաթափում, վառելիք, կայանման վճարներ և այլ ծախսերը), որոնք վճարվել են … մինչև ՀՀ սահմանը հատելը» — SRC tells car buyers the value includes transport and insurance up to the Armenian border."
+        }
+      ],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "The SRC car page and the EAEU Customs Code disagree for individuals. It only matters for cars under 3 years (the only personal-use band where value counts) and for the environmental tax. The calculator takes whatever value the user enters."
+    },
+    "reference_values": {
+      "value": "SRC list of average market values (USD) as of 2022-12-15, with age reductions",
+      "unit": "reference",
+      "applies_to": "when customs sets the value itself, or the declared price is lower",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.src.am/am/showVehiclesSearchPage/114",
+      "source_name": "SRC car customs value page and list tq_auto_customs_value_dec_2025_6772b07d1637f.xls",
+      "evidence": "եթե … ուղեկցող փաստաթղթերում նշված ձեռքբերման արժեքը ավելի բարձր է, քան … հաշվիչում տեղադրված նույնանման ավտոմեքենայի մաքսային արժեքը, ապա … հիմք է ընդունվում … ձեռքբերման փաստաթղթերում դրա արժեքի վերաբերյալ տեղեկատվությունը",
+      "evidence_en": "If the documented purchase price is higher than SRC's figure for a similar car, the documented price is used. The list itself says it applies when customs determines the value from its own price data.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "File named 'dec_2025' but uploaded 2024-12-30; age reductions stop at 2016 models. Not modelled: the calculator takes a value as input."
+    },
+    "exchange_rate": {
+      "value": "CBA average market rate on the day the customs declaration is registered",
+      "unit": "rule",
+      "applies_to": "converting EUR rates and foreign-currency values to AMD",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/227658",
+      "source_name": "RA Law on Customs Regulation (ՀՕ-353-Ն), arlis.am current consolidated edition, Art. 40 part 2",
+      "evidence": "Արտարժույթի վերահաշվարկի նպատակով կիրառվում է մաքսային հայտարարագրի գրանցման օրվա դրությամբ Հայաստանի Հանրապետության կենտրոնական բանկի հրապարակած` արժութային շուկաներում ձևավորված միջին փոխարժեքը",
+      "evidence_en": "Foreign currency is converted at the CBA average market rate published for the day the declaration is registered.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "/api/govtech/currency/exchange-rate → {\"date\":\"26.10.2026\", \"inverted\":{\"eur\":404.11,\"usd\":360.88}, \"source\":\"cba\"}"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "age_from_production_date": {
+      "value": "production date to declaration date; year only → 1 July; year and month → 15th",
+      "unit": "rule",
+      "applies_to": "duty and unified-payment age bands",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.src.am/ru/getNews/299",
+      "source_name": "RA State Revenue Committee (SRC), FAQ on customs clearance of cars, 13.12.2023 (Armenian original https://www.src.am/am/getNews/299), question 5",
+      "evidence": "возраст автомобиля рассчитывается за период с даты (день, месяц, год) производства автомобиля до даты (день, месяц, год) таможенного оформления … если … был определен только год производства …, датой производства считается 1 июля … если год и месяц производства определены, а день неизвестен, датой производства считается 15-е число",
+      "evidence_en": "Age runs from the production date to the clearance date. If only the year is known, 1 July is used; if year and month, the 15th.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://eec.eaeunion.org/comission/department/catr/ett/ru.2022/ru.87_2022_22.01.2026.pdf",
+          "source_name": "EAEU Common Customs Tariff (ETT, approved by EEC Council Decision No. 80 of 14.09.2021), group 87, official EEC consolidated text as of 22.01.2026, additional note 1",
+          "evidence": "«полный год выпуска исчисляется с 1 июля года изготовления»"
+        },
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28), note 2",
+          "evidence": "«եթե հայտնի է միայն շարժիչի թողարկման (արտադրման) տարին, ապա որպես թողարկման ամսաթիվ հիմք է ընդունվում տվյալ տարվա հուլիսի 1-ը, իսկ եթե հայտնի է նաև ամիսը և օրը հայտնի չէ, ապա պետք է օր համարվի տվյալ ամսվա 15-ը»"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    }
+  },
+  "eaeu_vs_third_country": {
+    "no_customs_duty_eaeu_goods": {
+      "value": 0,
+      "unit": "customs duty",
+      "applies_to": "cars with EAEU status (already cleared in Russia, Belarus, Kazakhstan, Kyrgyzstan or Armenia) moved between member states",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.consultant.ru/document/cons_doc_LAW_163855/3149ec5625c667169c6242f4af82ac99f7c84941/",
+      "source_name": "Treaty on the EAEU, Art. 25 part 1 point 5 (reprint on consultant.ru)",
+      "evidence": "осуществляется свободное перемещение товаров между территориями государств-членов без применения таможенного декларирования",
+      "evidence_en": "Goods move freely between member states without customs declaration, so no customs duty or unified payment.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://exim.src.am/transport",
+          "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+          "evidence": "Origin «ԵԱՏՄ անդամ երկիր»: «Մաքսատուրք — Չի կիրառվում»; VAT 20% of value; environmental tax charged"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "eaeu_payments": {
+      "value": "VAT 20% of purchase price (unless an individual's first car of the year) + environmental tax on purchase price; declared to the tax authority by the 20th of the following month",
+      "unit": "rule",
+      "applies_to": "imports of EAEU-status cars from EAEU states",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 61 part 3, Art. 165 part 5 point 1բ, Art. 179 part 2; Government decision 171-Ն point 2",
+      "evidence": "Ներմուծող հարկ վճարողները … հաշվարկված բնապահպանական հարկի գումարը ներառում են … ներմուծման հարկային հայտարարագրում",
+      "evidence_en": "The importer self-assesses the environmental tax and VAT in the import tax declaration, due by the 20th of the month after import.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "No source says whether an individual's first EAEU car of the year owes environmental tax. The library charges it and warns."
+    },
+    "third_country_payments": {
+      "value": "personal use: unified payment + environmental tax; commercial and all EVs: duty + VAT + environmental tax; paid to customs before release",
+      "unit": "rule",
+      "applies_to": "imports from outside the EAEU",
+      "effective_from": null,
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 78 part 5",
+      "evidence": "մինչև … ապրանքների բաց թողնումը … որպես մաքսային մարմնին վճարվող գումարներ",
+      "evidence_en": "Paid to customs before the goods are released.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    "eaeu_status_of_armenian_cars": {
+      "value": "cars cleared in Armenia at pre-2020 national rates acquired EAEU status only from 2023-01-01",
+      "unit": "history",
+      "applies_to": "Armenian-cleared cars taken to other EAEU states",
+      "effective_from": "2020-01-01",
+      "effective_to": null,
+      "source_url": "https://www.garant.ru/products/ipo/prime/doc/74297723/",
+      "source_name": "FTS Russia, 17.07.2020, on cars from Armenia (garant.ru)",
+      "evidence": "Транспортные средства, имеющие статус иностранного товара, приобретают статус товара Союза после наступления даты 1 января 2023 года",
+      "evidence_en": "Background: vehicles cleared in Armenia under its transitional rates became EAEU goods only from 1 January 2023.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "Quoted from an FTS Russia letter (garant.ru); context only, not used in the formula."
+    }
+  },
+  "recent_changes": [
+    {
+      "value": "Environmental tax on imported vehicles rescaled from 0/2/10/20% to 2/4/6/12/24%",
+      "unit": "change",
+      "applies_to": "all imported 8702-8705 vehicles",
+      "effective_from": "2024-06-01",
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/documentview.aspx?docid=186178",
+      "source_name": "ՀՕ-358-Ն of 16.11.2023, Art. 5 and Art. 6 part 4",
+      "evidence": "Սույն օրենքի 5-րդ հոդվածն ուժի մեջ է մտնում 2024 թվականի հունիսի 1-ից",
+      "evidence_en": "Art. 5 enters into force on 1 June 2024.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    {
+      "value": "Electric-car tariff code 8703 80 000 2 split into 000 3 and 000 5",
+      "unit": "change",
+      "applies_to": "EV classification and quotas",
+      "effective_from": "2026-01-22",
+      "effective_to": null,
+      "source_url": "https://zakon.uchet.kz/rus/docs/H25EK000081",
+      "source_name": "EEC Collegium Decision No. 81 of 23.09.2025",
+      "evidence": "слова \"позиции 8703 80 000 2\" заменить словами \"позициях 8703 80 000 3 и 8703 80 000 5\"",
+      "evidence_en": "The old code was replaced by two codes.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "Effective date from news and the consolidated ETT date, not from the decision text."
+    },
+    {
+      "value": "EV VAT exemption narrowed: all EVs in January 2026, then only EVs produced after 2023-12-31 until 2026-12-31",
+      "unit": "change",
+      "applies_to": "electric cars",
+      "effective_from": "2026-02-01",
+      "effective_to": "2026-12-31",
+      "source_url": "https://www.src.am/am/getNews/1339",
+      "source_name": "SRC news 2026-01-09 on ՀՕ-487-Ն of 17.12.2025",
+      "evidence": "2023թ․ դեկտեմբերի 31-ից հետո թողարկված",
+      "evidence_en": "Produced after 31 December 2023.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    {
+      "value": "Zero-duty EV quota for 2026: 15,000, raised to 20,000 (3,500 dealers / 16,500 others); non-dealer part exhausted 2026-10-10",
+      "unit": "change",
+      "applies_to": "electric cars",
+      "effective_from": "2026-08-21",
+      "effective_to": "2026-12-31",
+      "source_url": "https://www.src.am/am/getNews/1696",
+      "source_name": "SRC news 2026-08-20",
+      "evidence": "դիլեր-դիստրիբյուտոր չհանդիսացող սուբյեկտների համար` 16500 հատ",
+      "evidence_en": "16,500 units for non-dealers.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    {
+      "value": "SRC ExIm platform with an official car-import calculator launched",
+      "unit": "change",
+      "applies_to": "all importers",
+      "effective_from": "2026-04-28",
+      "effective_to": null,
+      "source_url": "https://www.src.am/am/getNews/1524",
+      "source_name": "SRC news 2026-04-28",
+      "evidence": "ExIm",
+      "evidence_en": "The calculator used for the cross-check in this file.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": false,
+      "unsure_reason": null
+    },
+    {
+      "value": "Resale rules for non-dealer business importers of 8703 cars (income at least 1.2 × (VAT base + environmental tax); no negative VAT offset)",
+      "unit": "change",
+      "applies_to": "cars imported by non-dealer companies/sole entrepreneurs 2023-12-01 to 2025-07-31",
+      "effective_from": "2023-12-01",
+      "effective_to": "2025-07-31",
+      "source_url": "https://www.arlis.am/hy/acts/230455",
+      "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am current consolidated edition, Art. 109 part 1.2 and Art. 73 part 8.1",
+      "evidence": "իրացման նպատակով 2023 թվականի դեկտեմբերի 1-ից մինչև 2025 թվականի հուլիսի 31-ը ներառյալ ներմուծված՝ ԱՏԳ ԱԱ 8703 ծածկագրին դասվող տրանսպորտային միջոցի՝ ներմուծողի կողմից օտարումից եկամուտը հաշվարկվում է … 1.2 գործակցի արտադրյալից ոչ պակաս չափով",
+      "evidence_en": "Income from reselling such a car is at least 1.2 × (VAT base + environmental tax). Not an import payment; context only.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "The act that set the 2025-07-31 cut-off was not identified."
+    },
+    {
+      "value": "DRAFT, not adopted: from 2027-01-01 EV imports lose the VAT exemption; a VAT refund for one personal EV up to 15 million AMD is proposed",
+      "unit": "announced",
+      "applies_to": "electric cars from 2027",
+      "effective_from": "2027-01-01",
+      "effective_to": null,
+      "source_url": "https://iravaban.net/575462.html",
+      "source_name": "iravaban.net, 2026-10-17, on a Ministry of Economy draft",
+      "evidence": "2027 թ.-ի հունվարի 1-ից էլեկտրամոբիլների ներմուծումն ու վաճառքն այլևս ազատված չեն լինի … ԱԱՀ-ից",
+      "evidence_en": "From 1 January 2027 EV import and sale would no longer be VAT-exempt.",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [],
+      "unsure": true,
+      "unsure_reason": "Press report on an unadopted draft; comments open until 2026-10-31."
+    }
+  ],
+  "official_calculator_cross_check": {
+    "source_url": "https://exim.src.am/transport",
+    "source_name": "SRC ExIm platform, passenger-car import payments calculator (launched 2026-04-28)",
+    "run_on": "2026-10-26",
+    "method": "Browser automation of the public form (no login). Purpose, origin, engine type, engine volume, production year (month left 'unknown' → 1 July), value and currency were filled in; all exemption boxes left unticked. The values shown were read off the result panel. The calculator displayed CBA rates EUR 404.11, USD 360.88 (source 'cba', 26.10.2026).",
+    "rates_amd": {
+      "EUR": 404.11,
+      "USD": 360.88
+    },
+    "result": "All 19 runs reproduced to the dram by src/lib/car-customs.ts (tests/car-customs.test.ts). One further case (production month given) did not complete in the automation and is not recorded.",
+    "observations": [
+      "The calculator does not include the customs state duty in its total; it only cites State Duty Law arts. 19.9 and 28.2.",
+      "The EV VAT exemption and the EV zero-duty quota are user checkboxes, never applied automatically.",
+      "For EAEU imports by individuals it assumes the second or later car of the year (VAT charged).",
+      "For hybrids it never asks about power and always takes the 'other' (electric at least as strong) tariff line: 15%.",
+      "Environmental tax age is counted by exact date, not calendar year (conflicts with the SRC FAQ; see _conflicts)."
+    ],
+    "runs": [
+      {
+        "id": "P-petrol-1600-8000-2025",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 1600,
+          "year": 2025,
+          "value": 8000
+        },
+        "hs": {
+          "code": "8703231940",
+          "formula": "15"
+        },
+        "unified": 1745755,
+        "duty": null,
+        "vat": null,
+        "env": 64658,
+        "total": 1810413
+      },
+      {
+        "id": "P-petrol-2500-7y",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2500,
+          "year": 2019,
+          "value": 12000
+        },
+        "hs": {
+          "code": "8703239087",
+          "formula": "2,2 евро за 1 см3 объема двигателя"
+        },
+        "unified": 5051375,
+        "duty": null,
+        "vat": null,
+        "env": 290959,
+        "total": 5342334
+      },
+      {
+        "id": "P-petrol-1800-12y",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 1800,
+          "year": 2014,
+          "value": 5000
+        },
+        "hs": {
+          "code": "8703239041",
+          "formula": "1,6 евро за 1 см3 объема двигателя"
+        },
+        "unified": 2545893,
+        "duty": null,
+        "vat": null,
+        "env": 242466,
+        "total": 2788359
+      },
+      {
+        "id": "P-petrol-3500-18y",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 3500,
+          "year": 2008,
+          "value": 4000
+        },
+        "hs": {
+          "code": "8703249093",
+          "formula": "3,2 евро за 1 см3 объема двигателя"
+        },
+        "unified": 8061995,
+        "duty": null,
+        "vat": null,
+        "env": 387946,
+        "total": 8449940
+      },
+      {
+        "id": "P-diesel-2200-6y",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "diesel",
+          "cc": 2200,
+          "year": 2020,
+          "value": 14000
+        },
+        "hs": {
+          "code": "8703329094",
+          "formula": "20, но не менее 0,4 евро за 1 см3 объема двигателя"
+        },
+        "unified": 4267402,
+        "duty": null,
+        "vat": null,
+        "env": 339452,
+        "total": 4606854
+      },
+      {
+        "id": "P-hybrid-2500-2023",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "hybridPetrolElectric",
+          "cc": 2500,
+          "year": 2023,
+          "value": 20000
+        },
+        "hs": {
+          "code": "8703406099",
+          "formula": "15"
+        },
+        "unified": 3030825,
+        "duty": null,
+        "vat": null,
+        "env": 323288,
+        "total": 3354113
+      },
+      {
+        "id": "P-ev-2025",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "electric",
+          "year": 2025,
+          "value": 25000
+        },
+        "hs": {
+          "code": "8703800008",
+          "formula": "15"
+        },
+        "unified": null,
+        "duty": 1515413,
+        "vat": 2323633,
+        "env": 202055,
+        "total": 4041100
+      },
+      {
+        "id": "P-ev-2022",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "electric",
+          "year": 2022,
+          "value": 15000
+        },
+        "hs": {
+          "code": "8703800008",
+          "formula": "15"
+        },
+        "unified": null,
+        "duty": 909248,
+        "vat": 1394180,
+        "env": 242466,
+        "total": 2545893
+      },
+      {
+        "id": "P-eaeu-petrol-2000-2020",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "2",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2020,
+          "value": 15000
+        },
+        "hs": {
+          "code": "8703239082",
+          "formula": "20, но не менее 0,44 евро за 1 см3 объема двигателя"
+        },
+        "unified": null,
+        "duty": null,
+        "vat": 1212330,
+        "env": 363699,
+        "total": 1576029
+      },
+      {
+        "id": "B-petrol-2000-2026",
+        "input": {
+          "purpose": "BUSINESS",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2026,
+          "value": 20000
+        },
+        "hs": {
+          "code": "8703231981",
+          "formula": "15"
+        },
+        "unified": null,
+        "duty": 1212330,
+        "vat": 1858906,
+        "env": 161644,
+        "total": 3232880
+      },
+      {
+        "id": "B-petrol-2000-5y",
+        "input": {
+          "purpose": "BUSINESS",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2021,
+          "value": 10000
+        },
+        "hs": {
+          "code": "8703239082",
+          "formula": "20, но не менее 0,44 евро за 1 см3 объема двигателя"
+        },
+        "unified": null,
+        "duty": 808220,
+        "vat": 969864,
+        "env": 242466,
+        "total": 2020550
+      },
+      {
+        "id": "B-petrol-2000-10y",
+        "input": {
+          "purpose": "BUSINESS",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2016,
+          "value": 6000
+        },
+        "hs": {
+          "code": "8703239081",
+          "formula": "2,2 евро за 1 см3 объема двигателя"
+        },
+        "unified": null,
+        "duty": 1778084,
+        "vat": 840549,
+        "env": 290959,
+        "total": 2909592
+      },
+      {
+        "id": "P-new-petrol-3000-30k",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 3000,
+          "year": 2024,
+          "value": 30000
+        },
+        "hs": {
+          "code": "8703231988",
+          "formula": "12,5"
+        },
+        "unified": 6667815,
+        "duty": null,
+        "vat": null,
+        "env": 242466,
+        "total": 6910281
+      },
+      {
+        "id": "P-petrol-2000-2022",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2022,
+          "value": 15000
+        },
+        "hs": {
+          "code": "8703239083",
+          "formula": "20, но не менее 0,44 евро за 1 см3 объема двигателя"
+        },
+        "unified": 2182194,
+        "duty": null,
+        "vat": null,
+        "env": 242466,
+        "total": 2424660
+      },
+      {
+        "id": "P-petrol-2000-2024-100k",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2024,
+          "value": 100000
+        },
+        "hs": {
+          "code": "8703231981",
+          "formula": "15"
+        },
+        "unified": 19397280,
+        "duty": null,
+        "vat": null,
+        "env": 808220,
+        "total": 20205500
+      },
+      {
+        "id": "P-petrol-2000-2023-usd",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "3",
+          "engine": "petrol",
+          "cc": 2000,
+          "year": 2023,
+          "value": 20000,
+          "cur": "usd"
+        },
+        "hs": {
+          "code": "8703239083",
+          "formula": "20, но не менее 0,44 евро за 1 см3 объема двигателя"
+        },
+        "unified": 2182194,
+        "duty": null,
+        "vat": null,
+        "env": 288704,
+        "total": 2470898
+      },
+      {
+        "id": "B-hybrid-2000-2020",
+        "input": {
+          "purpose": "BUSINESS",
+          "from": "3",
+          "engine": "hybridPetrolElectric",
+          "cc": 2000,
+          "year": 2020,
+          "value": 15000
+        },
+        "hs": {
+          "code": "8703406034",
+          "formula": "15"
+        },
+        "unified": null,
+        "duty": 909248,
+        "vat": 1394180,
+        "env": 363699,
+        "total": 2667126
+      },
+      {
+        "id": "B-diesel-2000-2025",
+        "input": {
+          "purpose": "BUSINESS",
+          "from": "3",
+          "engine": "diesel",
+          "cc": 2000,
+          "year": 2025,
+          "value": 20000
+        },
+        "hs": {
+          "code": "8703321990",
+          "formula": "15"
+        },
+        "unified": null,
+        "duty": 1212330,
+        "vat": 1858906,
+        "env": 161644,
+        "total": 3232880
+      },
+      {
+        "id": "P-eaeu-ev-2025",
+        "input": {
+          "purpose": "PERSONAL",
+          "from": "2",
+          "engine": "electric",
+          "year": 2025,
+          "value": 25000
+        },
+        "hs": {
+          "code": "8703800008",
+          "formula": "15"
+        },
+        "unified": null,
+        "duty": null,
+        "vat": 2020550,
+        "env": 202055,
+        "total": 2222605
+      }
+    ]
+  },
+  "real_world_examples": {
+    "note": "Independent examples (brokers and press) compared with the formula. Mismatches are recorded, not hidden. tests/car-customs.test.ts recomputes every formula_result from test_input.",
+    "how_compared": "Each example's published inputs were run through src/lib/car-customs.ts on 2026-10-26 rates (CBA EUR 404.11, USD 360.88). Assumptions needed to fill gaps are listed per example.",
+    "summary": {
+      "match": 1,
+      "partial_match": 2,
+      "mismatch": 8,
+      "unusable": 1,
+      "finding": "No independent source found gives a dated, itemised receipt for a real clearance. Broker price cards understate the personal-use payment by 2.7-4.3× at today's rules, and two broker guides misstate the rates. The only published figures that match are the ones taken from SRC itself."
+    },
+    "items": [
+      {
+        "id": "2mcars-mazda-cx5-2020",
+        "kind": "broker_price_card",
+        "source_url": "https://2mcars.am/",
+        "source_name": "2Mcars (US auction import broker, Gyumri), home-page price card",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "MAZDA CX-5 2020 … Շարժիչի 2.5 … ավտոմեքենայի գինը աճուրդում. աճուրդի վճար. մեքենայի առաքման արժեքը. մաքսային վճարումներ. … $9 100 $963 $2 065 $5 300 $150 $300 Մաքսազերծված մեքենայի արժեքը. $17 878",
+        "evidence_en": "Mazda CX-5 2020: auction price $9100, auction fee $963, shipping $2065, customs payments $5300, broker/terminal in Gyumri $150, company services $300, cleared car cost $17878.",
+        "car": {
+          "name": "Mazda CX-5 2020",
+          "year": 2020,
+          "engine_cc": 2500,
+          "engine_as_published": "2.5",
+          "fuel": "petrol (assumed; card gives no fuel)",
+          "origin": "USA auction, via Poti (Georgia) to Gyumri"
+        },
+        "published_amounts_usd": {
+          "customs_payments": 5300,
+          "card_total": 17878,
+          "card_lines_add_up": true
+        },
+        "test_input": {
+          "importer": "personal",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2500,
+          "made": {
+            "year": 2020
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 3631535.44,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Personal use by an individual (the site sells to private buyers).",
+          "Engine volume = the litre figure on the card × 1000; real displacement is not published.",
+          "Cleared on 2026-10-26 at CBA EUR 404.11 / USD 360.88: the card is undated.",
+          "Value for the environmental tax = auction price + auction fee (personal-use value excludes transport, EAEU Customs Code art. 267)."
+        ],
+        "formula_result": {
+          "regime": "unified",
+          "duty_or_unified_amd": 5051375,
+          "vat_amd": 0,
+          "environmental_tax_amd": 217892,
+          "environmental_percent": 6,
+          "total_amd": 5269267,
+          "total_usd": 14601,
+          "duty_formula": {
+            "kind": "perCc",
+            "eurPerCc": 5
+          }
+        },
+        "verdict": "mismatch",
+        "comparison": "Formula: 14,601 USD (unified 5 €/cm³ for a car over 5 years, plus 6% environmental tax) vs 5,300 USD published: 2.75× higher. The card is undated, so it may predate the car's current age band, but even a 3-5-year-old car of this size pays €3/cm³ (≈ $8,398), still above the card. No regime reproduces it."
+      },
+      {
+        "id": "2mcars-kia-forte-2019",
+        "kind": "broker_price_card",
+        "source_url": "https://2mcars.am/",
+        "source_name": "2Mcars (US auction import broker, Gyumri), home-page price card",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "KIA FORTE 2019 … Շարժիչի 2.0 … $3 750 $688 $2 340 $2 800 $150 $300 Մաքսազերծված մեքենայի արժեքը. $10 028",
+        "evidence_en": "Kia Forte 2019: auction price $3750, auction fee $688, shipping $2340, customs payments $2800, broker/terminal in Gyumri $150, company services $300, cleared car cost $10028.",
+        "car": {
+          "name": "Kia Forte 2019",
+          "year": 2019,
+          "engine_cc": 2000,
+          "engine_as_published": "2.0",
+          "fuel": "petrol (assumed; card gives no fuel)",
+          "origin": "USA auction, via Poti (Georgia) to Gyumri"
+        },
+        "published_amounts_usd": {
+          "customs_payments": 2800,
+          "card_total": 10028,
+          "card_lines_add_up": true
+        },
+        "test_input": {
+          "importer": "personal",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2000,
+          "made": {
+            "year": 2019
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 1601585.44,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Personal use by an individual (the site sells to private buyers).",
+          "Engine volume = the litre figure on the card × 1000; real displacement is not published.",
+          "Cleared on 2026-10-26 at CBA EUR 404.11 / USD 360.88: the card is undated.",
+          "Value for the environmental tax = auction price + auction fee (personal-use value excludes transport, EAEU Customs Code art. 267)."
+        ],
+        "formula_result": {
+          "regime": "unified",
+          "duty_or_unified_amd": 3879456,
+          "vat_amd": 0,
+          "environmental_tax_amd": 96095,
+          "environmental_percent": 6,
+          "total_amd": 3975551,
+          "total_usd": 11016,
+          "duty_formula": {
+            "kind": "perCc",
+            "eurPerCc": 4.8
+          }
+        },
+        "verdict": "mismatch",
+        "comparison": "Formula: 11,016 USD (unified 4.8 €/cm³ for a car over 5 years, plus 6% environmental tax) vs 2,800 USD published: 3.93× higher. The card is undated, so it may predate the car's current age band, but even a 3-5-year-old car of this size pays €2.7/cm³ (≈ $6,047), still above the card. No regime reproduces it."
+      },
+      {
+        "id": "2mcars-camry-2018",
+        "kind": "broker_price_card",
+        "source_url": "https://2mcars.am/",
+        "source_name": "2Mcars (US auction import broker, Gyumri), home-page price card",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "TOYOTA CAMRY SE 2018 … Շարժիչի 2.5 … $8 500 $963 $2 050 $5 350 $150 $300 Մաքսազերծված մեքենայի արժեքը. $17 713",
+        "evidence_en": "Toyota Camry SE 2018: auction price $8500, auction fee $963, shipping $2050, customs payments $5350, broker/terminal in Gyumri $150, company services $300, cleared car cost $17713.",
+        "car": {
+          "name": "Toyota Camry SE 2018",
+          "year": 2018,
+          "engine_cc": 2500,
+          "engine_as_published": "2.5",
+          "fuel": "petrol (assumed; card gives no fuel)",
+          "origin": "USA auction, via Poti (Georgia) to Gyumri"
+        },
+        "published_amounts_usd": {
+          "customs_payments": 5350,
+          "card_total": 17713,
+          "card_lines_add_up": false
+        },
+        "test_input": {
+          "importer": "personal",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2500,
+          "made": {
+            "year": 2018
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 3415007.44,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Personal use by an individual (the site sells to private buyers).",
+          "Engine volume = the litre figure on the card × 1000; real displacement is not published.",
+          "Cleared on 2026-10-26 at CBA EUR 404.11 / USD 360.88: the card is undated.",
+          "Value for the environmental tax = auction price + auction fee (personal-use value excludes transport, EAEU Customs Code art. 267)."
+        ],
+        "formula_result": {
+          "regime": "unified",
+          "duty_or_unified_amd": 5051375,
+          "vat_amd": 0,
+          "environmental_tax_amd": 204900,
+          "environmental_percent": 6,
+          "total_amd": 5256275,
+          "total_usd": 14565,
+          "duty_formula": {
+            "kind": "perCc",
+            "eurPerCc": 5
+          }
+        },
+        "verdict": "mismatch",
+        "comparison": "Formula: 14,565 USD (unified 5 €/cm³ for a car over 5 years, plus 6% environmental tax) vs 5,350 USD published: 2.72× higher. The card's own lines add up to $400 less than its printed total. The card is undated, so it may predate the car's current age band, but even a 3-5-year-old car of this size pays €3/cm³ (≈ $8,398), still above the card. No regime reproduces it."
+      },
+      {
+        "id": "2mcars-elantra-2020",
+        "kind": "broker_price_card",
+        "source_url": "https://2mcars.am/",
+        "source_name": "2Mcars (US auction import broker, Gyumri), home-page price card",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "HYUNDAI ELANTRA 2020 … Շարժիչի 2.0 … $4 200 $798 $1 970 $2 600 $150 $300 Մաքսազերծված մեքենայի արժեքը. $10 418",
+        "evidence_en": "Hyundai Elantra 2020: auction price $4200, auction fee $798, shipping $1970, customs payments $2600, broker/terminal in Gyumri $150, company services $300, cleared car cost $10418.",
+        "car": {
+          "name": "Hyundai Elantra 2020",
+          "year": 2020,
+          "engine_cc": 2000,
+          "engine_as_published": "2.0",
+          "fuel": "petrol (assumed; card gives no fuel)",
+          "origin": "USA auction, via Poti (Georgia) to Gyumri"
+        },
+        "published_amounts_usd": {
+          "customs_payments": 2600,
+          "card_total": 10418,
+          "card_lines_add_up": false
+        },
+        "test_input": {
+          "importer": "personal",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2000,
+          "made": {
+            "year": 2020
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 1803678.24,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Personal use by an individual (the site sells to private buyers).",
+          "Engine volume = the litre figure on the card × 1000; real displacement is not published.",
+          "Cleared on 2026-10-26 at CBA EUR 404.11 / USD 360.88: the card is undated.",
+          "Value for the environmental tax = auction price + auction fee (personal-use value excludes transport, EAEU Customs Code art. 267)."
+        ],
+        "formula_result": {
+          "regime": "unified",
+          "duty_or_unified_amd": 3879456,
+          "vat_amd": 0,
+          "environmental_tax_amd": 108221,
+          "environmental_percent": 6,
+          "total_amd": 3987677,
+          "total_usd": 11050,
+          "duty_formula": {
+            "kind": "perCc",
+            "eurPerCc": 4.8
+          }
+        },
+        "verdict": "mismatch",
+        "comparison": "Formula: 11,050 USD (unified 4.8 €/cm³ for a car over 5 years, plus 6% environmental tax) vs 2,600 USD published: 4.25× higher. The card's own lines add up to $400 less than its printed total. The card is undated, so it may predate the car's current age band, but even a 3-5-year-old car of this size pays €2.7/cm³ (≈ $6,047), still above the card. No regime reproduces it."
+      },
+      {
+        "id": "2mcars-rogue-2018",
+        "kind": "broker_price_card",
+        "source_url": "https://2mcars.am/",
+        "source_name": "2Mcars (US auction import broker, Gyumri), home-page price card",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "NISSAN ROGUE S 2018 … Շարժիչի 2.5 … $5 150 $848 $2 380 $3 700 $150 $300 ВАРТІСТЬ РОЗМИТНЕНОГО АВТО В УКРАЇНІ: Մաքսազերծված մեքենայի արժեքը. $12 528",
+        "evidence_en": "Nissan Rogue S 2018: auction price $5150, auction fee $848, shipping $2380, customs payments $3700, broker/terminal in Gyumri $150, company services $300, cleared car cost $12528.",
+        "car": {
+          "name": "Nissan Rogue S 2018",
+          "year": 2018,
+          "engine_cc": 2500,
+          "engine_as_published": "2.5",
+          "fuel": "petrol (assumed; card gives no fuel)",
+          "origin": "USA auction, via Poti (Georgia) to Gyumri"
+        },
+        "published_amounts_usd": {
+          "customs_payments": 3700,
+          "card_total": 12528,
+          "card_lines_add_up": true
+        },
+        "test_input": {
+          "importer": "personal",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2500,
+          "made": {
+            "year": 2018
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 2164558.24,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Personal use by an individual (the site sells to private buyers).",
+          "Engine volume = the litre figure on the card × 1000; real displacement is not published.",
+          "Cleared on 2026-10-26 at CBA EUR 404.11 / USD 360.88: the card is undated.",
+          "Value for the environmental tax = auction price + auction fee (personal-use value excludes transport, EAEU Customs Code art. 267)."
+        ],
+        "formula_result": {
+          "regime": "unified",
+          "duty_or_unified_amd": 5051375,
+          "vat_amd": 0,
+          "environmental_tax_amd": 129873,
+          "environmental_percent": 6,
+          "total_amd": 5181248,
+          "total_usd": 14357,
+          "duty_formula": {
+            "kind": "perCc",
+            "eurPerCc": 5
+          }
+        },
+        "verdict": "mismatch",
+        "comparison": "Formula: 14,357 USD (unified 5 €/cm³ for a car over 5 years, plus 6% environmental tax) vs 3,700 USD published: 3.88× higher. The card is undated, so it may predate the car's current age band, but even a 3-5-year-old car of this size pays €3/cm³ (≈ $8,398), still above the card. No regime reproduces it."
+      },
+      {
+        "id": "carawon-camry-2020",
+        "kind": "broker_worked_estimate",
+        "source_url": "https://carawon.com/en/import-to-armenia",
+        "source_name": "Carawon, 'Import Cars to Armenia 2026 — 15% Duty, 20% VAT & EAEU'",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "2020 Toyota Camry · 2.5L · LHD … CIF subtotal$14,500 Import duty (15% EAEU CCT)$2,175 VAT (20% on CIF + duty)$3,335 Road tax (2.5L engine band)$200 Environmental payment$60 … Directional estimate for a company (legal-entity) import at the ~15% EAEU rate",
+        "evidence_en": "Company import of a 2020 Camry 2.5 L with CIF $14,500: duty 15% $2,175, VAT $3,335, road tax $200, environmental payment $60.",
+        "car": {
+          "name": "Toyota Camry 2020",
+          "year": 2020,
+          "engine_cc": 2500,
+          "engine_as_published": "2.5L",
+          "fuel": "petrol (assumed)",
+          "origin": "USA"
+        },
+        "published_amounts_usd": {
+          "duty": 2175,
+          "vat": 3335,
+          "environmental": 60,
+          "road_tax": 200
+        },
+        "test_input": {
+          "importer": "business",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2500,
+          "made": {
+            "year": 2020
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 5232760,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Company import, as the page says.",
+          "CIF $14,500 = customs value.",
+          "Engine 2.5 L taken as 2500 cm³."
+        ],
+        "formula_result": {
+          "regime": "tariff",
+          "duty_or_unified_amd": 1046552,
+          "vat_amd": 1255862,
+          "environmental_tax_amd": 313966,
+          "environmental_percent": 6,
+          "total_amd": 2616380,
+          "total_usd": 7250,
+          "duty_formula": {
+            "kind": "percentMin",
+            "percent": 20,
+            "minEurPerCc": 0.44,
+            "minApplied": false
+          }
+        },
+        "verdict": "mismatch",
+        "comparison": "Formula (company import, 2020 car = used 3-7 years): duty 20% = $2,900, VAT $3,480, environmental tax 6% = $870. Carawon uses the 15% NEW-car rate for a 6-year-old car (duty $725 too low; VAT follows from that) and an environmental payment of $60, which no current rule produces (the law gives 6% of customs value). 'Road tax $200' is not an import payment."
+      },
+      {
+        "id": "sputnik-2019-src-explainer",
+        "kind": "press_src_explainer",
+        "source_url": "https://am.sputniknews.ru/20190916/Kak-grazhdane-Armenii-budut-rastamozhivat-mashiny-s-2020-goda-Poyasnyaet-tamozhennaya-sluzhba-20402506.html",
+        "source_name": "Sputnik Armenia, 2019-09-16, explaining the 2020 switch with the SRC customs service",
+        "published": "2019-09-16",
+        "fetched": "2026-10-26",
+        "evidence": "по 4,8 евро за каждый \"кубик\" двигателя, то есть 9 600 евро, плюс 500 долларов природоохранного налога … А с машины такого же литража, но старше 5 лет, придется заплатить уже по 4,8 евро за \"кубик\"",
+        "evidence_en": "A 10-year-old car worth $5,000 with a 2-litre engine: from 2020, €4.8 per cm³ = €9,600, plus a $500 environmental tax.",
+        "car": {
+          "name": "hypothetical 10-year-old car",
+          "year": null,
+          "engine_cc": 2000,
+          "engine_as_published": "2 litres",
+          "fuel": "not stated",
+          "origin": "third country"
+        },
+        "published_amounts": {
+          "unified_eur": 9600,
+          "environmental_usd": 500
+        },
+        "test_input": {
+          "importer": "personal",
+          "origin": "third_country",
+          "fuel": "petrol",
+          "engineCc": 2000,
+          "made": {
+            "year": 2016,
+            "month": 10,
+            "day": 26
+          },
+          "clearanceDate": "2026-10-26",
+          "valueAmd": 1804400,
+          "eurRate": 404.11
+        },
+        "assumptions": [
+          "Exactly 10 years old on the clearance day.",
+          "$5,000 = customs value."
+        ],
+        "formula_result": {
+          "regime": "unified",
+          "duty_or_unified_amd": 3879456,
+          "vat_amd": 0,
+          "environmental_tax_amd": 108264,
+          "environmental_percent": 6,
+          "total_amd": 3987720,
+          "total_usd": 11050,
+          "duty_formula": {
+            "kind": "perCc",
+            "eurPerCc": 4.8
+          }
+        },
+        "verdict": "partial_match",
+        "comparison": "Unified payment matches exactly: 2000 cm³ × €4.8 = €9,600. Environmental tax does not: the $500 is 10% of $5,000, the scale in force before 2024-06-01; today a 10-year-old car pays 6% = $300 (12% if older than 10 years by even a day)."
+      },
+      {
+        "id": "impress-2019-src-examples",
+        "kind": "press_src_explainer",
+        "source_url": "https://impress.am/en/news/avtomekena-nermucogneri-hamar-pek-haytararutyun",
+        "source_name": "impress.am, 2019, publishing an SRC statement for car importers",
+        "published": "2019",
+        "fetched": "2026-10-26",
+        "evidence": "Հետևաբար վճարման ենթակա գումարը կկազմի 6250 եվրոյին համարժեք դրամ … Միևնույն 7800 եվրո արժեքով, բայց 1600 խորանարդ սանտիմետր աշխատանքային ծավալով … ՄԴ = 7800€ x 54% = 4212 եվրո",
+        "evidence_en": "A car under 3 years worth €7,800: with 2500 cm³ the payment is €6,250 (the €2.5/cm³ minimum); with 1600 cm³ it is €4,212 (54% of value).",
+        "car": {
+          "name": "hypothetical cars under 3 years",
+          "year": null,
+          "engine_cc": [
+            2500,
+            1600
+          ],
+          "fuel": "not stated",
+          "origin": "third country"
+        },
+        "published_amounts": {
+          "unified_eur": [
+            6250,
+            4212
+          ]
+        },
+        "test_input": null,
+        "assumptions": [
+          "Asserted exactly in tests/car-customs.test.ts ('SRC's own worked examples')."
+        ],
+        "verdict": "match",
+        "comparison": "€6,250 and €4,212 both reproduced exactly (asserted in tests)."
+      },
+      {
+        "id": "brokers-am-2024-rates",
+        "kind": "broker_claim",
+        "source_url": "https://brokers.am/blog/meqenaneri-gner-2024",
+        "source_name": "brokers.am blog, 2024 car-import rates",
+        "published": "2024",
+        "fetched": "2026-10-26",
+        "evidence": "որոնց արժեքը չի գերազանցում 8500 եվրոյին համարժեք դրամը-2,5 եվրո 1 խորանարդ սմ-ի համար ։ … 169.000 եվրոյին համարժեք դրամը- 20 եվրո 1 խորանարդ սմ-ի համար։",
+        "evidence_en": "For cars under 3 years the page lists only the per-cm³ minimums (€2.5 … €20) by value tier and omits the 54% / 48% of value that applies when it is higher.",
+        "test_input": null,
+        "verdict": "mismatch",
+        "comparison": "Incomplete rule: for cars up to 3 years the payment is the LARGER of 54%/48% of value and the per-cm³ minimum. Using only the minimum under-states it whenever the car is expensive for its engine: a €100,000 car with 2000 cm³ pays 48% = €48,000 (official calculator: 19,397,280 AMD), not the €15,000 the brokers.am rule gives."
+      },
+      {
+        "id": "alkadycars-dubai",
+        "kind": "broker_claim",
+        "source_url": "https://www.alkadycars.com/how-to-import-cars-from-dubai-to-armenia/",
+        "source_name": "Alkady Cars (Dubai exporter), import guide",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "For new cars with a CIF value exceeding USD 20,000, the customs duty is 20%, while for used cars with a CIF value exceeding USD 10,000, it is 40%. Additionally, there is a 20% Value Added Tax (VAT) applicable on the car's landed cost (CIF value plus customs duty).",
+        "evidence_en": "(English original)",
+        "test_input": null,
+        "verdict": "mismatch",
+        "comparison": "No 20%/40% CIF thresholds exist in the EAEU tariff or in the personal-use rates. New cars pay 15% (12.5% above 2800 cm³) commercially; used cars 20% with a per-cm³ minimum or a flat EUR/cm³; individuals pay the unified rate."
+      },
+      {
+        "id": "edrive-ev-2026",
+        "kind": "broker_claim",
+        "source_url": "https://edrive.am/en/blog/Importing-an-EV-to-Armenia-What-You-Need-to-Know",
+        "source_name": "eDrive.am blog, 2026",
+        "published": "2026",
+        "fetched": "2026-10-26",
+        "evidence": "If your vehicle falls within this 15,000-unit quota, permanent residents of Armenia pay 0% customs duty. … The 20% VAT exemption applies only to electric vehicles manufactured after December 31, 2023. … Missing the quota means paying a 15% customs duty.",
+        "evidence_en": "(English original)",
+        "test_input": null,
+        "verdict": "partial_match",
+        "comparison": "VAT exemption rule (produced after 2023-12-31) and the 15% duty outside the quota match. The quota figure is outdated (raised to 20,000 by EEC Council Decision 79/2026; the non-dealer part was exhausted on 2026-10-10)."
+      },
+      {
+        "id": "mycars-camry-2023",
+        "kind": "broker_price_card",
+        "source_url": "https://mycars.am/",
+        "source_name": "MyCars broker home page",
+        "published": null,
+        "fetched": "2026-10-26",
+        "evidence": "2023 Toyota Camry SE / Copart / Ներմուծված է Հայաստան / Գնվել է աճուրդից $12,500 / Արժեքը Հայաստանում $21,300",
+        "evidence_en": "2023 Camry SE bought at auction for $12,500; 'value in Armenia' $21,300. No customs line, no engine volume.",
+        "test_input": null,
+        "verdict": "unusable",
+        "comparison": "No customs line and no engine volume; the same page shows near-identical figures for a 2022 BMW X5, 2021 Mercedes GLC 300 and 2022 Audi Q5, so the card looks like placeholder marketing."
+      }
+    ]
+  },
+  "_open_questions": {
+    "count": 12,
+    "items": [
+      {
+        "path": "customs_value_and_age.customs_value_personal",
+        "reason": "EAEU Customs Code art. 267 excludes transport and insurance from personal-use value; SRC's car page says they are included up to the Armenian border. Matters for cars up to 3 years and for the environmental tax."
+      },
+      {
+        "path": "environmental_tax.age_counting",
+        "reason": "SRC calculator counts exact age; SRC FAQ (2023) counts to the year of clearance. Followed the calculator."
+      },
+      {
+        "path": "tariff_duty.hybrid",
+        "reason": "Commercial hybrid rate depends on whether the combustion engine out-powers the electric motor's 30-minute rating; the calculator always assumes not (15%)."
+      },
+      {
+        "path": "electric_vehicles.duty_quota_status",
+        "reason": "Quota exhaustion known only from a TASS report quoting SRC (13.10.2026)."
+      },
+      {
+        "path": "electric_vehicles.environmental_tax_applies",
+        "reason": "No explicit SRC statement; statute reading plus calculator behaviour."
+      },
+      {
+        "path": "eaeu_vs_third_country.eaeu_payments",
+        "reason": "Whether an individual's first EAEU car of the year owes environmental tax is not stated anywhere found."
+      },
+      {
+        "path": "vat.eaeu_personal_threshold",
+        "reason": "Start date of amendment 809-Ն (the 8703 row) not found."
+      },
+      {
+        "path": "excise",
+        "reason": "ՀՕ-295-Ն amends the excise list from 2027-02-01; text not read."
+      },
+      {
+        "path": "tariff_duty.petrol",
+        "reason": "Off-road vehicles and motorhomes have separate new-car lines; not modelled."
+      },
+      {
+        "path": "fees.customs_state_duty",
+        "reason": "Whether individuals clearing through a broker are charged the goods-declaration fee instead of the passenger one is not settled by the law."
+      },
+      {
+        "path": "electric_vehicles.duty_quota_2026",
+        "reason": "EEC decisions 111/2025 and 79/2026 read from reprints, not the official EEC portal."
+      },
+      {
+        "path": "recent_changes[6]",
+        "reason": "2027 EV VAT change is an unadopted draft."
+      }
+    ]
+  },
+  "_conflicts": {
+    "count": 4,
+    "items": [
+      {
+        "path": "environmental_tax.rates",
+        "resolution": "Tax Code (2/4/6/12/24% from 2024-06-01) over the SRC FAQ of 2023 (0/2/10/20%)."
+      },
+      {
+        "path": "environmental_tax.age_counting",
+        "resolution": "Followed the SRC calculator (exact age) over the SRC FAQ (calendar year). Unresolved in law."
+      },
+      {
+        "path": "customs_value_and_age.customs_value_personal",
+        "resolution": "Unresolved; the library takes the value as an input."
+      },
+      {
+        "path": "tariff_duty.hybrid",
+        "resolution": "Law needs the power comparison; library defaults to the calculator's assumption and warns."
+      }
+    ]
+  }
+}
