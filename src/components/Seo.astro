@@ -23,7 +23,11 @@ interface Props {
   pageKey: string;
   title: string;
   description: string;
-  /** Absolute or site-relative image for og:image. */
+  /**
+   * Absolute or site-relative image for og:image. There is no default share
+   * image yet, so pages without one emit no image tags rather than a link
+   * to a missing file.
+   */
   image?: string;
   /** Set on pages that should not be indexed (e.g. the root redirect). */
   noindex?: boolean;
@@ -34,7 +38,7 @@ const {
   pageKey,
   title,
   description,
-  image = "/og-default.png",
+  image,
   noindex = false,
 } = Astro.props;
 
@@ -43,7 +47,7 @@ const site = Astro.site ?? new URL("http://localhost:4321");
 
 const canonical = canonicalUrl(site, Astro.url.pathname);
 const alternates = alternatesFor(site, pageKey);
-const ogImage = new URL(image, site).href;
+const ogImage = image ? new URL(image, site).href : undefined;
 const siteName = t("site.name", locale);
 ---
 
@@ -69,7 +73,7 @@ const siteName = t("site.name", locale);
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta property="og:image" content={ogImage} />
+{ogImage && <meta property="og:image" content={ogImage} />}
 <meta property="og:locale" content={ogLocale(locale)} />
 {
   ogAlternateLocales(locale).map((alt) => (
@@ -78,10 +82,10 @@ const siteName = t("site.name", locale);
 }
 
 {/* Twitter */}
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={ogImage} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
 
 <meta http-equiv="content-language" content={HTML_LANG[locale]} />
 

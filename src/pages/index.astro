@@ -3,10 +3,9 @@
  * The bare root. It has no content: it only sends visitors to the default
  * locale.
  *
- * On Cloudflare Pages, public/_redirects should serve a 302 at the edge before
- * this file is reached. This page is the fallback for anything that bypasses
- * that rule, and for `astro preview` locally. It is marked noindex so the two
- * mechanisms can never compete for the same URL in search results.
+ * GitHub Pages cannot send HTTP redirects, so this page does it with a
+ * 0-second refresh. It is marked noindex so it never competes with the
+ * locale home pages in search results.
  */
 import { DEFAULT_LOCALE } from "../i18n/config.ts";
 import { HOME_KEY, pathFor } from "../i18n/routes.ts";

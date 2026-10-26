@@ -94,12 +94,19 @@ export function enabledRoutes(): PageRoute[] {
 }
 
 /**
+ * The site's base path with a trailing slash: "/" on a custom domain, or
+ * "/hashvich/" on a GitHub Pages project address. Astro sets BASE_URL from
+ * `base` in astro.config.mjs; outside Astro (the tests) it is "/".
+ */
+export const BASE_PATH: string = (import.meta.env?.BASE_URL ?? "/").replace(/\/?$/, "/");
+
+/**
  * Path for a page in a locale, always absolute and always with a
  * trailing slash, e.g. "/ru/" or "/hy/ashxatavardzi-hashvich/".
  */
 export function pathFor(key: string, locale: Locale): string {
   const slug = getRoute(key).slugs[locale];
-  return slug ? `/${locale}/${slug}/` : `/${locale}/`;
+  return slug ? `${BASE_PATH}${locale}/${slug}/` : `${BASE_PATH}${locale}/`;
 }
 
 /** Every locale's path for one page, for hreflang alternates. */

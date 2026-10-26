@@ -4,10 +4,11 @@
  */
 
 import type { APIRoute } from "astro";
+import { BASE_PATH } from "../i18n/routes.ts";
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site ?? new URL("http://localhost:4321");
-  const sitemap = new URL("sitemap-index.xml", origin).href;
+  const sitemap = new URL(`${BASE_PATH}sitemap-index.xml`, origin).href;
 
   const body = [
     "User-agent: *",

@@ -2,9 +2,9 @@
 /**
  * The salary calculator page.
  *
- * Section order follows the spec: H1, calculator, how it is calculated,
- * worked examples, FAQ, related calculators, sources with last-updated, and
- * the disclaimer.
+ * Section order follows the spec: H1, calculator with the result, how it is
+ * calculated, worked examples, FAQ, related calculators, last updated,
+ * sources, and the disclaimer.
  */
 import type { Locale } from "../../i18n/config.ts";
 import { HOME_KEY, ROUTES, pathFor } from "../../i18n/routes.ts";
@@ -177,6 +177,38 @@ const breadcrumbSchema = {
       </div>
     </section>
 
+    <section class="reveal" aria-labelledby="related">
+      <h2 id="related">{p("related.heading")}</h2>
+      <div class="related" data-stagger>
+        {
+          related.map((route) => {
+            const name = tt(`calculators.${route.key}.name`, copy);
+            const summary = tt(`calculators.${route.key}.summary`, copy);
+            return route.enabled ? (
+              <a class="related-cell reveal" href={pathFor(route.key, locale)}>
+                <Card surface="parchment" interactive>
+                  <h3>{name}</h3>
+                  <p>{summary}</p>
+                </Card>
+              </a>
+            ) : (
+              <div class="related-cell reveal">
+                <Card surface="white">
+                  <Tag>{tt("common.comingSoon", copy)}</Tag>
+                  <h3>{name}</h3>
+                  <p>{summary}</p>
+                </Card>
+              </div>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <p class="updated reveal">
+      <strong>{p("sources.lastUpdated")}:</strong> <time datetime={LAST_VERIFIED}>{lastUpdated}</time>
+    </p>
+
     <section class="reveal" aria-labelledby="sources">
       <h2 id="sources">{p("sources.heading")}</h2>
       <p>{p("sources.intro")}</p>
@@ -216,9 +248,6 @@ const breadcrumbSchema = {
           ))
         }
       </ul>
-      <p class="updated">
-        <strong>{p("sources.lastUpdated")}:</strong> <time datetime={LAST_VERIFIED}>{lastUpdated}</time>
-      </p>
     </section>
 
     <section class="reveal disclaimer" aria-labelledby="disclaimer">
@@ -229,33 +258,6 @@ const breadcrumbSchema = {
       </ul>
     </section>
 
-    <section class="reveal" aria-labelledby="related">
-      <h2 id="related">{p("related.heading")}</h2>
-      <div class="related" data-stagger>
-        {
-          related.map((route) => {
-            const name = tt(`calculators.${route.key}.name`, copy);
-            const summary = tt(`calculators.${route.key}.summary`, copy);
-            return route.enabled ? (
-              <a class="related-cell reveal" href={pathFor(route.key, locale)}>
-                <Card surface="parchment" interactive>
-                  <h3>{name}</h3>
-                  <p>{summary}</p>
-                </Card>
-              </a>
-            ) : (
-              <div class="related-cell reveal">
-                <Card surface="white">
-                  <Tag>{tt("common.comingSoon", copy)}</Tag>
-                  <h3>{name}</h3>
-                  <p>{summary}</p>
-                </Card>
-              </div>
-            );
-          })
-        }
-      </div>
-    </section>
   </article>
 </BaseLayout>
 
@@ -479,7 +481,7 @@ const breadcrumbSchema = {
   }
 
   .updated {
-    margin-top: var(--spacing-24);
+    margin-top: var(--section-gap-min);
     font-size: var(--text-body-sm);
   }
 

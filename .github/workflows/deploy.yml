@@ -1,0 +1,93 @@
+# Test, build and publish the site to GitHub Pages on every push to main,
+# then run a mobile Lighthouse audit against the published pages.
+#
+# The site address comes from the repository's Pages settings: the
+# knarhar.github.io/hashvich/ address until a custom domain is set there,
+# then the custom domain. Nothing needs changing here when the domain moves.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push cancels a queued older one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run check
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - run: npm run build
+        env:
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  lighthouse:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Audit the salary page in every language (mobile)
+        env:
+          PAGE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          mkdir -p reports
+          echo "| Page | Performance | Accessibility | Best practices | SEO |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          for path in en/salary-calculator ru/kalkulyator-zarplaty hy/ashxatavardzi-hashvich; do
+            name="${path%%/*}"
+            npx --yes lighthouse@12 "${PAGE_URL%/}/${path}/" \
+              --quiet --form-factor=mobile \
+              --chrome-flags="--headless=new --no-sandbox" \
+              --only-categories=performance,accessibility,best-practices,seo \
+              --output=json --output=html --output-path="reports/${name}"
+            node -e '
+              const r = require(process.argv[1]);
+              const s = (k) => Math.round(r.categories[k].score * 100);
+              console.log(`| ${process.argv[2]} | ${s("performance")} | ${s("accessibility")} | ${s("best-practices")} | ${s("seo")} |`);
+            ' "$PWD/reports/${name}.report.json" "$path" >> "$GITHUB_STEP_SUMMARY"
+          done
+          cat "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: reports

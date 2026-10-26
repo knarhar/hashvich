@@ -26,7 +26,7 @@
       "description": "Work out take-home pay in Armenia for {year}: income tax at {rate}, pension contribution, stamp payment and health insurance. Step-by-step breakdown with links to the law.",
       "breadcrumb": "Salary calculator",
       "h1": "Armenia salary tax calculator {year}",
-      "intro": "Enter a gross monthly salary and this calculator shows the net pay left after every mandatory withholding: income tax, the funded pension contribution, the stamp payment and the health insurance premium. Every figure comes from the law, and the sources are listed at the foot of the page.",
+      "intro": "Enter a gross monthly salary and this gross-to-net calculator shows the net pay left after every mandatory withholding: income tax, the funded pension contribution, the stamp payment and the health insurance premium. Every figure comes from the law, and the sources are listed at the foot of the page.",
       "calculator": {
         "legend": "Calculation inputs",
         "grossLabel": "Gross monthly salary",
