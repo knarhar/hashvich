@@ -1,0 +1,62 @@
+---
+/**
+ * The page shell: <head> via Seo, header, main, footer.
+ *
+ * Every page passes its `pageKey` so canonical, hreflang and the language
+ * switcher all resolve from the same route registry.
+ */
+import type { Locale } from "../i18n/config.ts";
+import { HTML_LANG, LOCALE_SCRIPT } from "../i18n/config.ts";
+import { t } from "../i18n/utils.ts";
+import Seo from "../components/Seo.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { locale, pageKey, title, description, noindex = false } = Astro.props;
+
+// Preload only the font the page's own script needs. The other subsets stay
+// lazy behind their unicode-range.
+const preloadFont =
+  LOCALE_SCRIPT[locale] === "armenian"
+    ? "/fonts/noto-sans-armenian.woff2"
+    : "/fonts/noto-sans-latin.woff2";
+---
+
+<!doctype html>
+<html lang={HTML_LANG[locale]}>
+  <head>
+    <Seo
+      locale={locale}
+      pageKey={pageKey}
+      title={title}
+      description={description}
+      noindex={noindex}
+    />
+    <link
+      rel="preload"
+      href={preloadFont}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t("nav.skipToContent", locale)}</a>
+    <Header locale={locale} pageKey={pageKey} />
+    <main id="main" class="container-page">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

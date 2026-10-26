@@ -1,0 +1,32 @@
+---
+/**
+ * The bare root. It has no content: it only sends visitors to the default
+ * locale.
+ *
+ * On Cloudflare Pages, public/_redirects should serve a 302 at the edge before
+ * this file is reached. This page is the fallback for anything that bypasses
+ * that rule, and for `astro preview` locally. It is marked noindex so the two
+ * mechanisms can never compete for the same URL in search results.
+ */
+import { DEFAULT_LOCALE } from "../i18n/config.ts";
+import { HOME_KEY, pathFor } from "../i18n/routes.ts";
+
+const target = pathFor(HOME_KEY, DEFAULT_LOCALE);
+const site = Astro.site ?? new URL("http://localhost:4321");
+const canonical = new URL(target, site).href;
+---
+
+<!doctype html>
+<html lang={DEFAULT_LOCALE}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, follow" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={canonical} />
+    <title>{target}</title>
+  </head>
+  <body>
+    <a href={target}>{target}</a>
+  </body>
+</html>

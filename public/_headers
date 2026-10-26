@@ -1,0 +1,21 @@
+# Cloudflare Pages headers.
+# Syntax: a path pattern, then indented header lines.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
+
+# Fonts are content-hashed by name and never change in place.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Astro writes hashed filenames into _astro, so these are immutable too.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML should revalidate so a redeploy is picked up straight away.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

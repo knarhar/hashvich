@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects.
+# The bare root has no content of its own; send it to the default locale.
+# 302 rather than 301: the default locale is a product decision that may
+# change, and a cached 301 would be hard to take back.
+/    /ru/    302

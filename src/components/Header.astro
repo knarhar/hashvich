@@ -1,0 +1,85 @@
+---
+import type { Locale } from "../i18n/config.ts";
+import { HOME_KEY, enabledRoutes, pathFor } from "../i18n/routes.ts";
+import { t } from "../i18n/utils.ts";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+
+// Only built pages appear in navigation; reserved routes stay hidden.
+const navRoutes = enabledRoutes().filter((r) => r.key !== HOME_KEY);
+---
+
+<header class="site-header">
+  <div class="container-page bar">
+    <a class="wordmark" href={pathFor(HOME_KEY, locale)}>{t("site.name", locale)}</a>
+
+    <div class="right">
+      {
+        navRoutes.length > 0 && (
+          <nav aria-label={t("nav.home", locale)}>
+            <ul>
+              {navRoutes.map((route) => (
+                <li>
+                  <a href={pathFor(route.key, locale)}>
+                    {t(`calculators.${route.key}.name`, locale)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+      <LanguageSwitcher locale={locale} pageKey={pageKey} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-ash);
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-16);
+    padding-block: var(--spacing-20);
+  }
+
+  .wordmark {
+    font-size: var(--text-subheading);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: -0.03em;
+    color: var(--color-off-black-ink);
+    text-decoration: none;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-16);
+  }
+
+  .right nav ul {
+    display: flex;
+    gap: var(--spacing-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .right nav a {
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-off-black-ink);
+    text-decoration: none;
+  }
+</style>

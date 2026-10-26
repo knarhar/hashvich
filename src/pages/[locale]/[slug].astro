@@ -1,0 +1,47 @@
+---
+/**
+ * Routes every non-home page, in every locale.
+ *
+ * Slugs are localized, so a single Astro file cannot be named after them.
+ * Instead this one route generates (locale, slug) pairs from the registry in
+ * src/i18n/routes.ts and hands off to the component for that page key.
+ *
+ * Adding a calculator means flipping `enabled` in the registry and adding one
+ * entry to PAGE_COMPONENTS below.
+ *
+ * Note: `getStaticPaths` is evaluated in isolation during the build, so it
+ * must not reference PAGE_COMPONENTS or anything else that pulls in a
+ * component module. It reads only the plain data registry.
+ */
+import type { GetStaticPaths } from "astro";
+import { LOCALES, type Locale } from "../../i18n/config.ts";
+import { enabledRoutes, HOME_KEY } from "../../i18n/routes.ts";
+import SalaryPage from "../../components/pages/SalaryPage.astro";
+
+export const getStaticPaths: GetStaticPaths = () =>
+  enabledRoutes()
+    .filter((route) => route.key !== HOME_KEY)
+    .flatMap((route) =>
+      LOCALES.map((locale) => ({
+        params: { locale, slug: route.slugs[locale] },
+        props: { pageKey: route.key },
+      })),
+    );
+
+const PAGE_COMPONENTS: Record<string, typeof SalaryPage> = {
+  salary: SalaryPage,
+};
+
+const { pageKey } = Astro.props as { pageKey: string };
+const locale = Astro.params.locale as Locale;
+
+const Page = PAGE_COMPONENTS[pageKey];
+if (!Page) {
+  // A route marked `enabled` with no component would otherwise render blank.
+  throw new Error(
+    `Route "${pageKey}" is enabled in src/i18n/routes.ts but has no component in PAGE_COMPONENTS.`,
+  );
+}
+---
+
+<Page locale={locale} pageKey={pageKey} />

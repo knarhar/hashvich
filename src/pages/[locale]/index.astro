@@ -1,0 +1,142 @@
+---
+/**
+ * Home page for every locale: /ru/, /hy/, /en/.
+ *
+ * One file serves all three; the locale comes from the route parameter, and
+ * all text comes from src/i18n/locales/*.json.
+ */
+import { LOCALES, type Locale } from "../../i18n/config.ts";
+import { HOME_KEY, ROUTES, pathFor } from "../../i18n/routes.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import JsonLd from "../../components/JsonLd.astro";
+import Card from "../../components/ui/Card.astro";
+import Tag from "../../components/ui/Tag.astro";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const t = useTranslations(locale);
+
+const site = Astro.site ?? new URL("http://localhost:4321");
+
+// Every calculator, built or not: reserved ones render as "coming soon".
+const calculators = ROUTES.filter((r) => r.key !== HOME_KEY);
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: t("site.name"),
+  description: t("pages.home.description"),
+  url: new URL(pathFor(HOME_KEY, locale), site).href,
+  inLanguage: locale,
+};
+---
+
+<BaseLayout
+  locale={locale}
+  pageKey={HOME_KEY}
+  title={`${t("pages.home.title")} — ${t("site.name")}`}
+  description={t("pages.home.description")}
+>
+  <JsonLd slot="head" schema={websiteSchema} />
+
+  <section class="hero">
+    <Tag variant="inline">{t("site.tagline")}</Tag>
+    <h1>{t("pages.home.heading")}</h1>
+    <p class="intro">{t("pages.home.intro")}</p>
+  </section>
+
+  <section class="grid" aria-label={t("pages.home.heading")}>
+    {
+      calculators.map((route) => {
+        const name = t(`calculators.${route.key}.name`);
+        const summary = t(`calculators.${route.key}.summary`);
+        return route.enabled ? (
+          <a class="cell" href={pathFor(route.key, locale)}>
+            <Card surface="parchment">
+              <h2>{name}</h2>
+              <p>{summary}</p>
+            </Card>
+          </a>
+        ) : (
+          <div class="cell">
+            <Card surface="white">
+              <Tag>{t("common.comingSoon")}</Tag>
+              <h2>{name}</h2>
+              <p>{summary}</p>
+            </Card>
+          </div>
+        );
+      })
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+    padding-block: var(--spacing-60) var(--spacing-40);
+  }
+
+  .hero h1 {
+    /* Mobile-first: the 60px/90px display sizes come in at wider viewports. */
+    font-size: var(--text-heading);
+    line-height: var(--text-heading--line-height);
+  }
+
+  .intro {
+    max-width: 52ch;
+    color: var(--color-graphite);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--spacing-20);
+    padding-bottom: var(--spacing-80);
+    grid-template-columns: 1fr;
+  }
+
+  .cell {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cell :global(h2) {
+    margin-top: var(--spacing-12);
+    font-size: var(--text-subheading);
+    line-height: var(--text-subheading--line-height);
+  }
+
+  .cell :global(p) {
+    margin-top: var(--spacing-8);
+    font-size: var(--text-body-sm);
+    color: var(--color-graphite);
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      padding-block: var(--spacing-80) var(--spacing-60);
+    }
+
+    .hero h1 {
+      font-size: var(--text-heading-lg);
+      line-height: var(--text-heading-lg--line-height);
+    }
+
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-24);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

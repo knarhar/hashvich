@@ -1,0 +1,166 @@
+{
+  "_meta": {
+    "reviewStatus": "ready",
+    "reviewNote": "English copy written against the target keywords in docs/keywords.md."
+  },
+  "site": {
+    "name": "Hashvich",
+    "tagline": "Salary, taxes, car customs, exchange rates and transfer fees"
+  },
+  "nav": {
+    "home": "Home",
+    "skipToContent": "Skip to content",
+    "switchLanguage": "Language"
+  },
+  "pages": {
+    "home": {
+      "title": "Calculators for Armenia",
+      "description": "Work out net salary, sole proprietor tax, car import customs, currency conversion and money transfer fees under the rules in force.",
+      "heading": "Calculators for Armenia",
+      "intro": "Plain calculations from the official rules. Every value cites its source."
+    },
+    "salary": {
+      "title": "Armenia Salary Tax Calculator {year}",
+      "description": "Work out take-home pay in Armenia for {year}: income tax at {rate}, pension contribution, stamp payment and health insurance. Step-by-step breakdown with links to the law.",
+      "breadcrumb": "Salary calculator",
+      "h1": "Armenia salary tax calculator {year}",
+      "intro": "Enter a gross monthly salary and this calculator shows the net pay left after every mandatory withholding: income tax, the funded pension contribution, the stamp payment and the health insurance premium. Every figure comes from the law, and the sources are listed at the foot of the page.",
+      "calculator": {
+        "legend": "Calculation inputs",
+        "grossLabel": "Gross monthly salary",
+        "grossHint": "The amount before tax, as written in the employment contract.",
+        "pensionLabel": "Pays the funded pension contribution",
+        "pensionHint": "Mandatory for employees born on or after 1 January 1974.",
+        "regimeLabel": "Income tax rate",
+        "regimeStandard": "Standard ({rate})",
+        "regimeRd": "Research and development ({rdRate})",
+        "regimeHint": "The reduced rate applies only to staff engaged in R&D work with a positive opinion from the professional commission.",
+        "resultHeading": "Result",
+        "netLabel": "Take-home pay",
+        "netAria": "Monthly take-home pay",
+        "grossSummary": "Gross",
+        "totalLabel": "Total withheld",
+        "effectiveLabel": "Share withheld",
+        "deductions": {
+          "incomeTax": "Income tax",
+          "pension": "Pension contribution",
+          "stamp": "Stamp payment",
+          "health": "Health insurance"
+        },
+        "exempt": "not withheld",
+        "capNote": "Base capped at {pensionCap}",
+        "recalculate": "Recalculate",
+        "jsNote": "The result updates as you change the amount."
+      },
+      "howItWorks": {
+        "heading": "How take-home pay is calculated",
+        "intro": "All four withholdings are taken from the gross salary. One detail matters: the pension contribution, stamp payment and health premium do not reduce the income tax base, so income tax is charged on the whole gross amount.",
+        "steps": [
+          "Income tax: {rate} of gross salary.",
+          "Funded pension contribution: {pensionLowerRate} where salary is up to {pensionLowerBandMax}; above that, {pensionUpperRate} minus {pensionDeduction}. The base is capped at {pensionCap} (15 times the {minWage} minimum wage), so the contribution can never exceed {pensionMax}.",
+          "Stamp payment: {stampLow} where salary is up to {stampThreshold}, and {stampHigh} above it.",
+          "Health insurance: {healthReduced} where salary runs from {healthNoneNext} to {healthReducedMax}, with the state paying the rest, and {healthFull} above that. Employees earning up to {healthNone} have nothing withheld in {year}.",
+          "Take-home pay = gross salary minus those four amounts."
+        ],
+        "note": "Rounding: no rounding rule was found in any of the laws, so the calculator does not round intermediate amounts."
+      },
+      "examples": {
+        "heading": "Worked examples",
+        "intro": "Three typical salaries. These run through the same code as the calculator above.",
+        "caseLabel": "Salary of {gross}",
+        "netLabel": "Take-home",
+        "totalLabel": "Withheld"
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "q": "How much tax is withheld from a salary in Armenia in {year}?",
+            "a": "Four payments come out of a salary: income tax at {rate}, the funded pension contribution, the stamp payment and the health insurance premium. The total depends on the amount: on a salary of {exampleLowGross} the take-home pay is {exampleLowNet}, and on {exampleMidGross} it is {exampleMidNet}."
+          },
+          {
+            "q": "What is the income tax rate in Armenia?",
+            "a": "{rate}. It is a flat rate with no progressive scale and no tax-free allowance, in force since 1 January 2023. Before that it stepped down year by year: 23% in 2020, 22% in 2021 and 21% in 2022."
+          },
+          {
+            "q": "What is the stamp payment and how much is it?",
+            "a": "It funds compensation for injured servicemen. From 1 January {year} it is {stampLow} a month where salary is up to {stampThreshold}, and {stampHigh} above that. It used to be a five-step scale from 1,500 to 15,000 dram, so if another site shows those figures, it is out of date."
+          },
+          {
+            "q": "Who pays the funded pension contribution?",
+            "a": "It is mandatory for employees born on or after 1 January 1974. Those born earlier may opt in voluntarily, but the choice cannot be reversed. The rate is {pensionLowerRate} on salary up to {pensionLowerBandMax}, and {pensionUpperRate} minus {pensionDeduction} above that. The state adds up to {pensionDeduction} a month to your account, and that top-up does not reduce your take-home pay."
+          },
+          {
+            "q": "Why does the pension contribution stop growing on a high salary?",
+            "a": "The base is capped at 15 times the minimum monthly wage. With the minimum wage at {minWage}, that cap is {pensionCap} a month. Nothing is charged on the excess, so the contribution tops out at {pensionMax} however much you earn. If you have more than one job, the cap applies to your combined income from all employers."
+          },
+          {
+            "q": "What is the {healthReduced} and {healthFull} health insurance premium?",
+            "a": "The full premium is {healthFull} a month. On a salary from {healthNoneNext} to {healthReducedMax} the employee pays {healthReduced} and the state budget covers the rest. Above {healthReducedMax} the employee pays the whole premium. On a salary up to {healthNone}, nothing is withheld in {year} yet."
+          },
+          {
+            "q": "Do IT workers really pay {rdRate} instead of {rate}?",
+            "a": "A reduced {rdRate} rate exists, but it is not the one usually described. The relief for companies holding an IT certificate ended on 31 December 2024. Since 2025 a different relief applies, for staff engaged in research and development, conditional on a positive opinion from the professional commission and on the occupation appearing in the government's high-tech list. It is legislated to run to the end of 2031."
+          },
+          {
+            "q": "What changes in 2027?",
+            "a": "Under the adopted text of the law, the reduced {healthReduced} employee share ends on 1 January 2027: every employee will pay the full {healthFull}, including those earning up to {healthNone}. A draft amendment that would keep the reduced share was under discussion in autumn {year}, but it had not been adopted when this data was verified."
+          }
+        ]
+      },
+      "related": {
+        "heading": "Other calculators"
+      },
+      "sources": {
+        "heading": "Sources",
+        "intro": "Every value in the calculator is taken from the law as currently consolidated. Here is what came from where.",
+        "effectiveFrom": "in force from",
+        "lastUpdated": "Data verified",
+        "openLaw": "Open the law"
+      },
+      "disclaimer": {
+        "heading": "Please note",
+        "text": "This is an advisory calculation, not tax advice, and not a substitute for your payslip. Your employer's withholdings may differ — for instance if you hold more than one job, started mid-month, or have a court-ordered deduction.",
+        "caveats": [
+          "The pension cap is assessed on income from all employers combined. The calculator sees one salary, so it can overstate the contribution for someone with more than one job.",
+          "For {year} the law says the {healthReduced} health premium is paid by the tax agent. That it comes out of the employee's own pay is confirmed by published guidance rather than by the wording of the law itself.",
+          "The law does not state which month's salary decides between the {healthReduced} and {healthFull} share. The calculator uses the current month's salary from that employer."
+        ]
+      }
+    }
+  },
+  "calculators": {
+    "salary": {
+      "name": "Salary calculator",
+      "summary": "Take-home pay after income tax, pension and other withholdings."
+    },
+    "entrepreneur": {
+      "name": "Sole proprietor tax",
+      "summary": "Turnover tax, micro-enterprise and the general regime compared."
+    },
+    "car-customs": {
+      "name": "Car import customs",
+      "summary": "Duty, VAT and environmental tax on a car brought into Armenia."
+    },
+    "currency": {
+      "name": "Currency converter",
+      "summary": "Dram, dollar, euro and ruble at central bank and bank rates."
+    },
+    "transfers": {
+      "name": "Transfer fees",
+      "summary": "What a transfer really costs, fee and exchange margin together."
+    }
+  },
+  "common": {
+    "comingSoon": "Coming soon",
+    "inDevelopment": "In development",
+    "yes": "Yes",
+    "no": "No",
+    "breadcrumbAria": "Breadcrumb"
+  },
+  "footer": {
+    "disclaimer": "Advisory calculations, not tax advice. Check values against the primary sources.",
+    "sources": "Sources",
+    "lastVerified": "Data verified"
+  }
+}

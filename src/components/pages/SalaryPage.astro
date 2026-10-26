@@ -1,0 +1,528 @@
+---
+/**
+ * The salary calculator page.
+ *
+ * Section order follows the spec: H1, calculator, how it is calculated,
+ * worked examples, FAQ, related calculators, sources with last-updated, and
+ * the disclaimer.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { HOME_KEY, ROUTES, pathFor } from "../../i18n/routes.ts";
+import { tEntries, tList, useTranslations } from "../../i18n/utils.ts";
+import { calculateNetSalary } from "../../lib/salary.ts";
+import { EXAMPLE_SALARIES, salaryCopyParams } from "../../lib/salary-copy.ts";
+import { LAST_VERIFIED, SALARY_SOURCES } from "../../lib/salary-sources.ts";
+import { formatAmd, formatDate } from "../../lib/format.ts";
+import { renderResult } from "../../lib/salary-view.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../Breadcrumbs.astro";
+import JsonLd from "../JsonLd.astro";
+import Card from "../ui/Card.astro";
+import Tag from "../ui/Tag.astro";
+import Calculator from "../salary/Calculator.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+
+const tt = useTranslations(locale);
+const copy = salaryCopyParams(locale);
+const p = (key: string) => tt(`pages.salary.${key}`, copy);
+
+const site = Astro.site ?? new URL("http://localhost:4321");
+const pageUrl = new URL(pathFor(pageKey, locale), site).href;
+
+const title = p("title");
+const description = p("description");
+
+const steps = tList("pages.salary.howItWorks.steps", locale, copy);
+const faq = tEntries<{ q: string; a: string }>("pages.salary.faq.items", locale, copy);
+
+// Worked examples run through the same code as the calculator, so the page
+// cannot quote a figure the calculator would not produce.
+const formulaLabels = {
+  exempt: tt("pages.salary.calculator.exempt", copy),
+  capNote: tt("pages.salary.calculator.capNote", copy),
+};
+const examples = EXAMPLE_SALARIES.map((gross) => ({
+  gross,
+  result: renderResult(calculateNetSalary({ gross }), locale, formulaLabels),
+}));
+
+const related = ROUTES.filter((r) => r.key !== HOME_KEY && r.key !== pageKey);
+
+const crumbs = [
+  { label: tt("nav.home"), href: pathFor(HOME_KEY, locale) },
+  { label: p("breadcrumb") },
+];
+
+const lastUpdated = formatDate(LAST_VERIFIED, locale);
+
+/* ---------- structured data ---------- */
+
+const webApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: title,
+  description,
+  url: pageUrl,
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Any",
+  inLanguage: locale,
+  isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "AMD" },
+  dateModified: LAST_VERIFIED,
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbs.map((crumb, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: crumb.label,
+    ...(crumb.href ? { item: new URL(crumb.href, site).href } : {}),
+  })),
+};
+---
+
+<BaseLayout locale={locale} pageKey={pageKey} title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={webApplicationSchema} />
+    <JsonLd schema={faqSchema} />
+    <JsonLd schema={breadcrumbSchema} />
+  </Fragment>
+
+  <Breadcrumbs locale={locale} crumbs={crumbs} />
+
+  <article>
+    <header class="page-head">
+      <h1>{p("h1")}</h1>
+      <p class="intro">{p("intro")}</p>
+    </header>
+
+    <Calculator locale={locale} />
+
+    <section aria-labelledby="how">
+      <h2 id="how">{p("howItWorks.heading")}</h2>
+      <p>{p("howItWorks.intro")}</p>
+      <ol class="steps">
+        {steps.map((step) => <li>{step}</li>)}
+      </ol>
+      <p class="note">{p("howItWorks.note")}</p>
+    </section>
+
+    <section aria-labelledby="examples">
+      <h2 id="examples">{p("examples.heading")}</h2>
+      <p>{p("examples.intro")}</p>
+      <div class="examples">
+        {
+          examples.map((example) => (
+            <Card surface="white">
+              <Tag>{tt("pages.salary.examples.caseLabel", {
+                ...copy,
+                gross: formatAmd(example.gross, locale),
+              })}</Tag>
+              <dl class="example-rows">
+                {example.result.lines.map((line) => (
+                  <div class="example-row">
+                    <dt>{tt(`pages.salary.calculator.deductions.${line.key}`, copy)}</dt>
+                    <dd>
+                      <span class="formula">{line.formula}</span>
+                      <span class="amount">{line.amount}</span>
+                    </dd>
+                  </div>
+                ))}
+                <div class="example-row sub">
+                  <dt>{p("examples.totalLabel")}</dt>
+                  <dd><span class="amount">{example.result.total}</span></dd>
+                </div>
+                <div class="example-row net">
+                  <dt>{p("examples.netLabel")}</dt>
+                  <dd><span class="amount">{example.result.net}</span></dd>
+                </div>
+              </dl>
+            </Card>
+          ))
+        }
+      </div>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">{p("faq.heading")}</h2>
+      <div class="faq">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>
+                <h3>{item.q}</h3>
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">{p("sources.heading")}</h2>
+      <p>{p("sources.intro")}</p>
+      <ul class="sources">
+        {
+          SALARY_SOURCES.map((source) => (
+            <li>
+              <p class="source-label">
+                {source.labelKey === "minimumWage"
+                  ? tt("pages.salary.howItWorks.heading", copy)
+                  : tt(`pages.salary.calculator.deductions.${source.labelKey}`, copy)}
+              </p>
+              <p class="source-name">{source.sourceName}</p>
+              {source.evidence && <p class="evidence" lang="hy">«{source.evidence}»</p>}
+              <p class="source-meta">
+                {source.effectiveFrom && (
+                  <span>
+                    {p("sources.effectiveFrom")} {formatDate(source.effectiveFrom, locale)}
+                  </span>
+                )}
+                {/*
+                  Five of these links sit on one page with the same visible
+                  words, so each carries the law's name as its accessible
+                  name. Without it the links are indistinguishable to a
+                  screen reader and to search engines.
+                */}
+                <a
+                  href={source.sourceUrl}
+                  rel="nofollow noopener"
+                  target="_blank"
+                  aria-label={`${p("sources.openLaw")}: ${source.sourceName}`}
+                >
+                  {p("sources.openLaw")}
+                </a>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="updated">
+        <strong>{p("sources.lastUpdated")}:</strong> <time datetime={LAST_VERIFIED}>{lastUpdated}</time>
+      </p>
+    </section>
+
+    <section aria-labelledby="disclaimer" class="disclaimer">
+      <h2 id="disclaimer">{p("disclaimer.heading")}</h2>
+      <p>{p("disclaimer.text")}</p>
+      <ul>
+        {tList("pages.salary.disclaimer.caveats", locale, copy).map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section aria-labelledby="related">
+      <h2 id="related">{p("related.heading")}</h2>
+      <div class="related">
+        {
+          related.map((route) => {
+            const name = tt(`calculators.${route.key}.name`, copy);
+            const summary = tt(`calculators.${route.key}.summary`, copy);
+            return route.enabled ? (
+              <a class="related-cell" href={pathFor(route.key, locale)}>
+                <Card surface="parchment">
+                  <h3>{name}</h3>
+                  <p>{summary}</p>
+                </Card>
+              </a>
+            ) : (
+              <div class="related-cell">
+                <Card surface="white">
+                  <Tag>{tt("common.comingSoon", copy)}</Tag>
+                  <h3>{name}</h3>
+                  <p>{summary}</p>
+                </Card>
+              </div>
+            );
+          })
+        }
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  article > section {
+    margin-top: var(--section-gap-min);
+  }
+
+  .page-head {
+    padding-block: var(--spacing-24) var(--spacing-32);
+  }
+
+  h1 {
+    font-size: var(--text-heading);
+    line-height: var(--text-heading--line-height);
+  }
+
+  h2 {
+    font-size: var(--text-subheading);
+    line-height: var(--text-subheading--line-height);
+    margin-bottom: var(--spacing-16);
+  }
+
+  h3 {
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: normal;
+  }
+
+  .intro {
+    margin-top: var(--spacing-16);
+    max-width: 62ch;
+    color: var(--color-graphite);
+  }
+
+  section > p {
+    max-width: 68ch;
+    color: var(--color-graphite);
+  }
+
+  .steps {
+    margin: var(--spacing-20) 0 0;
+    padding-left: var(--spacing-20);
+    display: grid;
+    gap: var(--spacing-12);
+    max-width: 68ch;
+  }
+
+  .steps li {
+    padding-left: var(--spacing-4);
+  }
+
+  .note {
+    margin-top: var(--spacing-16);
+    font-size: var(--text-body-sm);
+    color: var(--color-graphite);
+  }
+
+  /*
+    auto-fit rather than a fixed column count at each breakpoint.
+    A `1fr` track will not shrink below its content's min-width, so three
+    fixed columns overflowed the viewport at 768px once the longest example
+    ("10% × 1 125 000 − 25 000") set the floor. `min(100%, 20rem)` lets a
+    card fall to one column instead of pushing the page wide.
+  */
+  .examples,
+  .related {
+    margin-top: var(--spacing-24);
+    display: grid;
+    gap: var(--spacing-20);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  }
+
+  .examples > *,
+  .related > * {
+    min-width: 0;
+  }
+
+  .example-rows {
+    margin: var(--spacing-16) 0 0;
+    display: grid;
+    gap: var(--spacing-8);
+  }
+
+  .example-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-4) var(--spacing-16);
+    align-items: baseline;
+    font-size: var(--text-body-sm);
+  }
+
+  .example-row dt,
+  .example-row dd {
+    min-width: 0;
+  }
+
+  .example-row dt {
+    color: var(--color-graphite);
+  }
+
+  .example-row dd {
+    margin: 0;
+    display: flex;
+    gap: var(--spacing-12);
+    align-items: baseline;
+  }
+
+  /*
+    Graphite, not Stone. DESIGN.md assigns Stone to "faint borders,
+    decorative strokes - only visible at fine stroke widths"; as 12px text on
+    white it measures 3.19:1, below the 4.5:1 WCAG AA needs. Graphite is the
+    token for de-emphasised text.
+  */
+  .example-row .formula {
+    font-size: var(--text-caption);
+    color: var(--color-graphite);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .example-row .amount {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .example-row.sub {
+    padding-top: var(--spacing-8);
+    border-top: 1px solid var(--color-ash);
+  }
+
+  .example-row.net {
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-off-black-ink);
+  }
+
+  .example-row.net dt {
+    color: var(--color-off-black-ink);
+  }
+
+  .faq {
+    margin-top: var(--spacing-16);
+    max-width: 68ch;
+  }
+
+  details {
+    border-bottom: 1px solid var(--color-ash);
+  }
+
+  summary {
+    padding-block: var(--spacing-16);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-12);
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: "+";
+    flex: none;
+    color: var(--color-graphite);
+  }
+
+  details[open] summary::after {
+    content: "−";
+  }
+
+  details > p {
+    margin: 0 0 var(--spacing-16);
+    max-width: 62ch;
+    color: var(--color-graphite);
+  }
+
+  .sources {
+    margin: var(--spacing-20) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--spacing-20);
+    max-width: 76ch;
+  }
+
+  .sources li {
+    padding-left: var(--spacing-16);
+    border-left: 2px solid var(--color-ash);
+  }
+
+  .source-label {
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .source-name {
+    margin-top: var(--spacing-4);
+    font-size: var(--text-caption);
+    color: var(--color-graphite);
+  }
+
+  /* Graphite for the same contrast reason as .formula above. */
+  .evidence {
+    margin-top: var(--spacing-8);
+    font-size: var(--text-caption);
+    line-height: 1.5;
+    color: var(--color-graphite);
+  }
+
+  .source-meta {
+    margin-top: var(--spacing-8);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-12);
+    font-size: var(--text-caption);
+    color: var(--color-graphite);
+  }
+
+  .updated {
+    margin-top: var(--spacing-24);
+    font-size: var(--text-body-sm);
+  }
+
+  .disclaimer ul {
+    margin: var(--spacing-16) 0 0;
+    padding-left: var(--spacing-20);
+    display: grid;
+    gap: var(--spacing-8);
+    max-width: 68ch;
+    font-size: var(--text-body-sm);
+    color: var(--color-graphite);
+  }
+
+  .related-cell {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .related-cell :global(h3) {
+    margin-top: var(--spacing-12);
+  }
+
+  .related-cell :global(p) {
+    margin-top: var(--spacing-8);
+    font-size: var(--text-body-sm);
+    color: var(--color-graphite);
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: var(--text-heading-lg);
+      line-height: var(--text-heading-lg--line-height);
+    }
+
+    h2 {
+      font-size: var(--text-heading);
+      line-height: var(--text-heading--line-height);
+      letter-spacing: var(--text-heading--letter-spacing);
+    }
+
+    .page-head {
+      padding-block: var(--spacing-40) var(--spacing-40);
+    }
+
+  }
+</style>

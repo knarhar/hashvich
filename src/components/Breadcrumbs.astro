@@ -1,0 +1,69 @@
+---
+/**
+ * Breadcrumb trail. The matching BreadcrumbList JSON-LD is emitted by the
+ * page from the same array, so the markup and the structured data cannot
+ * disagree.
+ */
+import type { Locale } from "../i18n/config.ts";
+import { t } from "../i18n/utils.ts";
+
+export interface Crumb {
+  label: string;
+  /** Absolute path; omitted on the current page. */
+  href?: string;
+}
+
+interface Props {
+  locale: Locale;
+  crumbs: Crumb[];
+}
+
+const { locale, crumbs } = Astro.props;
+---
+
+<nav class="crumbs" aria-label={t("common.breadcrumbAria", locale)}>
+  <ol>
+    {
+      crumbs.map((crumb, i) => (
+        <li>
+          {crumb.href ? (
+            <a href={crumb.href}>{crumb.label}</a>
+          ) : (
+            <span aria-current="page">{crumb.label}</span>
+          )}
+          {i < crumbs.length - 1 && <span class="sep" aria-hidden="true">/</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-caption);
+    color: var(--color-graphite);
+  }
+
+  .crumbs li {
+    display: flex;
+    gap: var(--spacing-8);
+  }
+
+  .crumbs a {
+    color: var(--color-graphite);
+  }
+
+  .crumbs a:hover {
+    color: var(--color-off-black-ink);
+  }
+
+  .crumbs [aria-current="page"] {
+    color: var(--color-off-black-ink);
+  }
+</style>

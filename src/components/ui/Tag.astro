@@ -1,0 +1,35 @@
+---
+/**
+ * Eyebrow label: uppercase micro-type with the 0.1em tracking DESIGN.md
+ * reserves for 10-12px labels.
+ */
+interface Props {
+  /** Pill draws the parchment background; inline is bare text. */
+  variant?: "pill" | "inline";
+  class?: string;
+}
+
+const { variant = "pill", class: className = "" } = Astro.props;
+---
+
+<span class:list={["tag", variant, className]}>
+  <slot />
+</span>
+
+<style>
+  .tag {
+    display: inline-block;
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--text-caption--line-height);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-graphite);
+  }
+
+  .pill {
+    padding: var(--spacing-4) var(--spacing-12);
+    border-radius: var(--radius-tags);
+    background: var(--surface-off-white-card);
+  }
+</style>

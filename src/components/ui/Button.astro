@@ -1,0 +1,57 @@
+---
+/**
+ * The lime pill: DESIGN.md's only filled button, plus a ghost variant for
+ * secondary actions. No second chromatic action color exists in the system.
+ */
+interface Props {
+  variant?: "primary" | "ghost";
+  href?: string;
+  type?: "button" | "submit";
+  class?: string;
+}
+
+const { variant = "primary", href, type = "button", class: className = "" } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={["btn", variant, className]}
+  href={href}
+  type={href ? undefined : type}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-8);
+    padding: var(--spacing-16) var(--spacing-24);
+    border: none;
+    border-radius: var(--radius-buttons);
+    font-family: inherit;
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    /* No box-shadow: the system separates layers by tone, not elevation. */
+  }
+
+  .primary {
+    background: var(--color-electric-lime);
+    color: var(--color-off-black-ink);
+  }
+
+  .ghost {
+    background: transparent;
+    color: var(--color-off-black-ink);
+    padding-inline: var(--spacing-12);
+  }
+
+  .ghost:hover {
+    color: var(--color-graphite);
+  }
+</style>

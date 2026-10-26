@@ -1,0 +1,19 @@
+---
+/**
+ * Emits one JSON-LD block.
+ *
+ * Pass a plain object; this serializes it. Keeping serialization in one place
+ * means the `<` escaping below is applied everywhere structured data is used,
+ * rather than being remembered at each call site.
+ */
+interface Props {
+  schema: Record<string, unknown>;
+}
+
+const { schema } = Astro.props;
+
+// A literal "</script>" inside a JSON string would close the tag early.
+const json = JSON.stringify(schema).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" is:inline set:html={json} />

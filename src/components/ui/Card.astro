@@ -1,0 +1,47 @@
+---
+/**
+ * Surface card. The three variants are the surface levels from DESIGN.md:
+ * parchment, white and the rare dark island. Separation is tonal, never a
+ * shadow.
+ */
+interface Props {
+  surface?: "parchment" | "white" | "dark";
+  class?: string;
+}
+
+const { surface = "parchment", class: className = "" } = Astro.props;
+---
+
+<div class:list={["card", surface, className]}>
+  <slot />
+</div>
+
+<style>
+  .card {
+    padding: var(--card-padding-min);
+    border-radius: var(--radius-cards);
+  }
+
+  @media (min-width: 768px) {
+    .card {
+      padding: var(--card-padding-max);
+    }
+  }
+
+  .parchment {
+    background: var(--surface-off-white-card);
+    color: var(--color-off-black-ink);
+  }
+
+  /* On the white page canvas this needs a hairline to read as a surface. */
+  .white {
+    background: var(--surface-page-canvas);
+    color: var(--color-off-black-ink);
+    border: 1px solid var(--color-ash);
+  }
+
+  .dark {
+    background: var(--surface-dark-island);
+    color: var(--color-off-white-canvas);
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+/**
+ * Dark footer: per DESIGN.md, the only inverted moment on the page.
+ */
+import type { Locale } from "../i18n/config.ts";
+import { t } from "../i18n/utils.ts";
+import taxData from "../data/salary-tax.json" with { type: "json" };
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+// The verification date is read from the data file, never typed by hand.
+const lastVerified = taxData._readme.last_verified;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container-page inner">
+    <p class="disclaimer">{t("footer.disclaimer", locale)}</p>
+    <p class="meta">
+      <span>{t("footer.lastVerified", locale)}: {lastVerified}</span>
+      <span aria-hidden="true">·</span>
+      <span>© {year} {t("site.name", locale)}</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--section-gap-min);
+    background: var(--color-off-black-ink);
+    color: var(--color-off-white-canvas);
+  }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+    padding-block: var(--spacing-80);
+  }
+
+  .disclaimer {
+    max-width: 60ch;
+    font-size: var(--text-body-sm);
+    line-height: var(--text-body--line-height);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-8);
+    font-size: var(--text-caption);
+    color: var(--color-ash);
+  }
+</style>

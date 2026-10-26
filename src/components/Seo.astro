@@ -1,0 +1,94 @@
+---
+/**
+ * Everything that belongs in <head> for one page: title, description,
+ * canonical, hreflang alternates, Open Graph, Twitter, and a slot for
+ * page-specific JSON-LD.
+ *
+ * Canonical and hreflang are both built from src/i18n/routes.ts, so they can
+ * never disagree about a page's URL.
+ */
+import type { Locale } from "../i18n/config.ts";
+import { HTML_LANG } from "../i18n/config.ts";
+import { t } from "../i18n/utils.ts";
+import {
+  alternatesFor,
+  canonicalUrl,
+  ogAlternateLocales,
+  ogLocale,
+} from "../lib/seo.ts";
+
+interface Props {
+  locale: Locale;
+  /** Route key from src/i18n/routes.ts; drives canonical and alternates. */
+  pageKey: string;
+  title: string;
+  description: string;
+  /** Absolute or site-relative image for og:image. */
+  image?: string;
+  /** Set on pages that should not be indexed (e.g. the root redirect). */
+  noindex?: boolean;
+}
+
+const {
+  locale,
+  pageKey,
+  title,
+  description,
+  image = "/og-default.png",
+  noindex = false,
+} = Astro.props;
+
+// Astro.site comes from astro.config.mjs; required for absolute URLs.
+const site = Astro.site ?? new URL("http://localhost:4321");
+
+const canonical = canonicalUrl(site, Astro.url.pathname);
+const alternates = alternatesFor(site, pageKey);
+const ogImage = new URL(image, site).href;
+const siteName = t("site.name", locale);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{noindex && <meta name="robots" content="noindex, follow" />}
+
+{/* hreflang: every locale, plus x-default pointing at the default locale. */}
+{
+  alternates.map((alt) => (
+    <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+  ))
+}
+
+{/* Open Graph */}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={ogLocale(locale)} />
+{
+  ogAlternateLocales(locale).map((alt) => (
+    <meta property="og:locale:alternate" content={alt} />
+  ))
+}
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<meta http-equiv="content-language" content={HTML_LANG[locale]} />
+
+{/*
+  Preconnect is deliberately absent: fonts are self-hosted, so there is no
+  third-party origin to warm up.
+*/}
+
+{/* Page-specific structured data goes here. */}
+<slot name="jsonld" />

@@ -1,0 +1,2625 @@
+{
+  "_readme": {
+    "purpose": "Source-backed Armenian tax data for the salary and sole-proprietor calculators.",
+    "tax_year": 2026,
+    "last_verified": "2026-10-26",
+    "value_format": "Every rule is a 'sourced value' object: {value, unit, applies_to, effective_from, effective_to, source_url, source_name, evidence (original-language quote), evidence_en, last_verified, conflict, conflicting_sources, cross_checks, unsure, unsure_reason}. Never edit a value without replacing its evidence from a primary source.",
+    "rules": [
+      "No value in this file was written from memory. Each one was read from the page named in source_url during the 2026-10-26 research session.",
+      "Primary sources are the consolidated Armenian-language texts on arlis.am. Secondary sources (PwC, b24.am, hrdrone.am, armgate.am) appear only in cross_checks.",
+      "Values with unsure=true must be re-checked before production use. See _open_questions.",
+      "Values with conflict=true carry the competing claim in conflicting_sources."
+    ],
+    "warning": "ADVISORY DATA, NOT TAX ADVICE. Several items are flagged unsure; see _open_questions. Re-verify before relying on this for filings.",
+    "arlis_trap": "Search engines return https://www.arlis.am/hy/acts/150817 for the Tax Code; that is the 2021 edition. The current consolidated edition is https://www.arlis.am/hy/acts/230455."
+  },
+  "_verification": {
+    "note": "Values re-checked by the assembling agent directly against the downloaded primary text, independently of the researching agent.",
+    "checked_2026_10_26": [
+      {
+        "item": "income_tax.standard_rate = 20% from 2023-01-01",
+        "where": "Tax Code art. 150(1) rate table",
+        "result": "confirmed"
+      },
+      {
+        "item": "income_tax R&D reduced rate 10%",
+        "where": "Tax Code art. 150(1.1)",
+        "result": "confirmed"
+      },
+      {
+        "item": "funded_pension 5% / 10% minus 25,000 at the 500,000 boundary",
+        "where": "Funded Pensions Law art. 6(2)(1) points a-b",
+        "result": "confirmed"
+      },
+      {
+        "item": "funded_pension monthly cap = 15x minimum wage (NOT the flat 500,000 that also appears in the law)",
+        "where": "Funded Pensions Law art. 6(6); the 500,000 figure is art. 81(8), applicable only before 2020-07-01",
+        "result": "confirmed; the 500,000 cap is historical"
+      },
+      {
+        "item": "stamp_duty 1,000 up to 1,000,000 and 15,000 above",
+        "where": "Stamp law art. 12(1)(1): five bands retained, first four all 1,000, fifth 15,000; amended 17.12.25 HO-477-N",
+        "result": "confirmed"
+      },
+      {
+        "item": "stamp_duty for IE/notary 12,000 / 120,000",
+        "where": "Stamp law art. 12(1)(2)",
+        "result": "confirmed"
+      },
+      {
+        "item": "health_insurance premium 10,800/month (129,600/year) and the 4,800 employee share up to 500,000 salary",
+        "where": "UHI law art. 13(1) and art. 46(9)(1)",
+        "result": "confirmed"
+      },
+      {
+        "item": "health_insurance: employees up to 200,000 enter only from January of the second year after publication",
+        "where": "UHI law art. 45(1)(6)",
+        "result": "confirmed (gives the 0 band for 2026)"
+      },
+      {
+        "item": "minimum_wage 75,000",
+        "where": "Minimum Wage law art. 1, last amended 07.12.2022 HO-501-N, in force 23.12.2022 to date",
+        "result": "confirmed by re-fetching arlis.am/hy/acts/172160"
+      },
+      {
+        "item": "turnover_tax threshold 115,000,000 (not the 120M claimed by secondary sites)",
+        "where": "Tax Code art. 254/255 and the VAT threshold cross-reference",
+        "result": "confirmed"
+      },
+      {
+        "item": "turnover_tax art. 258 rate table structure and activity categories",
+        "where": "Tax Code art. 258(1) table plus parts 2-5 expense credits",
+        "result": "confirmed"
+      }
+    ],
+    "not_independently_rechecked": "All other values rest on the researching agent's read of the same primary documents. The downloaded source texts are not kept in the repo; re-fetch from source_url to audit."
+  },
+  "_sources": {
+    "primary": {
+      "generated": "2026-10-26",
+      "scope": "Armenia, withholdings from an employee's salary, 2026",
+      "method": "Primary texts downloaded from arlis.am (current consolidated editions identified via each act's change-history list) and parsed; secondary sources used only as cross-checks."
+    },
+    "entrepreneur_primary": {
+      "generated": "2026-10-26",
+      "primary_source": "https://www.arlis.am/hy/acts/230455",
+      "note": "All 2026 values read from the arlis.am consolidated Tax Code edition in force 01.09.2026–present; amendments with later entry into force are listed in pending_changes."
+    }
+  },
+  "employee": {
+    "income_tax": {
+      "standard_rate": {
+        "value": 20,
+        "unit": "percent",
+        "applies_to": "monthly taxable salary (gross salary minus Art. 147 non-taxable items) of resident and non-resident employees; flat, no progressive scale, no personal allowance",
+        "effective_from": "2023-01-01",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1",
+        "evidence": "Art. 150 մաս 1, աղյուսակ: «2023 թվականի հունվարի 1-ից | 20 տոկոս» (նախորդ տողեր՝ 2020՝ 23 տոկոս, 2021՝ 22 տոկոս, 2022՝ 21 տոկոս)",
+        "evidence_en": "Art. 150(1) table: 'from 1 January 2023 - 20 percent' (previous rows: 2020 23%, 2021 22%, 2022 21%). The table has no later row, so 20% applies in 2026.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://hrdrone.am/en/salary-calculator",
+            "source_name": "hrdrone.am salary calculator (2026 rates)",
+            "evidence": "Income tax: 'Any salary' -> 20%"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null
+      },
+      "history": [
+        {
+          "value": 23,
+          "unit": "percent",
+          "applies_to": "salary, flat rate",
+          "effective_from": "2020-01-01",
+          "effective_to": "2020-12-31",
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1 table",
+          "evidence": "«2020 թվականի հունվարի 1-ից | 23 տոկոս»",
+          "evidence_en": "from 1 Jan 2020: 23%",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        },
+        {
+          "value": 22,
+          "unit": "percent",
+          "applies_to": "salary, flat rate",
+          "effective_from": "2021-01-01",
+          "effective_to": "2021-12-31",
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1 table",
+          "evidence": "«2021 թվականի հունվարի 1-ից | 22 տոկոս»",
+          "evidence_en": "from 1 Jan 2021: 22%",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        },
+        {
+          "value": 21,
+          "unit": "percent",
+          "applies_to": "salary, flat rate",
+          "effective_from": "2022-01-01",
+          "effective_to": "2022-12-31",
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1 table",
+          "evidence": "«2022 թվականի հունվարի 1-ից | 21 տոկոս»",
+          "evidence_en": "from 1 Jan 2022: 21%",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        },
+        {
+          "value": 20,
+          "unit": "percent",
+          "applies_to": "salary, flat rate",
+          "effective_from": "2023-01-01",
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1 table",
+          "evidence": "«2023 թվականի հունվարի 1-ից | 20 տոկոս»",
+          "evidence_en": "from 1 Jan 2023: 20% (final step of the schedule; no further step in the table)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        }
+      ],
+      "reduced_regimes": [
+        {
+          "name": "R&D (scientific research and experimental development) staff in high-tech professions - Tax Code Art. 150 part 1.1",
+          "rate": {
+            "value": 10,
+            "unit": "percent",
+            "applies_to": "salary of qualifying R&D staff (see eligibility)",
+            "effective_from": "2025-01-01",
+            "effective_to": "2031-12-31",
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1.1 (added by 04.12.24 ՀՕ-499-Ն)",
+            "evidence": "Art. 150 մաս 1.1: «...վճարվող աշխատավարձից և դրան հավասարեցված այլ վճարումներից եկամտային հարկը հաշվարկում է 10 տոկոս դրույքաչափով» ; ծանոթագրություն՝ «հոդվածը 04.12.24 ՀՕ-499-Ն օրենքի փոփոխության մասով ուժի մեջ է մտնում 2025 թվականի հունվարի 1-ից և գործում է մինչև 2031 թվականի դեկտեմբերի 31-ը»",
+            "evidence_en": "Art. 150(1.1): the tax agent computes income tax at 10% on salary paid to qualifying R&D staff; note: this amendment (ՀՕ-499-Ն) is in force from 1 Jan 2025 and operates until 31 Dec 2031.",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [
+              {
+                "source_url": "https://www.arlis.am/hy/acts/201054",
+                "source_name": "Law ՀՕ-499-Ն of 04.12.2024 amending the Tax Code (arlis.am)",
+                "evidence": "Հոդված 8 մաս 1: «Սույն օրենքն ուժի մեջ է մտնում 2025 թվականի հունվարի 1-ից և գործում է մինչև 2031 թվականի դեկտեմբերի 31-ը»"
+              }
+            ],
+            "unsure": false,
+            "unsure_reason": null
+          },
+          "eligibility": {
+            "value": "Staff engaged in R&D works (incl. for own needs) that meet Government criteria AND received a positive conclusion of the professional commission under Tax Code Art. 121(2)(4); the staff member's occupation must be on the Government list of high-tech professional jobs; excludes foreign citizens/stateless persons without RA residence right. If the commission's positive conclusion is annulled, tax is recalculated under general rules (20%).",
+            "unit": "text",
+            "applies_to": "employees of R&D projects approved by the commission",
+            "effective_from": "2025-01-01",
+            "effective_to": "2031-12-31",
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 150 part 1.1",
+            "evidence": "«...մասնագիտական հանձնաժողովի դրական եզրակացությանն արժանացած գիտական հետազոտությունների և փորձարարական մշակումների աշխատանքներում (այդ թվում՝ սեփական կարիքների համար) ներգրավված՝ Կառավարության սահմանած բարձր տեխնոլոգիաների ոլորտի մասնագիտական աշխատանքների ցանկում ներառված զբաղմունքներով զբաղվող անձնակազմին (բացառությամբ ... բնակության իրավունք (կացության կարգավիճակ) չունեցող օտարերկրյա քաղաքացիների ...)»",
+            "evidence_en": "R&D staff engaged in works that received a positive conclusion of the professional commission, in occupations on the Government high-tech list, excluding foreigners without residence right.",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": true,
+            "unsure_reason": "The Government criteria, the commission procedure and the list of high-tech occupations are in sub-legal acts that were not fetched."
+          }
+        },
+        {
+          "name": "IT-sector certified companies (Law 'On State Support to the IT sector') - 10% income tax under the old Law on Income Tax Art. 10(1.1) - EXPIRED",
+          "rate": {
+            "value": 10,
+            "unit": "percent",
+            "applies_to": "employees of IT-certified tax agents (historical)",
+            "effective_from": null,
+            "effective_to": "2024-12-31",
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 445 part (list of repealed laws), point 5",
+            "evidence": "Հոդված 445, կետ 5: «Եկամտային հարկի մասին» ... օրենքը, բացառությամբ այդ օրենքի 10-րդ հոդվածի 1.1-ին մասով «Տեղեկատվական տեխնոլոգիաների ոլորտի պետական աջակցության մասին» ... օրենքով սահմանված կարգով հավաստագրված հարկային գործակալներին վերաբերող դրույթների, որոնք գործում են հավաստագրի տրամադրման օրվանից մինչև 2024 թվականի դեկտեմբերի 31-ը",
+            "evidence_en": "Art. 445(5): the old Law on Income Tax is repealed except the Art. 10(1.1) provisions for IT-certified tax agents, which operate from the certificate date until 31 Dec 2024.",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": true,
+            "unsure_reason": "The 10% figure itself is in the old Law on Income Tax Art. 10(1.1), which was not fetched; only the sunset (31.12.2024) was verified in the Tax Code. Regime is NOT available in 2026."
+          },
+          "eligibility": {
+            "value": "Tax agents holding an IT-sector state-support certificate; valid only until 2024-12-31. Not applicable in 2026.",
+            "unit": "text",
+            "applies_to": "historical",
+            "effective_from": null,
+            "effective_to": "2024-12-31",
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code (ՀՕ-165-Ն), arlis.am consolidated edition incorporating amendments up to 27.08.2026 ՀՕ-440-Ն, Art. 445(5)",
+            "evidence": "«...որոնք գործում են հավաստագրի տրամադրման օրվանից մինչև 2024 թվականի դեկտեմբերի 31-ը»",
+            "evidence_en": "...which operate from the certificate issue date until 31 December 2024.",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null
+          }
+        }
+      ],
+      "not_payroll_relevant_notes": [
+        "Tax Code Art. 150(1.1)-15 other reduced rates (interest, royalties, rent, dividends, property sale) do not apply to salary.",
+        "Art. 147.1 'social expenses' (health, education, housing) are compensated through the annual income-tax return mechanism, not through monthly payroll withholding (Art. 147.1 + Art. 156.1, https://www.arlis.am/hy/acts/230455)."
+      ]
+    },
+    "funded_pension": {
+      "participation": {
+        "value": {
+          "mandatory": "Employees (and notaries, individual entrepreneurs) born on or after 1974-01-01, until pension age",
+          "voluntary": "Persons born before 1974 who submitted a pension-fund selection application (Art. 33(1)); the decision cannot be revoked (Art. 5(2))",
+          "foreigners": "Foreign citizens/stateless persons with RA residence right pay on general grounds unless a treaty provides otherwise (Art. 5(3))",
+          "after_pension_age": "Continues (at 5% flat, Art. 6(3)) unless the person applies to stop (Art. 5(4)(1))"
+        },
+        "unit": "text",
+        "applies_to": "employees",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/224823",
+        "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 5",
+        "evidence": "Հոդված 5, մաս 1: «1) 1974 թվականի հունվարի 1-ին և դրանից հետո ծնված վարձու աշխատողները, նոտարները, անհատ ձեռնարկատերերը. 2) մինչև 1974 թվականը ծնված վարձու աշխատողները ..., եթե ... ներկայացրել են սույն օրենքի 33-րդ հոդվածի 1-ին մասով սահմանված դիմում»; մաս 2: «Անձը չի կարող վերանայել ... որոշումը»",
+        "evidence_en": "Art. 5(1): social payments are made by 1) employees born on/after 1 Jan 1974; 2) employees born before 1974 if they submitted the fund-selection application; Art. 5(2): the decision cannot be revised.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://taxsummaries.pwc.com/armenia/individual/other-taxes",
+            "source_name": "PwC Worldwide Tax Summaries, Armenia - Individual - Other taxes (last reviewed 30 June 2026)",
+            "evidence": "contributions apply to employees 'born after 1 January 1974'"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null
+      },
+      "formula_2026": {
+        "value": {
+          "bands": [
+            {
+              "from": 0,
+              "to": 500000,
+              "rule": "5% of monthly gross salary"
+            },
+            {
+              "from": 500001,
+              "to": 1125000,
+              "rule": "10% of monthly gross salary minus 25,000 AMD"
+            },
+            {
+              "from": 1125001,
+              "to": null,
+              "rule": "fixed maximum: 10% x 1,125,000 - 25,000 = 87,500 AMD"
+            }
+          ],
+          "cap_base_rule": "Max monthly base = 15 x minimum monthly wage of the reporting month (Art. 6(6)); no social payment on the excess",
+          "cap_base_amd_2026": 1125000,
+          "max_monthly_payment_amd_2026": 87500,
+          "cap_basis": "monthly gross income = sum over ALL employers of salary and equivalent income for the month + contractual income paid that month (Art. 6(6)); refunds of excess where multiple sources",
+          "annual_parallel_limits": "annual: 5% up to 6,000,000; 10% minus 300,000 above; max base 180 x min wage (Art. 6(7)(2))",
+          "opt_out_of_cap": "Person may apply to NOT apply the max-base caps (Art. 6(11)); then payment limited to 5% / 10%-25,000 without cap",
+          "persons_after_pension_age_or_voluntary_joiners": "5% of salary flat (Art. 6(3)(1))"
+        },
+        "unit": "AMD/month",
+        "applies_to": "monthly salary of mandatory participants before pension age",
+        "effective_from": "2023-01-01",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/224823",
+        "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 6 parts 2, 6, 7, 11; Art. 81 parts 8.1-8.2 (2021-2022 transitional rates)",
+        "evidence": "Հոդված 6, մաս 2, կետ 1: «ա. 5 տոկոսի չափով, եթե աշխատավարձի ամսական չափը չի գերազանցում 500 000 դրամը, բ. 10 տոկոսի և 25 000 դրամի տարբերության չափով, եթե աշխատավարձի ամսական չափը գերազանցում է 500 000 դրամը»; մաս 6: «...«Նվազագույն ամսական աշխատավարձի մասին» ... օրենքի 1-ին հոդվածով հաշվետու ամսվա համար սահմանված չափի 15-ապատիկը գերազանցող գումարից ... սոցիալական վճարներ չեն հաշվարկվում»; մաս 7(1)(գ): «...առավելագույն ամսական շեմի 10 տոկոսի և 25 000 դրամի տարբերությունը...»",
+        "evidence_en": "Art. 6(2)(1): a) 5% if monthly salary does not exceed 500,000; b) 10% minus 25,000 if it exceeds 500,000. Art. 6(6): no social payment on the part of monthly gross income exceeding 15x the minimum monthly wage. Art. 6(7)(1)(c): payment cannot exceed 10% of the max monthly threshold minus 25,000. With min wage 75,000 (see minimum_wage) the cap base is 1,125,000 and max payment 87,500 (computed).",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://taxsummaries.pwc.com/armenia/individual/other-taxes",
+            "source_name": "PwC Worldwide Tax Summaries, Armenia - Individual - Other taxes (last reviewed 30 June 2026)",
+            "evidence": "'5% of the monthly gross salary if it is less than AMD 500,000' ; '10% ... minus AMD 25,000' ; '(capped at AMD 87,500)' ; 'maximum threshold ... is AMD 1,125,000'"
+          },
+          {
+            "source_url": "https://hrdrone.am/en/salary-calculator",
+            "source_name": "hrdrone.am salary calculator (2026 rates)",
+            "evidence": "Up to 500 000: 5%; above: '10% - 25 000', 'at most 87 500 a month'"
+          }
+        ],
+        "unsure": true,
+        "unsure_reason": "1,125,000 and 87,500 are computed from the law's formula (15 x 75,000; 10% x 1,125,000 - 25,000), not printed as numbers in the law; PwC states the same numbers. effective_from 2023-01-01 inferred: Art. 81(8.1)/(8.2) set different rates only for 2021 and 2022, and PwC says 'From 1 January 2023'. Boundary wording: law says 5% if salary 'does not exceed 500,000' (PwC says 'less than')."
+      },
+      "history": [
+        {
+          "value": {
+            "band_to_500000": "3.5%",
+            "above_500000": "10% minus 32,500",
+            "max_state_topup": 32500
+          },
+          "unit": "text",
+          "applies_to": "employees (not IE/notaries) born 1974+ and Art.81(6) persons",
+          "effective_from": "2021-01-01",
+          "effective_to": "2021-12-31",
+          "source_url": "https://www.arlis.am/hy/acts/224823",
+          "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 81 part 8.1",
+          "evidence": "«2021 թվականի հունվարի 1-ից դեկտեմբերի 31-ը ներառյալ ... մինչև 500000 դրամը ներառյալ 3.5 տոկոս; 500000-ից ավելի դրամ 10 տոկոսի և 32500 դրամի տարբերության չափով»",
+          "evidence_en": "1 Jan - 31 Dec 2021: up to 500,000 incl. 3.5%; above 500,000: 10% minus 32,500",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        },
+        {
+          "value": {
+            "band_to_500000": "4.5%",
+            "above_500000": "10% minus 27,500",
+            "max_state_topup": 27500
+          },
+          "unit": "text",
+          "applies_to": "employees (not IE/notaries) born 1974+ and Art.81(6) persons",
+          "effective_from": "2022-01-01",
+          "effective_to": "2022-12-31",
+          "source_url": "https://www.arlis.am/hy/acts/224823",
+          "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 81 part 8.2",
+          "evidence": "«2022 թվականի հունվարի 1-ից դեկտեմբերի 31-ը ներառյալ ... մինչև 500000 դրամը ներառյալ 4.5 տոկոս; 500000-ից ավելի դրամ 10 տոկոսի և 27500 դրամի տարբերության չափով»",
+          "evidence_en": "1 Jan - 31 Dec 2022: up to 500,000 incl. 4.5%; above 500,000: 10% minus 27,500",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        },
+        {
+          "value": {
+            "max_monthly_base_before_2020_07_01": 500000
+          },
+          "unit": "AMD/month",
+          "applies_to": "max base of social payment",
+          "effective_from": null,
+          "effective_to": "2020-06-30",
+          "source_url": "https://www.arlis.am/hy/acts/224823",
+          "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 81 part 8",
+          "evidence": "«...առավելագույն շեմերը կիրառվում են 2020 թվականի հուլիսի 1-ից: Մինչև 2020 թվականի հուլիսի 1-ը՝ 1) ... առավելագույն ամսական շեմը սահմանվում է 500 000 դրամ»",
+          "evidence_en": "The 15x-minimum-wage caps apply from 1 July 2020; before that the monthly max base was 500,000.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null
+        },
+        {
+          "value": {
+            "band_to_500000": "5%",
+            "above_500000": "10% minus 25,000",
+            "cap": "15 x minimum wage"
+          },
+          "unit": "text",
+          "applies_to": "current rule",
+          "effective_from": "2023-01-01",
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/224823",
+          "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 6",
+          "evidence": "see formula_2026",
+          "evidence_en": "Current Art. 6 rule; no scheduled future change found in the consolidated law (latest amendment 16.04.2026 ՀՕ-177-Ն concerns electronic provision of pension-secrecy data only).",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": true,
+          "unsure_reason": "effective_from 2023-01-01 inferred from Art. 81(8.1)-(8.2) and PwC."
+        }
+      ],
+      "state_cofinancing": {
+        "value": {
+          "rule": "State budget tops up the accrual to 10% of monthly gross income: state part = 10% x gross - employee social payment, max 25,000 AMD/month; total accrual capped at 10% of the max monthly base (10% x 1,125,000 = 112,500 in 2026). Does NOT reduce net pay.",
+          "examples_2026": {
+            "salary_300000": {
+              "employee": 15000,
+              "state": 15000
+            },
+            "salary_500000": {
+              "employee": 25000,
+              "state": 25000
+            },
+            "salary_1000000": {
+              "employee": 75000,
+              "state": 25000
+            },
+            "salary_2000000": {
+              "employee": 87500,
+              "state": 25000
+            }
+          },
+          "not_eligible": "Voluntary joiners born before 1974 (Art. 5(1)(2)) and persons past pension age: accrual equals only their own payment (Art. 9(5)), except Art. 81(6) (born after 1964-01-01 and applied before 2018-07-01) who get the full top-up",
+          "income_tax_treatment": "State top-up is non-taxable (Tax Code Art. 147(1)(5))"
+        },
+        "unit": "AMD/month",
+        "applies_to": "mandatory participants (Art. 5(1)(1))",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/224823",
+        "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 9 parts 2(1), 4, 5",
+        "evidence": "Հոդված 9, մաս 2, կետ 1: «ամսական համախառն եկամտի 10 տոկոսի չափով՝ ... սոցիալական վճարների և 10 տոկոսը լրացնելու նպատակով ... պետական բյուջեից հատկացվող համապատասխան միջոցների (առավելագույնը 25000 դրամ) հանրագումարի չափով, բայց ոչ ավելի, քան սոցիալական վճարի հաշվարկման օբյեկտի առավելագույն ամսական շեմի 10 տոկոսը»; մաս 4: «...տարբերությունը չի կարող գերազանցել ամսական 25000 դրամը և տարեկան 300 000 դրամը»",
+        "evidence_en": "Art. 9(2)(1): accrual = 10% of monthly gross income, made of the social payment plus the state-budget top-up (max 25,000), but not more than 10% of the max monthly base. Art. 9(4): difference between accrual and the person's payment cannot exceed 25,000/month and 300,000/year.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": true,
+        "unsure_reason": "Example figures are computed from the formula, not quoted."
+      }
+    },
+    "stamp_duty": {
+      "bands_2026": {
+        "value": [
+          {
+            "from": 0,
+            "to": 1000000,
+            "amount": 1000
+          },
+          {
+            "from": 1000001,
+            "to": null,
+            "amount": 15000
+          }
+        ],
+        "unit": "AMD/month",
+        "applies_to": "employees and civil-contract individuals (not IE/notaries) paid by a tax agent; base = monthly accrued salary and equivalent payments + civil-contract income; withheld by the tax agent",
+        "effective_from": "2026-01-01",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230046",
+        "source_name": "RA Law on Compensation of Damage to Life or Health of Servicemen (ՀՕ-245-Ն), ch. 3 Stamp payments, arlis.am latest consolidated edition (incl. 17.12.25 ՀՕ-477-Ն), Art. 12 part 1 point 1 (as amended by 17.12.25 ՀՕ-477-Ն)",
+        "evidence": "Հոդված 12, մաս 1, կետ 1 (աղյուսակ): «Մինչև 100 000 դրամ ... 1000 դրամ; 100 001-ից մինչև 200 000 ... 1000 դրամ; 200 001-ից մինչև 500 000 ... 1000 դրամ; 500 001-ից մինչև 1 000 000 ... 1000 դրամ; 1 000 001 դրամ և ավելի ... 15000 դրամ»",
+        "evidence_en": "Art. 12(1)(1) table: up to 100,000 -> 1,000; 100,001-200,000 -> 1,000; 200,001-500,000 -> 1,000; 500,001-1,000,000 -> 1,000; 1,000,001 and more -> 15,000 AMD.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://www.arlis.am/hy/acts/218648",
+            "source_name": "Law ՀՕ-477-Ն of 17.12.2025 (arlis.am)",
+            "evidence": "Հոդված 1: «1-ին կետի «1500 դրամ», «3000 դրամ», «5500 դրամ», «8500 դրամ» բառերը փոխարինել «1000 դրամ» բառերով»; Հոդված 2: «...ուժի մեջ է մտնում պաշտոնական հրապարակման օրվան հաջորդող տարվա հունվարի 1-ից, բացառությամբ 200 001 ... դրամ և ավել աշխատավարձ ստացող վարձու աշխատողների, որոնց համար ... տարածվում է 2025 թվականի դեկտեմբերի 1-ից ծագած հարաբերությունների վրա» (published 24.12.2025)"
+          },
+          {
+            "source_url": "https://taxsummaries.pwc.com/armenia/individual/other-taxes",
+            "source_name": "PwC Worldwide Tax Summaries, Armenia - Individual - Other taxes (last reviewed 30 June 2026)",
+            "evidence": "'AMD 1,000 if the monthly gross salary is up to AMD 1,000,000.' 'AMD 15,000 if ... more than AMD 1,000,001.'"
+          },
+          {
+            "source_url": "https://hrdrone.am/en/salary-calculator",
+            "source_name": "hrdrone.am salary calculator (2026 rates)",
+            "evidence": "Up to 1 000 000: 1 000; above: 15 000"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "notes": [
+          "Transitional: for employees with salary >= 200,001 the new 1,000 rate applies to relations from 2025-12-01 (December 2025 salary); for all others from 2026-01-01 (ՀՕ-477-Ն Art. 2).",
+          "The third-party claim 'AMD 1,500 to 15,000' is the PRE-2026 schedule (1,500 / 3,000 / 5,500 / 8,500 / 15,000), verified in the previous consolidated edition https://www.arlis.am/hy/acts/215609 (Art. 12(1)(1)). Not a conflict for 2026: it is superseded.",
+          "Payers (Art. 11(1)): resident employees (in or outside RA), non-resident employees working in RA, civil-contract earners. Exempt (Art. 11(2)): months without salary/contract income; foreign citizens/stateless persons WITHOUT RA residence right.",
+          "If civil-contract income is insufficient to withhold, the tax agent pays it from its own funds (Art. 11(3.1)). Withheld from the month's income (Art. 14(3)); paid by the 20th of the following month (Art. 14(2)). Late payment: no penalties accrue (Art. 13(4)).",
+          "Refund right: parent/spouse/child of a conscript or of a fallen serviceman may claim refund of previous year's stamp payments (Art. 11(5)).",
+          "PwC corporate page says 'Armenia does not have any stamp taxes' - this refers to document stamp tax, not this military stamp payment (https://taxsummaries.pwc.com/armenia/corporate/other-taxes)."
+        ]
+      },
+      "history": [
+        {
+          "value": [
+            {
+              "from": 0,
+              "to": 100000,
+              "amount": 1500
+            },
+            {
+              "from": 100001,
+              "to": 200000,
+              "amount": 3000
+            },
+            {
+              "from": 200001,
+              "to": 500000,
+              "amount": 5500
+            },
+            {
+              "from": 500001,
+              "to": 1000000,
+              "amount": 8500
+            },
+            {
+              "from": 1000001,
+              "to": null,
+              "amount": 15000
+            }
+          ],
+          "unit": "AMD/month",
+          "applies_to": "employees (pre-2026 schedule)",
+          "effective_from": null,
+          "effective_to": "2025-12-31",
+          "source_url": "https://www.arlis.am/hy/acts/215609",
+          "source_name": "Same law, previous arlis consolidated edition (before 17.12.25 ՀՕ-477-Ն), Art. 12(1)(1)",
+          "evidence": "«Մինչև 100 000 դրամ ... 1500 դրամ; 100 001-ից մինչև 200 000 ... 3000 դրամ; 200 001-ից մինչև 500 000 ... 5500 դրամ; 500 001-ից մինչև 1 000 000 ... 8500 դրամ; 1 000 001 դրամ և ավելի ... 15000 դրամ»",
+          "evidence_en": "Previous schedule: 1,500 / 3,000 / 5,500 / 8,500 / 15,000.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": true,
+          "unsure_reason": "Start date of this schedule not verified (the article note cites edits by 01.07.21 ՀՕ-282-Ն and 01.03.23 ՀՕ-42-Ն). For employees >= 200,001 it ended for December 2025 salary."
+        }
+      ]
+    },
+    "health_insurance": {
+      "bands_2026": {
+        "value": [
+          {
+            "from": 0,
+            "to": 200000,
+            "amount": 0,
+            "rule": "Not yet covered in 2026 (unless a trigger month occurred, see trigger rule); the law enters into force for employees with salary up to 200,000 on 2027-01-01"
+          },
+          {
+            "from": 200001,
+            "to": 500000,
+            "amount": 4800,
+            "rule": "withheld via tax agent; state budget pays the other 6,000 of the 10,800 monthly premium"
+          },
+          {
+            "from": 500001,
+            "to": null,
+            "amount": 10800,
+            "rule": "100% of monthly premium"
+          }
+        ],
+        "unit": "AMD/month",
+        "applies_to": "employees whose salary is calculated by a tax agent (Art. 11(2)(11)), per employer, December 2025 salary through December 2026",
+        "effective_from": "2025-12-01",
+        "effective_to": "2026-12-31",
+        "source_url": "https://www.arlis.am/hy/acts/230432",
+        "source_name": "RA Law on Universal Health Insurance (ՀՕ-459-Ն), arlis.am consolidated edition incl. 07.04.26 ՀՕ-135-Ն and 27.08.26 ՀՕ-424-Ն, Art. 13(1); Art. 45(1)(3),(4),(6); Art. 46 parts 9, 17",
+        "evidence": "Հոդված 13, մաս 1: «Ապահովագրավճարի դրույքաչափը մեկ անձի հաշվով կազմում է տարեկան 129 600 ... դրամ, որը ամսվա համար կազմում է 10 800 ... դրամ»; Հոդված 46, մաս 9: «...2025 թվականի դեկտեմբեր ամսվա և հաջորդող տարվա համար վճարման ենթակա են՝ 1) հարկային գործակալի կողմից՝ ... ամսական դրույքաչափից 4800 ... դրամը, եթե անձի աշխատավարձը, ըստ յուրաքանչյուր գործատուի, կազմում է մինչև 500 000 ... դրամ ... 2) ... ամսական դրույքաչափի հարյուր տոկոսը, եթե անձի աշխատավարձի չափը 500 001 ... դրամ և ավելի է»; մաս 17: «...Հիմնադրամի գանձապետական հաշվին է փոխանցում 6000 ... դրամ՝ սույն հոդվածի 9-րդ մասի 1-ին կետով սահմանված ... անձանց համար»",
+        "evidence_en": "Art. 13(1): premium = 129,600 AMD/year = 10,800 AMD/month per person. Art. 46(9): for December 2025 and the following year (2026): 1) 4,800 of the monthly rate via the tax agent if salary per employer is up to 500,000; 2) 100% if salary is 500,001 or more. Art. 46(17): state budget transfers 6,000/month for persons in 46(9)(1).",
+        "last_verified": "2026-10-26",
+        "conflict": true,
+        "conflicting_sources": [
+          {
+            "value": "Employee shares quoted as 300 AMD (up to 500,000), 3,300 AMD (500,001-1,000,000), full 10,800 (above 1,000,000)",
+            "source_url": "https://iravaban.net/573960.html",
+            "source_name": "iravaban.net (date shown 2026-10-4, unclear)",
+            "evidence": "As summarized by the fetch tool; original quote not captured. Not supported by the law text; possibly refers to a net effect after some offset (e.g. social package) - unexplained."
+          }
+        ],
+        "cross_checks": [
+          {
+            "source_url": "https://taxsummaries.pwc.com/armenia/individual/other-taxes",
+            "source_name": "PwC Worldwide Tax Summaries, Armenia - Individual - Other taxes (last reviewed 30 June 2026)",
+            "evidence": "'Effective from 25 December 2025' 'For a gross salary up to AMD 500,000, the contribution is AMD 4,800.' 'For a gross salary exceeding AMD 500,001, the contribution is AMD 10,800.'"
+          },
+          {
+            "source_url": "https://hrdrone.am/en/salary-calculator",
+            "source_name": "hrdrone.am salary calculator (2026 rates)",
+            "evidence": "Up to 200 000: 0; 200 001-500 000: 4 800; above 500 000: 10 800"
+          },
+          {
+            "source_url": "https://b24.am/economy/450259.html",
+            "source_name": "b24.am, 25.12.2025",
+            "evidence": "«Մինչև 500 000 դրամ աշխատավարձի դեպքում 4 800 դրամ», «500 001 դրամ և ավելի աշխատավարձի դեպքում 10 800 դրամ»; employer must calculate and withhold ('գործատուն պարտավոր է հաշվարկել և պահել')"
+          }
+        ],
+        "unsure": true,
+        "unsure_reason": "Primary law is clear on 4,800 / 10,800 and is treated as authoritative; the iravaban 300/3,300 figures are unexplained. Band boundaries: law wording '...մինչև 500 000' (up to 500,000 inclusive -> 4,800) and '500 001 and more' (10,800). Which month's salary decides 4,800 vs 10,800 is not stated explicitly beyond 'աշխատավարձը, ըստ յուրաքանչյուր գործատուի'.",
+        "trigger_rules": [
+          "Employees with salary >= 200,001 from an employer in the November 2025 monthly income-tax report (as of 25.12.2025): pay from December 2025 salary (Art. 45(1)(3)).",
+          "Employees whose salary from an employer reaches >= 200,001 in any month Jan-Nov 2026: pay from the following month's salary (Art. 45(1)(4)).",
+          "Once triggered, premiums continue for the next 12 months regardless of salary decrease (Art. 45(1)(3)-(4)).",
+          "Thresholds are per employer ('յուրաքանչյուր գործատուից'); with several bases total payments cannot exceed the monthly rate, excess refunded (Art. 14(7)-(8)).",
+          "If the salary of a 46(9)(1) employee is insufficient in a month (incl. no salary accrued), the tax-agent employer must still pay the 4,800 (Art. 46(20)).",
+          "Social-package beneficiaries with salary up to 500,000 must themselves pay 6,000/month in addition (state does not pay the 6,000 for them) (Art. 46(17)-(18)).",
+          "Persons who also belong to state-paid groups (Art. 11(2)(1)-(10), e.g. 65+, disability) get the more favourable rule and may claim refund of paid premiums (Art. 11(3), Art. 46(16)).",
+          "Employer may pay the premium for employees (Art. 14(9)); such employer-paid UHI premiums are non-taxable income (Tax Code Art. 147(1)(29)).",
+          "For 2026, premiums are not reflected in the monthly income-tax report (Art. 46(14)); premiums are paid by the 20th of the month (Art. 46(11))."
+        ]
+      },
+      "payer": {
+        "value": "Employee (withheld from salary by the tax-agent employer, who transfers it to the state budget); employees of employers exempt from tax-agent duties pay themselves. State budget pays the remaining 6,000 for the 4,800 band.",
+        "unit": "text",
+        "applies_to": "employees",
+        "effective_from": "2025-12-25",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230432",
+        "source_name": "RA Law on Universal Health Insurance (ՀՕ-459-Ն), arlis.am consolidated edition incl. 07.04.26 ՀՕ-135-Ն and 27.08.26 ՀՕ-424-Ն, Art. 14(3); Art. 46(9),(11),(17),(20)",
+        "evidence": "Հոդված 14, մաս 3: «...վճարման ենթակա է ամսական ապահովագրավճարի հարյուր տոկոսը, որը վճարվում է հարկային գործակալի կամ հարկային գործակալի պարտականությունից ազատված գործատուների վարձու աշխատողների կողմից»; Հոդված 46, մաս 9, կետ 1: «հարկային գործակալի կողմից՝ ... 4800 ... դրամը»",
+        "evidence_en": "Art. 14(3): 100% of the monthly premium is paid by the employees of tax agents / of exempt employers; Art. 46(9)(1): 4,800 by the tax agent (for 2026).",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://b24.am/economy/450259.html",
+            "source_name": "b24.am 25.12.2025",
+            "evidence": "«գործատուն պարտավոր է հաշվարկել և պահել»"
+          }
+        ],
+        "unsure": true,
+        "unsure_reason": "Art. 14(3) enters into force on 2027-01-01 per Art. 45(1)(8); for 2026 the payer wording is Art. 46(9) 'by the tax agent'. That the amount is deducted from the employee's pay (rather than borne by the employer) is confirmed by b24/PwC/hrdrone and by Art. 147(1)(29) treatment, but Art. 46(9) itself does not say 'withheld'."
+      },
+      "future": [
+        {
+          "value": {
+            "employees_200001_and_more": 10800,
+            "employees_up_to_200000": 10800
+          },
+          "unit": "AMD/month",
+          "applies_to": "employees, from January 2027 salary",
+          "effective_from": "2027-01-01",
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230432",
+          "source_name": "RA Law on Universal Health Insurance (ՀՕ-459-Ն), arlis.am consolidated edition incl. 07.04.26 ՀՕ-135-Ն and 27.08.26 ՀՕ-424-Ն, Art. 45(1)(6),(8); Art. 46(9) (limited to 'December 2025 and the following year'); Art. 13(1); Art. 14(3)",
+          "evidence": "Հոդված 45, մաս 1, կետ 6: «...մինչև 200 000 ... դրամ աշխատավարձ ... հայտարարագրած անձանց համար, որոնց մասով սույն օրենքն ուժի մեջ է մտնում պաշտոնական հրապարակմանը հաջորդող երկրորդ տարվա հունվարի 1-ից»; կետ 8: «սույն օրենքի 14-րդ հոդվածի 1-ին, 3-րդ մասերի ... որոնք ուժի մեջ են մտնում 2027 թվականի հունվարի 1-ից»",
+          "evidence_en": "Art. 45(1)(6): for employees with salary up to 200,000 the law enters into force on 1 January of the second year after publication (published 24.12.2025 -> 2027-01-01). Art. 45(1)(8): Art. 14 parts 1 and 3 (100% of the monthly premium paid by employees) enter into force 2027-01-01. The 4,800 reduced share (Art. 46(9)) covers only Dec 2025 + 2026.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": true,
+          "unsure_reason": "Under the ADOPTED text, from Jan 2027 all employees would owe the full 10,800/month (no 4,800 band). This is an interpretation of transitional provisions; iravaban.net (2026-10-18, https://iravaban.net/575583.html) reads it the same way ('այլևս չի գործի 4 800 դրամի արտոնյալ ապահովագրավճարը ... 10 800 դրամ'). A draft amendment (see pending_changes) would keep 4,800 for some low earners. Re-check before 2027."
+        }
+      ]
+    },
+    "other_withholdings": [
+      {
+        "name": "Funded pension social payment",
+        "mandatory": true,
+        "see": "funded_pension"
+      },
+      {
+        "name": "Stamp payment (military)",
+        "mandatory": true,
+        "see": "stamp_duty"
+      },
+      {
+        "name": "Universal health insurance premium",
+        "mandatory": true,
+        "see": "health_insurance"
+      },
+      {
+        "value": "Trade union membership dues: voluntary, deducted only with the member's consent; NOT a statutory withholding.",
+        "unit": "text",
+        "applies_to": "union members only",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/227661",
+        "source_name": "RA Labour Code, arlis.am consolidated edition incl. 18.06.2026 ՀՕ-281-Ն, Art. 213(1)",
+        "evidence": "Հոդված 213, մաս 1: «Աշխատավարձից պահումները կարող են կատարվել օրենքով սահմանված կարգով և դեպքերում»",
+        "evidence_en": "Art. 213(1): deductions from salary may be made only in the manner and cases set by law.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": true,
+        "unsure_reason": "The Law on Trade Unions provision on dues check-off was not fetched; 'voluntary' is based on Labour Code Art. 213 general rule and freedom of association, not on a fetched dues provision."
+      },
+      {
+        "value": {
+          "employer_debt_recovery": "advance not returned, mechanical calculation errors, unspent travel advance, damage caused by employee's fault, unearned vacation days on dismissal (Art. 213(2))",
+          "limit": "total deductions/recoveries <= 50% of one month's salary; after Art. 213 deductions pay cannot be below minimum wage (Art. 214)"
+        },
+        "unit": "text",
+        "applies_to": "case-by-case, not a standard payroll line",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/227661",
+        "source_name": "RA Labour Code, arlis.am consolidated edition incl. 18.06.2026 ՀՕ-281-Ն, Art. 213-214",
+        "evidence": "Հոդված 214: «...պահումների և գանձումների ընդհանուր չափը ... չի կարող գերազանցել աշխատողի մեկ ամսվա աշխատավարձի հիսուն տոկոսը: Սույն օրենսգրքի 213-րդ հոդվածով սահմանված պահումներն ու գանձումները կատարելուց հետո աշխատողին վճարվող աշխատավարձը չի կարող պակաս լինել օրենքով սահմանված նվազագույն աշխատավարձի չափից»",
+        "evidence_en": "Art. 214: total deductions cannot exceed 50% of one month's salary; after Art. 213 deductions the salary paid cannot be below the minimum wage.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": false,
+        "unsure_reason": null
+      },
+      {
+        "value": "No employer-side social/payroll tax: the social payment is a payment BY the person (employee), the employer only calculates and transfers it as tax agent. The Tax Code's closed list of taxes contains no payroll tax.",
+        "unit": "text",
+        "applies_to": "employer cost",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/224823",
+        "source_name": "RA Law on Funded Pensions (ՀՕ-244-Ն), arlis.am consolidated edition incorporating 16.04.2026 ՀՕ-177-Ն, Art. 5(1), Art. 7(1); cross-ref Tax Code Art. 6 (https://www.arlis.am/hy/acts/230455)",
+        "evidence": "Կուտակային կենսաթոշակների մասին օրենք, Հոդված 7, մաս 1: «...վարձու աշխատողի սոցիալական վճարները հաշվարկելու և փոխանցելու (գանձելու) պարտականությունը կրում են գործատուները` որպես հարկային գործակալ»; Հարկային օրենսգիրք, Հոդված 6, մաս 2: «Հայաստանի Հանրապետությունում չեն կարող սահմանվել այնպիսի հարկեր, որոնք նախատեսված չեն սույն հոդվածի 1-ին մասի 1-ին և 2-րդ կետերով» (list: VAT, excise, profit tax, income tax, environmental, road, turnover; local: property taxes)",
+        "evidence_en": "Law on Funded Pensions Art. 7(1): employers bear the duty to calculate and transfer employees' social payments as tax agents. Tax Code Art. 6(2): no taxes other than those listed (none is a payroll tax).",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://taxsummaries.pwc.com/armenia/corporate/other-taxes",
+            "source_name": "PwC Corporate - Other taxes (30 June 2026)",
+            "evidence": "'Employers should withhold social contributions from the monthly employment income'"
+          }
+        ],
+        "unsure": true,
+        "unsure_reason": "Tax Code Art. 7 also lists a 'կենսաթոշակային վճար' (pension payment) among state payments; its law and payers were not identified in this session. Exception noted: employer pays from own funds 3,000/month social payment for employees on childcare leave until child is 2 (Funded Pensions Art. 6(10)); employer pays stamp payment from own funds when civil-contract income is insufficient; employer must pay UHI 4,800 if salary insufficient (UHI Art. 46(20))."
+      }
+    ],
+    "minimum_wage": {
+      "value": 75000,
+      "unit": "AMD/month",
+      "applies_to": "minimum monthly wage (excludes taxes and social payments per Art. 4 - i.e. it is a gross figure)",
+      "effective_from": "2023-01-01",
+      "effective_to": null,
+      "source_url": "https://www.arlis.am/hy/acts/172160",
+      "source_name": "RA Law on Minimum Monthly Wage (ՀՕ-66-Ն), arlis.am consolidated edition incl. 07.12.22 ՀՕ-501-Ն, Art. 1",
+      "evidence": "Հոդված 1: «Հայաստանի Հանրապետությունում նվազագույն ամսական աշխատավարձը սահմանել 75000 դրամ» (1-ին հոդվածը փոփ. ... 07.12.22 ՀՕ-501-Ն)",
+      "evidence_en": "Art. 1: the minimum monthly wage is set at 75,000 AMD (amended by 07.12.22 ՀՕ-501-Ն).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://www.arlis.am/hy/acts/172110",
+          "source_name": "Law ՀՕ-501-Ն of 07.12.2022 (arlis.am)",
+          "evidence": "Հոդված 1: «68000» թիվը փոխարինել «75000» թվով; Հոդված 5: ուժի մեջ է մտնում 2023 թվականի հունվարի 1-ից"
+        }
+      ],
+      "unsure": true,
+      "unsure_reason": "arlis change history lists no amendment after 07.12.2022 ՀՕ-501-Ն (checked 2026-10-26). A news search found no adopted 2026/2027 increase; the old 2021-2026 programme target of 85,000 was never enacted. Note Art. 4 wording: minimum wage does not include 'taxes paid from salary' - interpretation as gross is standard but not verified further.",
+      "hourly_minimums": {
+        "40h_week": 450,
+        "36h_week": 500,
+        "up_to_24h_week": 750,
+        "unit": "AMD/hour",
+        "source_url": "https://www.arlis.am/hy/acts/172160",
+        "evidence": "Հոդված 2: «40-ժամյա աշխատանքային շաբաթ՝ 450 դրամ ... մինչև 24-ժամյա աշխատանքային շաբաթ՝ 750 դրամ, ... 36-ժամյա աշխատանքային շաբաթ՝ 500 դրամ»"
+      }
+    },
+    "calculation_parameters_2026": {
+      "_note": "Machine-readable parameters for the calculator, extracted from the sourced values in this file. Each entry names the sourced-value path it came from. These are a projection of the evidence above, not an independent source: changing a number here without changing the sourced value it came from is a bug.",
+      "_tax_year": 2026,
+      "income_tax": {
+        "standard_rate_percent": 20,
+        "rd_rate_percent": 10,
+        "base": "gross salary; the social payment, stamp payment and health premium do NOT reduce the income-tax base",
+        "derived_from": [
+          "employee.income_tax.standard_rate",
+          "employee.income_tax.reduced_regimes[0].rate",
+          "employee.calculation_notes[0]"
+        ]
+      },
+      "funded_pension": {
+        "lower_rate_percent": 5,
+        "lower_band_max": 500000,
+        "upper_rate_percent": 10,
+        "upper_deduction_amd": 25000,
+        "cap_base_amd": 1125000,
+        "max_payment_amd": 87500,
+        "flat_rate_percent_voluntary_or_past_pension_age": 5,
+        "derived_from": [
+          "employee.funded_pension.formula_2026",
+          "employee.funded_pension.participation"
+        ]
+      },
+      "stamp_payment": {
+        "bands": [
+          {
+            "from": 0,
+            "to": 1000000,
+            "amount": 1000
+          },
+          {
+            "from": 1000001,
+            "to": null,
+            "amount": 15000
+          }
+        ],
+        "derived_from": [
+          "employee.stamp_duty.bands_2026"
+        ]
+      },
+      "health_insurance": {
+        "bands": [
+          {
+            "from": 0,
+            "to": 200000,
+            "amount": 0
+          },
+          {
+            "from": 200001,
+            "to": 500000,
+            "amount": 4800
+          },
+          {
+            "from": 500001,
+            "to": null,
+            "amount": 10800
+          }
+        ],
+        "note_0_band": "The 0 band exists only because employees earning up to 200,000 are not covered until 2027-01-01, not because the premium is zero.",
+        "derived_from": [
+          "employee.health_insurance.bands_2026"
+        ]
+      },
+      "minimum_wage_amd": 75000
+    },
+    "calculation_notes": [
+      "Income tax base: taxable income = gross income minus Art. 147 non-taxable items (Tax Code Art. 143(1)). The Art. 147 list contains no item for the social (pension) payment, stamp payment or the employee-paid UHI premium, so income tax is 20% of GROSS salary; the three other withholdings are computed independently on gross salary and none reduces another's base. Source: https://www.arlis.am/hy/acts/230455 (Art. 143, 147 text searched). Cross-check: iravaban.net 2026-10-18 says the premium is not deducted from the income-tax/social base.",
+      "Net pay 2026 = gross - 20% income tax (10% for qualifying R&D staff) - social payment (if participant) - stamp payment (1,000 or 15,000) - UHI premium (0 / 4,800 / 10,800).",
+      "Worked example (computed, not quoted): gross 300,000, born 1974+: income tax 60,000; pension 15,000; stamp 1,000; UHI 4,800 (if covered) -> net 219,200.",
+      "Period: income tax, social payment, stamp payment and UHI premium are all monthly, calculated by the tax agent and paid/reported by the 20th of the following month (Tax Code Art. 151(1) monthly reporting period, Art. 156(1) income-tax report by the 20th of the following month; Funded Pensions Art. 7(2); Stamp Art. 14(2); UHI Art. 46(11)).",
+      "Social payment cap is assessed on monthly gross income from ALL employers combined (Funded Pensions Art. 6(6)); stamp and UHI bands are per employer (stamp: per tax agent's monthly calculation Art. 14(1); UHI: 'ըստ յուրաքանչյուր գործատուի').",
+      "Income tax under-withheld can be recovered from the employee for at most the last three months; over-withheld amounts are offset/refunded within one month for up to three years (Tax Code Art. 152(2)).",
+      "Rounding: no rounding rule (e.g. to whole AMD) was found in the Tax Code text or the other laws fetched. UNSURE.",
+      "Stamp payment base: accrued salary and equivalent payments in the monthly income-tax/social-payment report + civil-contract income paid (Stamp Art. 14(1))."
+    ],
+    "pending_changes": [
+      {
+        "description": "UHI: from January 2027 the 4,800 reduced employee share (Art. 46(9)) lapses; full 10,800/month applies to employees, and employees with salary up to 200,000 enter the system (Art. 45(1)(6),(8)).",
+        "status": "adopted",
+        "effective_from": "2027-01-01",
+        "source_url": "https://www.arlis.am/hy/acts/230432",
+        "evidence": "Art. 45(1)(6): «...պաշտոնական հրապարակմանը հաջորդող երկրորդ տարվա հունվարի 1-ից»; Art. 45(1)(8): «...14-րդ հոդվածի 1-ին, 3-րդ մասերի ... ուժի մեջ են մտնում 2027 թվականի հունվարի 1-ից»; Art. 46(9) limited to «2025 թվականի դեկտեմբեր ամսվա և հաջորդող տարվա համար». Interpretation - see health_insurance.future unsure_reason."
+      },
+      {
+        "description": "UHI draft amendment (public discussion on e-draft.am 14-29 Sept 2026, per iravaban.net): keep the 4,800 employee share (state pays 6,000) in 2027 only for employees whose salary did not exceed 200,000 as of 25 Dec 2026.",
+        "status": "draft",
+        "effective_from": "2027-01-01",
+        "source_url": "https://iravaban.net/575583.html",
+        "evidence": "iravaban.net 2026-10-18: draft on e-draft.am 14-29 Sept 2026, «դեռ ընդունված չէ» (not yet adopted). e-draft.am page itself NOT located - secondary source only."
+      },
+      {
+        "description": "UHI: related persons (family members) may join voluntarily from 2027 (Art. 11(2)(15), Art. 45(1)(7.1)); not a salary withholding unless employer pays.",
+        "status": "adopted",
+        "effective_from": "2027-01-01",
+        "source_url": "https://www.arlis.am/hy/acts/230432",
+        "evidence": "Art. 45(1)(7.1): «...15-րդ կետով սահմանված կարգավիճակ ունեցող բնակչության խմբի, որի համար սույն օրենքն ուժի մեջ է մտնում 2027 թվականի հունվարի 1-ից»"
+      },
+      {
+        "description": "R&D 10% income-tax regime (Tax Code Art. 150(1.1)) sunsets.",
+        "status": "adopted",
+        "effective_from": "2032-01-01",
+        "source_url": "https://www.arlis.am/hy/acts/201054",
+        "evidence": "ՀՕ-499-Ն Art. 8(1): «...գործում է մինչև 2031 թվականի դեկտեմբերի 31-ը»"
+      },
+      {
+        "description": "Tax Code Art. 150 new part 8.1: 15% income tax on dividends from non-listed bank shares (not salary-related).",
+        "status": "adopted",
+        "effective_from": "2027-02-01",
+        "source_url": "https://www.arlis.am/hy/acts/228632",
+        "evidence": "03.07.26 ՀՕ-385-Ն Art. 8; Tax Code note «հոդվածը 03.07.26 ՀՕ-385-Ն օրենքի փոփոխության մասով ուժի մեջ է մտնում 2027 թվականի փետրվարի 1-ից»"
+      },
+      {
+        "description": "Tax Code Art. 150 new part 7.1: 10% on income from real estate handed over to property management (not salary-related).",
+        "status": "adopted",
+        "effective_from": "2027-06-01",
+        "source_url": "https://www.arlis.am/hy/acts/217643",
+        "evidence": "13.11.25 ՀՕ-391-Ն: «Սույն օրենքն ուժի մեջ է մտնում 2027 թվականի հունիսի 1-ից»"
+      },
+      {
+        "description": "No adopted change found for: income-tax rate (20%), funded-pension formula, stamp-payment bands, minimum wage (75,000) for 2027.",
+        "status": "adopted",
+        "effective_from": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "evidence": "Checked arlis change-history of Tax Code, Funded Pensions law, Servicemen compensation law, Minimum Wage law on 2026-10-26; no such amendment listed."
+      }
+    ]
+  },
+  "entrepreneur": {
+    "turnover_tax": {
+      "eligibility_threshold": {
+        "value": 115000000,
+        "unit": "AMD",
+        "applies_to": "Prior-year sales turnover from all activities (incl. turnover attributed to micro-enterprise regime) of resident commercial organisations and IEs; exceeding 115M during the current year ends the regime from that moment (art. 255(1)(2)); VAT then due on the part above the threshold (art. 59)",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 254, մաս 2. «Շրջանառության հարկ վճարող կարող են համարվել այն ռեզիդենտ առևտրային կազմակերպությունը և անհատ ձեռնարկատերը, որոնց նախորդ հարկային տարվա ընթացքում գործունեության բոլոր տեսակների մասով իրացման շրջանառությունը չի գերազանցել 115 միլիոն դրամը»",
+        "evidence_en": "Art. 254(2): a resident commercial organisation and an IE may be turnover-tax payers if their prior-year turnover from all activities did not exceed AMD 115 million.",
+        "last_verified": "2026-10-26",
+        "conflict": true,
+        "conflicting_sources": [
+          {
+            "value": 120000000,
+            "source_url": "https://armenian-lawyer.com/ru/immigration/armenia-doubles-turnover-tax-from-jan-1-2025-sme-decision-point-on-vat-profit-tax-at-amd-120m/",
+            "source_name": "armenian-lawyer.com article (RU) 'Armenia doubles turnover tax from Jan 1 2025 … at AMD 120M'",
+            "evidence": "URL slug/title says 'decision point on VAT/profit tax at AMD 120m'; page body failed to load (empty) – snippet/title only"
+          }
+        ],
+        "cross_checks": [
+          {
+            "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+            "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+            "evidence": "«Лимит годового дохода для «Налога с оборота» составляет 115 млн армянских драмов»"
+          },
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "«Տարեկան վաճառքը չպետք է գերազանցի 115,000,000 ՀՀ դրամը»"
+          },
+          {
+            "source_url": "https://www.arlis.am/hy/acts/172471",
+            "source_name": "RA Tax Code, consolidated edition in force 28.12.2022–01.01.2023 (arlis.am act 172471)",
+            "evidence": "Art. 254(2) in the Dec-2022 edition also read «չի գերազանցել 115 միլիոն դրամը» – threshold unchanged since at least 2022"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": "Conflict resolved in favour of the primary source: the current consolidated Tax Code (art. 254(2), 255(1)(2), 59) states 115M. The 120M figure appears only in a secondary article title (page not loadable); no adopted law setting 120M was found."
+      },
+      "excluded_activities": {
+        "value": [
+          "banks, credit organisations, insurers, insurance agents/brokers, crypto-asset service providers, investment companies, securities-market professionals, pawnshops, FX dealers, investment funds and fund managers, payment & settlement organisations, casinos/gambling/totalisator/internet-totalisator and lottery organisers, notaries, audit firms, advocates (art. 254(3)(3))",
+          "NACE-type codes 69 (legal & accounting), 70 (head-office activities; management consultancy), 78.2 and 78.3 (temporary/other labour supply) (art. 254(3)(3.1), in force from 2025-07-01 per ՀՕ-72-Ն art. 9(3))",
+          "related parties under art. 30(1) (unless the related persons stopped activity), and related parties under art. 30(2) whose combined turnover exceeds 115M (art. 254(3)(5)-(6))",
+          "parties to joint-activity contracts, commission contracts or agency contracts for supply of goods acting in the agent's name (art. 254(3)(7))",
+          "activities subject to state duty under arts. 19.7 and 19.8 of the Law on State Duty are outside the turnover-tax object (art. 256(1))",
+          "Catering exception: catering businesses may elect turnover tax regardless of the chapter's restrictions (except points 3 and 3.1) – art. 254(6)-(7)"
+        ],
+        "unit": "text",
+        "applies_to": "Who cannot be a turnover-tax payer in 2026",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 254, մաս 3. «Շրջանառության հարկ վճարողներ չեն կարող համարվել` … 3) բանկերը, … նոտարները, աուդիտորական կազմակերպությունները, փաստաբանական ծառայություն մատուցողները. 3.1) … «69․ Իրավաբանական և հաշվապահական գործունեություն», «70․ …», «78.2․ …», «78.3․ …» … 7) … համատեղ գործունեության պայմանագրի, … կոմիսիայի … գործակալության պայմանագրի կողմ հանդիսացող …»",
+        "evidence_en": "Art. 254(3): the following cannot be turnover-tax payers: banks … notaries, audit firms, advocates; (3.1) those engaged in legal & accounting (69), head-office/management consultancy (70), labour supply (78.2, 78.3); related parties; parties to joint-activity/commission/agency contracts.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": true,
+        "unsure_reason": "Item list is complete for art. 254(3) as consolidated; point 3.1 entry-into-force date (2025-07-01) taken from ՀՕ-72-Ն art. 9(3) (https://www.arlis.am/hy/acts/205201). Point 8 is blank in the consolidated text (future amendment by ՀՕ-385-Ն from 2027-02-01, see pending_changes).",
+        "note": null
+      },
+      "election_rules": {
+        "value": {
+          "existing_businesses": "Submit SRC-approved declaration by 20 February (inclusive) of the tax year → regime applies 1 Jan–31 Dec",
+          "newly_registered": "Declaration by the 20th day after state registration/IE registration → applies from registration date to year end",
+          "leaving_micro_regime": "Within 20 days after ceasing to be a micro-enterprise",
+          "resuming_activity": "Within 20 days after resuming activity / re-registering as IE",
+          "all_activities": "Regime covers all activity types of the taxpayer (art. 254(4))",
+          "exit": "Ceases on VAT-registration declaration, on exceeding 115M in current year (from the moment exceeded), or on an excluding fact; notify within 20 days (art. 255)",
+          "reporting": "Quarterly turnover-tax return and payment by the 20th of the month following each quarter (arts. 259, 261, 262)"
+        },
+        "unit": "text",
+        "applies_to": "Electing / keeping the turnover-tax regime",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 254, մաս 1, կետ 1. «… եթե հարկ վճարողը մինչև տվյալ հարկային տարվա փետրվարի 20-ը ներառյալ հարկային մարմին է ներկայացրել … շրջանառության հարկ վճարող համարվելու վերաբերյալ հայտարարություն»; կետ 2. «… հաշվառման օրվան հաջորդող 20-րդ օրը ներառյալ …»; Հոդված 259. «… հաշվետու ժամանակաշրջան է համարվում յուրաքանչյուր հաշվետու եռամսյակը»; Հոդված 261. «… մինչև յուրաքանչյուր հաշվետու ժամանակաշրջանին հաջորդող ամսվա 20-ը ներառյալ …»",
+        "evidence_en": "Art. 254(1)(1): by 20 February of the tax year the taxpayer files the declaration; (1)(2): new registrants by the 20th day after registration; art. 259: reporting period is each quarter; art. 261: return due by the 20th of the following month.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "rates_2026": [
+        {
+          "activity": "Trade (purchase & resale), except secondary raw materials and other assets/real estate",
+          "rate": {
+            "value": 10,
+            "unit": "percent",
+            "applies_to": "Trade (purchase & resale), except secondary raw materials and other assets/real estate – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 1. «Առևտրական (առք ու վաճառքի) գործունեությունից ստացվող եկամուտներ … 10»",
+            "evidence_en": "Table row 1: income from trade (purchase & sale) – 10%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [
+              {
+                "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+                "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+                "evidence": "«Услуги и торговля — базово ставка 10%» (ранее 5%)"
+              },
+              {
+                "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+                "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+                "evidence": "trade rate 10%, up from 5% in 2025"
+              }
+            ],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": "effective_from 2025-01-01 = entry into force of ՀՕ-285-Ն which restated art. 258 (https://www.arlis.am/hy/acts/194672, art. 16(1)); catering outside Yerevan: new rules apply from 2026-01-01 (ՀՕ-285-Ն art. 16(6))."
+          },
+          "deduction": {
+            "value": 9.5,
+            "unit": "percent",
+            "applies_to": "Turnover tax is reduced by this percentage of documented expenses of the period (art. 258(2), (6)); undeducted part carried forward (art. 258(7))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 2. «… նվազեցվում է սույն հոդվածի 6-րդ մասով սահմանված ծախսերի հանրագումարի 9.5 տոկոսը կազմող գումարի չափով»",
+            "evidence_en": "Art. 258(2): reduced by 9.5% of the sum of qualifying documented expenses (incl. cost of goods purchased for resale)",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "minimum": {
+            "value": 1,
+            "unit": "percent",
+            "applies_to": "Floor: after the expense reduction the tax cannot fall below this percentage of the activity's turnover (art. 258(2))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 2. «… որ շրջանառության հարկի գումարը կազմի … հարկման բազայի մեկ տոկոսը»",
+            "evidence_en": "Art. 258(2): reduction limited so that tax is not less than 1% of trade turnover",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          }
+        },
+        {
+          "activity": "Trade in secondary raw materials on the Government list",
+          "rate": {
+            "value": 5,
+            "unit": "percent",
+            "applies_to": "Trade in secondary raw materials on the Government list – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 2. «… երկրորդային հումքի առևտրական … եկամուտներ 5»",
+            "evidence_en": "Row 2: trade in secondary raw materials (Government list) – 5%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "deduction": null,
+          "minimum": null
+        },
+        {
+          "activity": "Sale of newspapers by editorial offices",
+          "rate": {
+            "value": 1.5,
+            "unit": "percent",
+            "applies_to": "Sale of newspapers by editorial offices – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 3. «Խմբագրությունների կողմից թերթերի օտարումից եկամուտներ 1.5»",
+            "evidence_en": "Row 3: newspapers sold by editorial offices – 1.5%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "deduction": null,
+          "minimum": null
+        },
+        {
+          "activity": "Production (manufacturing)",
+          "rate": {
+            "value": 7,
+            "unit": "percent",
+            "applies_to": "Production (manufacturing) – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 4. «Արտադրական գործունեությունից ստացվող եկամուտներ 7»",
+            "evidence_en": "Row 4: income from production activity – 7%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [
+              {
+                "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+                "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+                "evidence": "«Производство — ставка 7%» (ранее 3,5%)"
+              }
+            ],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "deduction": {
+            "value": 5,
+            "unit": "percent",
+            "applies_to": "Turnover tax is reduced by this percentage of documented expenses of the period (art. 258(3), (6)); undeducted part carried forward (art. 258(7))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 3. «… ծախսերի հանրագումարի 5 տոկոսը կազմող գումարի չափով»",
+            "evidence_en": "Art. 258(3): reduced by 5% of qualifying expenses",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "minimum": {
+            "value": 3,
+            "unit": "percent",
+            "applies_to": "Floor: after the expense reduction the tax cannot fall below this percentage of the activity's turnover (art. 258(3))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 3. «… կազմի արտադրական գործունեությունից ձևավորվող հարկման բազայի 3 տոկոսը»",
+            "evidence_en": "Art. 258(3): tax not below 3% of production turnover",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          }
+        },
+        {
+          "activity": "Rent, interest, royalties",
+          "rate": {
+            "value": 10,
+            "unit": "percent",
+            "applies_to": "Rent, interest, royalties – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 5. «Վարձակալական վճար, տոկոս, ռոյալթի 10»",
+            "evidence_en": "Row 5: rent, interest, royalty – 10%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "deduction": null,
+          "minimum": null
+        },
+        {
+          "activity": "Catering (public food service)",
+          "rate": {
+            "value": 12,
+            "unit": "percent",
+            "applies_to": "Catering (public food service) – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 6. «Հանրային սննդի ոլորտում իրականացվող գործունեությունից ստացվող եկամուտներ 12»",
+            "evidence_en": "Row 6: catering – 12%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [
+              {
+                "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+                "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+                "evidence": "«Общепит — ставка выросла до 12%» (ранее 6%)"
+              }
+            ],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": "Catering outside Yerevan city: ՀՕ-285-Ն applies from 2026-01-01 (art. 16(6) of ՀՕ-285-Ն, https://www.arlis.am/hy/acts/194672)."
+          },
+          "deduction": {
+            "value": 9,
+            "unit": "percent",
+            "applies_to": "Turnover tax is reduced by this percentage of documented expenses of the period (art. 258(4), (6)); undeducted part carried forward (art. 258(7))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 4. «… ծախսերի հանրագումարի 9 տոկոսը կազմող գումարի չափով»",
+            "evidence_en": "Art. 258(4): reduced by 9% of qualifying expenses",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "minimum": {
+            "value": 3.5,
+            "unit": "percent",
+            "applies_to": "Floor: after the expense reduction the tax cannot fall below this percentage of the activity's turnover (art. 258(4))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 4. «… կազմի … հարկման բազայի 3.5 տոկոսը»",
+            "evidence_en": "Art. 258(4): tax not below 3.5% of catering turnover",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          }
+        },
+        {
+          "activity": "Non-catering income of taxpayers who elected turnover tax as caterers under art. 254(6)-(7)",
+          "rate": {
+            "value": 20,
+            "unit": "percent",
+            "applies_to": "Non-catering income of taxpayers who elected turnover tax as caterers under art. 254(6)-(7) – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 7. «… «Հանրային սննդի կազմակերպում» հատվածում չներառվող՝ այլ ակտիվների օտարումից, ինչպես նաև այլ գործունեությունից ստացվող եկամուտներ 20»",
+            "evidence_en": "Row 7: other income of catering-electing payers – 20%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "deduction": null,
+          "minimum": null
+        },
+        {
+          "activity": "High-technology activities on the Government's high-tech activity list (IT / R&D)",
+          "rate": {
+            "value": 1,
+            "unit": "percent",
+            "applies_to": "High-technology activities on the Government's high-tech activity list (IT / R&D) – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": "2031-12-31",
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 8. «Կառավարության սահմանած բարձր տեխնոլոգիաների ոլորտի գործունեության տեսակների ցանկում ներառված գործունեության տեսակներից ստացվող եկամուտներ 1»; ծանոթագրություն. «(հոդվածի 1-ին մասի աղյուսակի 8-րդ տողը գործում է մինչև 2031 թվականի դեկտեմբերի 31-ը` համաձայն 12.06.24 ՀՕ-285-Ն օրենքը փոփոխող 04.12.24 ՀՕ-500-Ն օրենքի 2-րդ հոդվածի)»",
+            "evidence_en": "Row 8: income from activities on the Government's high-tech list – 1%; note: row 8 operates until 31.12.2031 per art. 2 of law ՀՕ-500-Ն (04.12.2024) amending ՀՕ-285-Ն.",
+            "last_verified": "2026-10-26",
+            "conflict": true,
+            "conflicting_sources": [
+              {
+                "value": 5,
+                "source_url": "https://www.arlis.am/hy/acts/194672",
+                "source_name": "Law ՀՕ-285-Ն of 12.06.2024 amending the Tax Code (arlis.am), in force 01.01.2025 – original text of art. 258 table row 8",
+                "evidence": "«8) «Տեղեկատվական տեխնոլոգիաների ոլորտի պետական աջակցության մասին» օրենքի 3-րդ հոդվածի 1-ին մասի 2-րդ կետով սահմանված գործունեության տեսակներից ստացվող եկամուտներ 5» – superseded before entry into force by ՀՕ-500-Ն (per consolidated note)"
+              }
+            ],
+            "cross_checks": [
+              {
+                "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+                "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+                "evidence": "IT и НИОКР: «ставка снижена до 1%»"
+              },
+              {
+                "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+                "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+                "evidence": "«1% շրջանառության արտոնյալ հարկ» for qualifying IT companies"
+              }
+            ],
+            "unsure": true,
+            "unsure_reason": "The 1% rate and 31.12.2031 sunset are from the current consolidated Tax Code. The amending law ՀՕ-500-Ն (04.12.2024) itself was NOT fetched (not found on arlis via search), so its exact entry-into-force date is inferred: it amends ՀՕ-285-Ն (in force 01.01.2025) and the secondary sources say 1% from 2025. 1% applies only to activities on the Government's high-tech list (list itself not fetched); IT activities not on that list fall under 'other activities' 10%.",
+            "note": null
+          },
+          "deduction": null,
+          "minimum": null
+        },
+        {
+          "activity": "Disposal of other assets, incl. real estate",
+          "rate": {
+            "value": 10,
+            "unit": "percent",
+            "applies_to": "Disposal of other assets, incl. real estate – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 9. «Այլ ակտիվների, այդ թվում՝ անշարժ գույքի օտարումից ստացվող եկամուտներ 10»",
+            "evidence_en": "Row 9: disposal of other assets incl. real estate – 10%",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "deduction": null,
+          "minimum": null
+        },
+        {
+          "activity": "Other activities (services etc. not listed above)",
+          "rate": {
+            "value": 10,
+            "unit": "percent",
+            "applies_to": "Other activities (services etc. not listed above) – rate on turnover (art. 258(1) table)",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 1, աղյուսակ, կետ 10. «Այլ գործունեությունից ստացվող եկամուտներ 10»",
+            "evidence_en": "Row 10: income from other activities – 10%",
+            "last_verified": "2026-10-26",
+            "conflict": true,
+            "conflicting_sources": [
+              {
+                "value": 5,
+                "source_url": "https://www.arlis.am/hy/acts/172471",
+                "source_name": "RA Tax Code, consolidated edition in force 28.12.2022–01.01.2023 (arlis.am act 172471)",
+                "evidence": "pre-2025 table: «Այլ գործունեությունից կամ այլ ակտիվների օտարումից ստացվող եկամուտներ 5» – this is the OLD (≤2024) rate; some competitor pages still cite it"
+              }
+            ],
+            "cross_checks": [
+              {
+                "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+                "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+                "evidence": "«Услуги и торговля — базово ставка 10%»"
+              }
+            ],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": "'10% vs 5%' resolved: statutory rate is 10% since 2025-01-01; with documented expenses the effective rate can fall to a 4.5% floor. 5% was the rate until 31.12.2024."
+          },
+          "deduction": {
+            "value": 6,
+            "unit": "percent",
+            "applies_to": "Turnover tax is reduced by this percentage of documented expenses of the period (art. 258(5), (6)); undeducted part carried forward (art. 258(7))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 5. «… ծախսերի հանրագումարի 6 տոկոսը կազմող գումարի չափով»",
+            "evidence_en": "Art. 258(5): reduced by 6% of qualifying expenses",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          },
+          "minimum": {
+            "value": 4.5,
+            "unit": "percent",
+            "applies_to": "Floor: after the expense reduction the tax cannot fall below this percentage of the activity's turnover (art. 258(5))",
+            "effective_from": "2025-01-01",
+            "effective_to": null,
+            "source_url": "https://www.arlis.am/hy/acts/230455",
+            "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+            "evidence": "Հոդված 258, մաս 5. «… կազմի այլ գործունեությունից ձևավորվող հարկման բազայի 4.5 տոկոսը»",
+            "evidence_en": "Art. 258(5): tax not below 4.5% of other-activities turnover",
+            "last_verified": "2026-10-26",
+            "conflict": false,
+            "conflicting_sources": [],
+            "cross_checks": [],
+            "unsure": false,
+            "unsure_reason": null,
+            "note": null
+          }
+        }
+      ],
+      "expense_rules": {
+        "value": {
+          "deductible": "documented (art. 55(2) points 1-5, (12),(13)) direct production/service costs, original cost of goods for resale, administrative and selling expenses incurred in the period",
+          "not_deductible": "fixed assets & intangibles (acquisition, capex, depreciation, disposal), gratuitously received items, business-trip and representation expenses, and for caterers the cost of non-culinary assets",
+          "carry_forward": "unused reduction carried forward to later periods (art. 258(7)); on moving to general regime, unused part × 10 (trade), ×20 (production), ×10 (catering), ×15 (other) is deducted from gross income (art. 264(4))",
+          "allocation": "separate accounting required; otherwise admin/selling costs allocated by turnover weight (art. 260(3), added by ՀՕ-72-Ն for expenses from 2025-01-01)"
+        },
+        "unit": "text",
+        "applies_to": "Expense deduction mechanics for trade, production, catering and other activities",
+        "effective_from": "2025-01-01",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 258, մաս 6, կետ 1. «… փաստաթղթերով հիմնավորված՝ ապրանքների արտադրության, աշխատանքների կատարման և (կամ) ծառայությունների մատուցման հետ անմիջականորեն կապված ծախսերը, առևտրական … ապրանքների սկզբնական արժեքը, ինչպես նաև վարչական և իրացման ծախսերը»; կետ 2. «… չեն համարվում հիմնական միջոցներ … գործուղման ծախսերը, ներկայացուցչական ծախսերը …»",
+        "evidence_en": "Art. 258(6): deductible = documented direct costs, cost of goods for resale, admin and selling expenses; not deductible = fixed/intangible assets, business-trip, representation costs, etc.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "ie_fixed_payments": [
+        {
+          "value": 5000,
+          "unit": "AMD/month",
+          "applies_to": "Profit tax of an IE on turnover tax, for all turnover-tax activities regardless of number; final liability; not charged for full months of declared suspension; paid annually by 20 April of the following year (art. 136(4))",
+          "effective_from": "2025-01-01",
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 125, մաս 3. «… շրջանառության հարկի համակարգում գործունեություն իրականացնող անհատ ձեռնարկատերերը … շահութահարկը վճարում են ամսական հինգ հազար դրամի չափով, որը … համարվում է շահութահարկի գծով վերջնական հարկային պարտավորություն»",
+          "evidence_en": "Art. 125(3): IEs in the turnover-tax system pay profit tax of AMD 5,000 per month, which is their final profit-tax liability for those activities.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [
+            {
+              "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+              "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+              "evidence": "«Подоходный налог (минимальный фиксированный) 5 000 драмов в месяц»"
+            },
+            {
+              "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+              "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+              "evidence": "«5,000 ՀՀ դրամ (միայն շրջանառության հարկի ռեժիմի համար)»"
+            }
+          ],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": "NOTE: in Armenia an IE's business income is subject to PROFIT tax (շահութահարկ, art. 103(1)(2)), not personal income tax; secondary sites call this 5,000 'income tax'. Wording restated by ՀՕ-285-Ն from 2025-01-01 (before that it applied to IEs in all special regimes incl. micro – see 2022 edition art. 125(3))."
+        },
+        {
+          "value": 5000,
+          "unit": "AMD/month",
+          "applies_to": "Funded-pension social payment of an IE for turnover-tax activities (participants: born on/after 1974-01-01, or earlier-born who opted in); final liability for those activities",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/224823",
+          "source_name": "Law ՀՕ-244-Ն 'On funded pensions', consolidated edition in force 18.05.2026–present (arlis.am)",
+          "evidence": "Հոդված 6, մաս 2, կետ 3. «Հայաստանի Հանրապետության հարկային օրենսգրքով սահմանված՝ շրջանառության հարկի համակարգում հարկվող գործունեության տեսակների մասով` ամսական 5000 դրամի չափով»; մաս 5. «… համարվում է … վերջնական պարտավորություն»",
+          "evidence_en": "Funded Pensions Law art. 6(2)(3): for activities taxed under turnover tax – AMD 5,000 per month; art. 6(5): this is the final social-payment liability for those activities.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [
+            {
+              "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+              "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+              "evidence": "Социальные взносы ИП: «Фиксированная сумма — 5 000 драмов в месяц»"
+            }
+          ],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        {
+          "value": "Normal income tax withholding on employees' pay (no special regime); flat rate 20% since 2023-01-01",
+          "unit": "percent",
+          "applies_to": "Employees of turnover-tax payers – turnover tax does not replace income tax withheld as tax agent",
+          "effective_from": "2023-01-01",
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 263, մաս 1. «Շրջանառության հարկ վճարողի համար պահպանվում են … այլ հարկերի (որոնց շրջանառության հարկը չի փոխարինում) և վճարների հաշվարկման ու վճարման կարգերը …»; Հոդված 150, մաս 1. «2023 թվականի հունվարի 1-ից 20 տոկոս»",
+          "evidence_en": "Art. 263(1): turnover-tax payers keep the normal rules for other taxes not replaced by turnover tax; art. 150(1): income tax rate 20% from 1 Jan 2023.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        }
+      ],
+      "what_turnover_tax_replaces": {
+        "value": {
+          "commercial_organisation": "VAT and profit tax (calculation weights: profit tax 40%, VAT 60%)",
+          "individual_entrepreneur": "VAT only (IE additionally pays the 5,000 AMD/month fixed profit tax)"
+        },
+        "unit": "text",
+        "applies_to": "Taxes replaced by turnover tax",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 253, մաս 2. «Ռեզիդենտ առևտրային կազմակերպությունների համար շրջանառության հարկը փոխարինում է ԱԱՀ-ին և (կամ) շահութահարկին …»; մաս 3. «Անհատ ձեռնարկատերերի համար շրջանառության հարկը փոխարինում է ԱԱՀ-ին»",
+        "evidence_en": "Art. 253(2): for resident companies turnover tax replaces VAT and/or profit tax; (3): for IEs it replaces VAT.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "history": [
+        {
+          "date": "2020-01-01",
+          "change": "Family-business regime (Tax Code ch. 56) replaced by micro-enterprise regime; patent tax chapter 57 repealed",
+          "source_url": "https://www.arlis.am/hy/acts/131962",
+          "evidence": "ՀՕ-68-Ն, Հոդված 47. «Օրենսգրքի 56-րդ գլուխը շարադրել հետևյալ խմբագրությամբ. … Միկրոձեռնարկատիրության ՀԱՄԱԿԱՐԳԸ»; Հոդված 71. «Սույն օրենքն ուժի մեջ է մտնում 2020 թվականի հունվարի 1-ից …»"
+        },
+        {
+          "date": "until 2024-12-31",
+          "change": "Old turnover-tax rates: trade 5%, secondary raw materials 1.5%, newspapers 1.5%, production 3.5%, rent/interest/royalty/real-estate disposal 10%, notarial 10%, lotteries 25%, catering 6%, catering-electors' other income 20%, other activities/other assets 5%; ceiling 115M",
+          "source_url": "https://www.arlis.am/hy/acts/172471",
+          "evidence": "Dec-2022 edition art. 258(1) table: «Առևտրական … 5», «Արտադրական … 3.5», «Հանրային սննդի … 6», «Այլ գործունեությունից կամ այլ ակտիվների օտարումից ստացվող եկամուտներ 5»"
+        },
+        {
+          "date": "2023-07-01",
+          "change": "Micro-enterprise fixed income tax of AMD 5,000 per employee per month abolished (art. 271 repealed; art. 269(2)(2) restated → normal income tax on employees)",
+          "source_url": "https://www.arlis.am/hy/acts/171781",
+          "evidence": "ՀՕ-450-Ն, Հոդված 5 and 7; Հոդված 8(2)-(3): «… ուժի մեջ է մտնում 2023 թվականի հուլիսի 1-ից …»"
+        },
+        {
+          "date": "2025-01-01",
+          "change": "ՀՕ-285-Ն: art. 258 restated – trade 10% (9.5% expense credit, 1% floor), production 7% (5%, floor 3%), catering 12% (9%, floor 3.5%), other activities 10% (6%, floor 4.5%), rent/interest/royalty 10%, other assets incl. real estate 10%, IT row 8 (5% in original text → 1% high-tech list per ՀՕ-500-Ն, until 2031-12-31); notaries excluded from turnover regime; art. 125(3) – 5,000 AMD/month profit tax limited to IEs in turnover-tax regime; micro exclusions widened (all trading businesses, software development, etc.)",
+          "source_url": "https://www.arlis.am/hy/acts/194672",
+          "evidence": "ՀՕ-285-Ն, Հոդված 12. «Օրենսգրքի 258-րդ հոդվածը շարադրել հետևյալ խմբագրությամբ …»; Հոդված 16(1). «Սույն օրենքն ուժի մեջ է մտնում 2025 թվականի հունվարի 1-ից …»"
+        },
+        {
+          "date": "2025-07-01",
+          "change": "ՀՕ-72-Ն: legal & accounting (69), head-office/management consultancy (70), labour supply (78.2, 78.3) excluded from turnover tax (art. 254(3)(3.1)); expense-allocation rule (art. 260(3)) applied to expenses from 2025-01-01",
+          "source_url": "https://www.arlis.am/hy/acts/205201",
+          "evidence": "ՀՕ-72-Ն, Հոդված 9(3). «Սույն օրենքի 2-րդ, 3-րդ, 7-րդ և 8-րդ հոդվածներն ուժի մեջ են մտնում 2025 թվականի հուլիսի 1-ից»"
+        },
+        {
+          "date": "2026-01-01",
+          "change": "No rate/threshold change to turnover tax found for 2026-01-01 in the consolidated Code. Changes taking effect in 2026: ՀՕ-285-Ն catering rules extended to catering outside Yerevan (2026-01-01, ՀՕ-285-Ն art. 16(6)); universal health insurance premium for IEs with 2025 turnover/gross income ≥ 2,400,001 AMD (law ՀՕ-459-Ն); 2026-07-01: ՀՕ-234-Ն excludes assignment of monetary claims from the 'services' object of turnover tax (art. 256(1))",
+          "source_url": "https://www.arlis.am/hy/acts/226008",
+          "evidence": "ՀՕ-234-Ն, Հոդված 29. «Օրենսգրքի 256-րդ հոդվածի 1-ին մասը «ֆինանսական ակտիվների» բառերից հետո լրացնել «, բացառությամբ դրամական պահանջի իրավունքի զիջման» բառերով»; Հոդված … «Սույն օրենքն ուժի մեջ է մտնում 2026 թվականի հուլիսի 1-ից …»"
+        }
+      ]
+    },
+    "micro_enterprise": {
+      "threshold": {
+        "value": 24000000,
+        "unit": "AMD",
+        "applies_to": "Prior-year turnover from all activities (incl. turnover-tax activities) of resident commercial organisations and IEs; for non-IE individuals – turnover from Annex 3 activities; exceeding 24M in the current year ends micro status from that moment (art. 268(1)(2))",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 267, մաս 3. «Միկրոձեռնարկատիրության սուբյեկտ կարող են համարվել այն ռեզիդենտ առևտրային կազմակերպությունը և անհատ ձեռնարկատերը, որոնց՝ նախորդ հարկային տարվա ընթացքում գործունեության բոլոր տեսակների մասով իրացման շրջանառությունը չի գերազանցել 24 միլիոն դրամը …»",
+        "evidence_en": "Art. 267(3): a resident company or IE may be a micro-enterprise if prior-year turnover from all activities did not exceed AMD 24 million.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "«տարեկան վաճառքը չի գերազանցում 24,000,000 դրամը»"
+          },
+          {
+            "source_url": "https://taxinfo.am/?page_id=1346",
+            "source_name": "taxinfo.am (Alias LLC) – Tax Code ch.56 micro-enterprise reprint",
+            "evidence": "«24 միլիոն դրամը» (art. 267(3))"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "excluded_activities": {
+        "value": [
+          "banks, credit organisations, insurers & insurance intermediaries, crypto-asset service providers, investment companies, securities professionals, pawnshops, FX dealers, investment funds/managers, payment organisations, notaries, gambling/lottery organisers, saunas/baths, audit firms, and ALL businesses engaged in trade (purchase & sale) (art. 267(5)(1))",
+          "consulting, legal, accounting, engineering, advertising, design, marketing, translation, expert/forensic, medical, dental-technical, hairdressing, body-care, car service/repair, intermediary (incl. real-estate brokerage/letting), software development, information processing & transmission, R&D, construction, architectural design, real-estate valuation & surveying, catering inside Yerevan (except tourist-house meals), and similar services (art. 267(5)(2))",
+          "NACE 70 (head office / management consultancy), 78.2, 78.3 labour supply (art. 267(5)(2.1))",
+          "inter-/intra-regional bus route operators (art. 267(5)(2.2))",
+          "activities subject to state duty under Law on State Duty arts. 19.7/19.8 (art. 267(5)(4))",
+          "related parties (art. 30(1)); related parties under art. 30(2) with combined turnover > 24M (art. 267(5)(6)-(7))",
+          "parties to joint-activity / commission / agency contracts (art. 267(5)(8))",
+          "non-IE individuals using the labour of other non-IE individuals (art. 267(5)(9))",
+          "companies/IEs that are the receiving party under an active contract for rent, interest (except current-account interest) or royalties (art. 267(5)(11))"
+        ],
+        "unit": "text",
+        "applies_to": "Who cannot be a micro-enterprise in 2026",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 267, մաս 5. «Միկրոձեռնարկատիրության սուբյեկտներ չեն կարող համարվել` 1) բանկերը … առևտրական (առք ու վաճառքի) գործունեությամբ զբաղվող կազմակերպություններն ու անհատ ձեռնարկատերերը. 2) խորհրդատվական, իրավաբանական, հաշվապահական … ծրագրային ապահովման մշակման … շինարարական աշխատանքներ կատարողները …»",
+        "evidence_en": "Art. 267(5): cannot be micro-enterprises: banks … businesses engaged in trade; (2) providers of consulting, legal, accounting … software development … construction services, etc.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://taxinfo.am/?page_id=1346",
+            "source_name": "taxinfo.am (Alias LLC) – Tax Code ch.56 micro-enterprise reprint",
+            "evidence": "art. 267(5) list reproduced (banks, insurers, notaries, consulting/professional services …)"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "exempt_taxes": {
+        "value": {
+          "exempt": "All state taxes arising from the micro-enterprise activity (VAT, profit tax / income tax on own business income, turnover tax), incl. tax-agent obligations and profit-tax advances",
+          "not_exempt": [
+            "taxes on imports (incl. from EAEU)",
+            "income tax on taxable income paid to non-IE individuals (employees etc.) – normal rules",
+            "excise, environmental and road taxes"
+          ],
+          "reporting": "Annual turnover report by 1 February of next year (except IEs exclusively in Annex-3 activities); monthly income-tax return by the 20th of the following month (art. 270)"
+        },
+        "unit": "text",
+        "applies_to": "Tax exemptions of micro-enterprise subjects (art. 269)",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 269, մաս 1. «Միկրոձեռնարկատիրության սուբյեկտներն ազատվում են միկրոձեռնարկատիրության մասով առաջացող բոլոր պետական հարկերի հաշվարկման և պետական բյուջե վճարման պարտավորությունից …»; մաս 2. «… չեն ազատվում` 1) … ներմուծվող … ապրանքների մասով … 2) անհատ ձեռնարկատեր և նոտար չհանդիսացող ֆիզիկական անձանց վճարվող (հաշվարկվող) հարկվող եկամուտներից … եկամտային հարկ … 3) … ակցիզային հարկի, բնապահպանական հարկի և (կամ) ճանապարհային հարկի …»",
+        "evidence_en": "Art. 269(1): micro-enterprises are exempt from calculating and paying all state taxes arising from micro activity; (2) they are not exempt from taxes on imports, income tax on income paid to individuals, excise/environmental/road taxes.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://taxinfo.am/?page_id=1346",
+            "source_name": "taxinfo.am (Alias LLC) – Tax Code ch.56 micro-enterprise reprint",
+            "evidence": "«Միկրոձեռնարկատիրության սուբյեկտներն ազատվում են …»; not exempt from income tax on payments to individuals"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "employee_fixed_income_tax": {
+        "value": null,
+        "unit": "AMD/month",
+        "applies_to": "Employees of micro-enterprises in 2026",
+        "effective_from": "2023-07-01",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 269, մաս 2, կետ 2 (գործող). «անհատ ձեռնարկատեր և նոտար չհանդիսացող ֆիզիկական անձանց վճարվող (հաշվարկվող) հարկվող եկամուտներից Օրենսգրքով սահմանված կարգով եկամտային հարկ հաշվարկելու և վճարելու պարտավորությունից»; Հոդված 271 – «(հոդվածն ուժը կորցրել է 24.11.22 ՀՕ-450-Ն)»",
+        "evidence_en": "Current art. 269(2)(2): micro-enterprises must compute and pay income tax on income paid to individuals under the general Code rules (no fixed amount); art. 271 (fixed payment mechanics) repealed.",
+        "last_verified": "2026-10-26",
+        "conflict": true,
+        "conflicting_sources": [
+          {
+            "value": 5000,
+            "source_url": "https://www.arlis.am/hy/acts/172471",
+            "source_name": "RA Tax Code, consolidated edition in force 28.12.2022–01.01.2023 (arlis.am act 172471)",
+            "evidence": "OLD art. 269(2)(2): «… յուրաքանչյուր վարձու աշխատողի համար ամսական հինգ հազար դրամի չափով եկամտային հարկ … որը … համարվում է եկամտային հարկի գծով վերջնական հարկային պարտավորություն» – valid only until 30.06.2023 (abolished by ՀՕ-450-Ն, https://www.arlis.am/hy/acts/171781, art. 8(2))"
+          }
+        ],
+        "cross_checks": [],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": "value null on purpose: the fixed AMD 5,000 per-employee income tax NO LONGER EXISTS in 2026; employees of micro-enterprises are taxed under general income-tax rules (20%, art. 150(1)). The 5,000 figure on competitor pages is outdated (pre-July 2023)."
+      },
+      "other_fixed_payments": [
+        {
+          "value": "5% of income received (micro-only IE treated as 'self-employed person')",
+          "unit": "percent",
+          "applies_to": "Funded-pension social payment of an IE that is exclusively a micro-enterprise subject (participants only: born ≥1974-01-01 or opted in)",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/224823",
+          "source_name": "Law ՀՕ-244-Ն 'On funded pensions', consolidated edition in force 18.05.2026–present (arlis.am)",
+          "evidence": "Կուտակային կենսաթոշակների մասին օրենք, Հոդված 3, կետ 9. «ինքնազբաղված անձ … ինչպես նաև Հայաստանի Հանրապետության հարկային օրենսգրքով սահմանված՝ բացառապես միկրոձեռնարկատիրության սուբյեկտ համարվող անհատ ձեռնարկատեր»; Հոդված 6, մաս 2, կետ 4. «որպես ինքնազբաղված անձ՝ ստացված եկամուտների 5 տոկոսի չափով, անկախ եկամտի չափից»",
+          "evidence_en": "Funded Pensions Law art. 3(9): a 'self-employed person' includes an IE that is exclusively a micro-enterprise; art. 6(2)(4): self-employed pay 5% of income received regardless of amount.",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": true,
+          "unsure_reason": "The law does not define in this article whether 'income received' for a micro IE equals turnover; SRC guidance not fetched.",
+          "note": null
+        },
+        {
+          "value": {
+            "base_up_to_12M": 12000,
+            "base_over_12M": 120000
+          },
+          "unit": "AMD/year",
+          "applies_to": "Stamp payment (դրոշմանիշային վճար) of an IE in micro regime; base = turnover shown in the micro turnover report; paid annually in profit-tax deadlines",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230046",
+          "source_name": "Law ՀՕ-245-Ն 'On compensation of damage caused to the life or health of servicemen in defence of RA' (stamp payment law), consolidated edition in force 01.09.2026–present (arlis.am)",
+          "evidence": "Օրենք ՀՕ-245-Ն, Հոդված 9, կետ 5 «գ. միկրոձեռնարկատիրության համակարգում գործող անհատ ձեռնարկատերերի համար … իրացման շրջանառությունը»; Հոդված 12 «2) անհատ ձեռնարկատերերը … Մինչև 2 400 000 դրամ … 12000 դրամ … 6 000 001-ից մինչև 12 000 000 դրամ … 12000 դրամ … 12 000 001 դրամ և ավելի … 120 000 դրամ»",
+          "evidence_en": "Stamp-payment law art. 9(5)(c): base for micro IEs is turnover; art. 12(1)(2): IEs pay AMD 12,000 for base up to 12M and AMD 120,000 for base ≥ 12,000,001 (annual reporting period).",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [
+            {
+              "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+              "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+              "evidence": "«При обороте до 12 000 000 драмов — 12 000 драмов в год … свыше 12 000 000 драмов — 120 000 драмов в год»"
+            }
+          ],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        {
+          "value": 129600,
+          "unit": "AMD/year",
+          "applies_to": "Universal health-insurance premium for IEs (all regimes incl. micro) whose 2025 declared gross income/turnover ≥ AMD 2,400,001 – applies for 2026; micro-only IEs report it in the micro turnover report",
+          "effective_from": "2026-01-01",
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230432",
+          "source_name": "Law ՀՕ-459-Ն of 17.12.2025 'On universal health insurance', consolidated edition in force 01.09.2026–present (arlis.am)",
+          "evidence": "Օրենք ՀՕ-459-Ն, Հոդված 13, մաս 1. «Ապահովագրավճարի դրույքաչափը մեկ անձի հաշվով կազմում է տարեկան 129 600 … դրամ, որը ամսվա համար կազմում է 10 800 … դրամ»; Հոդված 45, մաս 1, կետ 5 (IEs ≥ 2 400 001 AMD from Jan 1 of the year after publication); Հոդված 15, մաս 2",
+          "evidence_en": "Health Insurance Law art. 13(1): premium AMD 129,600 per year (10,800/month); art. 45(1)(5): applies to IEs with 2025 turnover/gross income ≥ 2,400,001 from 1 Jan of the year following publication (published 24.12.2025 → 2026-01-01).",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [
+            {
+              "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+              "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+              "evidence": "«Անհատ ձեռնարկատերերի համար՝ տարեկան 129,600 ՀՀ դրամ» for 2025 income ≥ 2,400,001"
+            }
+          ],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        }
+      ]
+    },
+    "family_business": {
+      "value": null,
+      "unit": "text",
+      "applies_to": "Family business (ընտանեկան ձեռնարկատիրություն) special regime",
+      "effective_from": null,
+      "effective_to": "2019-12-31",
+      "source_url": "https://www.arlis.am/hy/acts/131962",
+      "source_name": "Law ՀՕ-68-Ն of 25.06.2019 amending the Tax Code (arlis.am), in force 01.01.2020; cross-ref. Tax Code 2018 edition https://www.arlis.am/hy/acts/123521",
+      "evidence": "2018 edition, Գլուխ 56 «Ընտանեկան ձեռնարկատիրության համակարգը», Հոդված 266. «Ընտանեկան ձեռնարկատիրություն է համարվում … ընտանիքի մեկից ավելի անդամների կողմից համատեղ իրականացվող գործունեությունը»; ՀՕ-68-Ն, Հոդված 47. «Օրենսգրքի 56-րդ գլուխը շարադրել հետևյալ խմբագրությամբ. … Միկրոձեռնարկատիրության ՀԱՄԱԿԱՐԳԸ»; Հոդված 71 – ուժի մեջ 2020 թվականի հունվարի 1-ից",
+      "evidence_en": "The family-business regime existed as Tax Code chapter 56 (2018 edition). Law ՀՕ-68-Ն (25.06.2019) replaced chapter 56 with the micro-enterprise regime, in force from 1 January 2020. The current Code (2026) contains no family-business regime; only a historical transitional reference (art. 455(2), 2017 payments).",
+      "last_verified": "2026-10-26",
+      "conflict": false,
+      "conflicting_sources": [],
+      "cross_checks": [
+        {
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Section 13 'Special tax regimes' contains only ch. 55 (turnover tax), ch. 56 (micro-enterprise), ch. 57 (patent tax – repealed by ՀՕ-68-Ն); art. 455(2) mentions family business only for 2017 payments"
+        }
+      ],
+      "unsure": false,
+      "unsure_reason": null,
+      "note": "value null: regime abolished (replaced by micro-enterprise) from 2020-01-01.",
+      "status": "abolished"
+    },
+    "general_regime": {
+      "ie_income_tax": {
+        "value": 23,
+        "unit": "percent",
+        "applies_to": "IE under the general regime: PROFIT tax (not personal income tax) on taxable profit = gross income minus deductions (art. 105(1)(1)); annual return & payment by 20 April of the following year (arts. 129, 134, 136)",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 125, մաս 3.1. «Հարկման ընդհանուր համակարգում գործունեություն իրականացնող անհատ ձեռնարկատերերի հարկման բազայի նկատմամբ շահութահարկը հաշվարկվում է 23 տոկոս դրույքաչափով»; Հոդված 105, մաս 1, կետ 1. «… հարկվող շահույթը, որը որոշվում է որպես … համախառն եկամտի և … նվազեցումների դրական տարբերություն»",
+        "evidence_en": "Art. 125(3.1): profit tax on the tax base of IEs under the general regime is 23%; art. 105(1)(1): base = gross income minus deductions.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [],
+        "unsure": true,
+        "unsure_reason": "Effective date of the 23% IE rate not verified: art. 125 amendment notes list 'լրաց. 22.03.23 ՀՕ-120-Ն' (part 3.1 absent from the Dec-2022 edition), but ՀՕ-120-Ն itself was not fetched. 23% is the rate in force in 2026. Secondary sources checked did not state 23% (no cross-check).",
+        "note": null
+      },
+      "profit_tax_llc": {
+        "value": 18,
+        "unit": "percent",
+        "applies_to": "Resident companies (LLC etc.) and PEs of non-residents under the general regime; base = gross income minus deductions; annual return/payment by 20 April",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 125, մաս 1. «Ռեզիդենտ շահութահարկ վճարողի … հարկման բազայի նկատմամբ շահութահարկը հաշվարկվում է 18 տոկոս դրույքաչափով, բացառությամբ սույն հոդվածի 2-րդ, 3-րդ և 3.1-ին մասերով սահմանված դեպքերի»",
+        "evidence_en": "Art. 125(1): profit tax of resident taxpayers is 18% (except parts 2, 3, 3.1).",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+            "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+            "evidence": "«Налог на прибыль … составляет 18%»"
+          },
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "«… զուտ շահույթի 18%»"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "vat_rate": {
+        "value": 20,
+        "unit": "percent",
+        "applies_to": "Standard VAT on taxable supplies; monthly return and payment by 20th of following month (arts. 69, 75)",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 63, մաս 1. «… ԱԱՀ-ն հաշվարկվում է 20 տոկոս դրույքաչափով, բացառությամբ Օրենսգրքի 64-րդ և 65-րդ հոդվածներով սահմանված գործարքների ու գործառնությունների»",
+        "evidence_en": "Art. 63(1): VAT is charged at 20% except exempt (art. 64) and zero-rated (art. 65) supplies.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+            "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+            "evidence": "«Ставка НДС в Армении - 20%»"
+          },
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "VAT «20%»"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "vat_threshold": {
+        "value": 115000000,
+        "unit": "AMD",
+        "applies_to": "Annual turnover (all activities). A business is a VAT payer if it cannot be (or did not elect to be) a turnover-tax/micro payer; turnover > 115M in prior year → VAT from 1 Jan; exceeding 115M during the year → VAT payer from that moment, VAT due only on the part above the threshold. Voluntary VAT registration possible.",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+        "evidence": "Հոդված 59, մաս 1, կետ 5. «… հարկային տարվա ընթացքում գործունեության բոլոր տեսակների մասով իրացման շրջանառության 115 միլիոն դրամի շեմը (այսուհետ նաև՝ ԱԱՀ-ի շեմ) գերազանցելու հիմքով ԱԱՀ վճարող համարվելու դեպքում ԱԱՀ-ն հաշվարկվում և վճարվում է ԱԱՀ-ի շեմը գերազանցող մասով»",
+        "evidence_en": "Art. 59(1)(5): where one becomes a VAT payer by exceeding the AMD 115 million turnover threshold (the 'VAT threshold') during the year, VAT is computed on the part exceeding the threshold.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "115,000,000 AMD turnover-tax ceiling, above which VAT applies"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "ie_own_social_payment": {
+        "value": {
+          "general_regime_income_up_to_6M": "5% of entrepreneurial income",
+          "general_regime_income_over_6M": "10% of entrepreneurial income minus AMD 300,000",
+          "turnover_tax_activities": "AMD 5,000 per month (final)",
+          "micro_only_IE": "5% of income (as self-employed)",
+          "annual_cap": "base capped at 180 × minimum monthly wage (art. 6(6))",
+          "deadline": "annually, within profit-tax payment deadline (20 April)"
+        },
+        "unit": "text",
+        "applies_to": "Funded-pension social payment (սոցիալական վճար) on an IE's own income – mandatory for participants born on/after 1974-01-01 (and those born earlier who opted in); entrepreneurial income = profit-tax base",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/224823",
+        "source_name": "Law ՀՕ-244-Ն 'On funded pensions', consolidated edition in force 18.05.2026–present (arlis.am)",
+        "evidence": "Կուտակային կենսաթոշակների մասին օրենք, Հոդված 6, մաս 2, կետ 2. «ձեռնարկատիրական եկամտի … ա. 5 տոկոսի չափով, եթե այդ եկամտի տարեկան չափը չի գերազանցում 6 000 000 դրամը, բ. 10 տոկոսի և 300 000 դրամի տարբերության չափով, եթե … գերազանցում է 6 000 000 դրամը»; Հոդված 7, մաս 4. «Նոտարները և անհատ ձեռնարկատերերն … սոցիալական վճարները տարեկան կտրվածքով՝ … շահութահարկի վճարման համար սահմանված ժամկետներում»",
+        "evidence_en": "Funded Pensions Law art. 6(2)(2): on entrepreneurial income – 5% if annual income ≤ AMD 6M; 10% minus AMD 300,000 if above; art. 7(4): IEs calculate and pay annually within profit-tax deadlines.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "IE social contribution «AMD 5,000» (turnover regime)"
+          }
+        ],
+        "unsure": true,
+        "unsure_reason": "Minimum monthly wage value needed for the 180× annual cap not fetched here (separate law).",
+        "note": null
+      },
+      "ie_stamp_duty": {
+        "value": {
+          "base_up_to_12M": 12000,
+          "base_over_12M": 120000
+        },
+        "unit": "AMD/year",
+        "applies_to": "Stamp payment of IEs (all regimes). Base: turnover in turnover-tax returns (turnover regime); turnover in micro report (micro); gross income in profit-tax return (general regime). Paid annually within profit-tax deadline.",
+        "effective_from": null,
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230046",
+        "source_name": "Law ՀՕ-245-Ն 'On compensation of damage caused to the life or health of servicemen in defence of RA' (stamp payment law), consolidated edition in force 01.09.2026–present (arlis.am)",
+        "evidence": "Հոդված 12, մաս 1, կետ 2. «անհատ ձեռնարկատերերը, նոտարները … Մինչև 2 400 000 դրամ … 12000 դրամ … 2 400 001-ից մինչև 6 000 000 դրամ … 12000 դրամ … 6 000 001-ից մինչև 12 000 000 դրամ … 12000 դրամ … 12 000 001 դրամ և ավելի … 120 000 դրամ»; Հոդված 15, մաս 2 «… անհատ ձեռնարկատերերը … տարեկան կտրվածքով՝ … շահութահարկի վճարման համար սահմանված ժամկետներում»",
+        "evidence_en": "Stamp-payment law art. 12(1)(2): IEs pay AMD 12,000 for a base up to 12M and AMD 120,000 for 12,000,001+; art. 15(2): IEs pay annually within profit-tax deadlines.",
+        "last_verified": "2026-10-26",
+        "conflict": false,
+        "conflicting_sources": [],
+        "cross_checks": [
+          {
+            "source_url": "https://vc.ru/id1377271/749640-2026-kakie-nalogi-v-armenii-platyat-ip-kompanii-ooo-i-fizlica-nalog-s-oborota-ndfl-nds-lgoty-dlya-it-scheta-v-bankah",
+            "source_name": "vc.ru article 'Какие налоги в Армении платят ИП…' (updated for 2026)",
+            "evidence": "«При обороте до 12 000 000 драмов — 12 000 драмов в год … свыше … 120 000 драмов в год»"
+          }
+        ],
+        "unsure": false,
+        "unsure_reason": null,
+        "note": null
+      },
+      "ie_health_insurance": {
+        "value": 129600,
+        "unit": "AMD/year",
+        "applies_to": "Universal health insurance premium for registered IEs (group art. 11(2)(12)). 2026: only IEs whose 2025 declared gross income/turnover ≥ AMD 2,400,001; 100% of annual premium; IEs pay it themselves by 20 July 2026 and become insured from the month after full payment. IEs with ≤ 2,400,000: from 2027-01-01 (see pending).",
+        "effective_from": "2026-01-01",
+        "effective_to": null,
+        "source_url": "https://www.arlis.am/hy/acts/230432",
+        "source_name": "Law ՀՕ-459-Ն of 17.12.2025 'On universal health insurance', consolidated edition in force 01.09.2026–present (arlis.am)",
+        "evidence": "Օրենք ՀՕ-459-Ն, Հոդված 13, մաս 1. «… տարեկան 129 600 … դրամ …»; Հոդված 46, մաս 10. «… 2026 թվականի համար վճարման ենթակա է … տարեկան դրույքաչափի հարյուր տոկոսը»; մաս 12. «… նոտարները և անհատ ձեռնարկատերերն ապահովագրավճարները վճարում են ինքնուրույն՝ 2026 թվականի հուլիսի 20-ը ներառյալ»",
+        "evidence_en": "Health Insurance Law art. 13(1): AMD 129,600/year; art. 46(10): for 2026 IEs in phase art. 45(1)(5) pay 100% of the annual premium; art. 46(12): IEs pay it themselves by 20 July 2026 inclusive.",
+        "last_verified": "2026-10-26",
+        "conflict": true,
+        "conflicting_sources": [
+          {
+            "value": "deadline 20 April each year",
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "«… որը պետք է վճարվի մինչև յուրաքանչյուր տարվա ապրիլի 20-ը» (page updated March 2026)"
+          }
+        ],
+        "cross_checks": [
+          {
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "«Անհատ ձեռնարկատերերի համար՝ տարեկան 129,600 ՀՀ դրամ» (2025 income ≥ 2,400,001)"
+          }
+        ],
+        "unsure": true,
+        "unsure_reason": "Amount agrees; payment DEADLINE conflicts: current consolidated law (in force 01.09.2026) art. 46(12) says 20 July 2026 for 2026; secondary (March 2026) says 20 April. Likely changed by amending law ՀՕ-135-Ն (07.04.2026) which amended art. 14, but that law was not read. Regular (post-2026) annual deadline under art. 14 not extracted.",
+        "note": null
+      }
+    },
+    "comparison": [
+      {
+        "regime": "Micro-enterprise (ch. 56)",
+        "who": {
+          "value": "Resident companies & IEs with prior-year turnover ≤ AMD 24M, not in excluded activities (no trade, no professional/IT/construction services, etc.); also non-IE individuals doing Annex-3 crafts",
+          "unit": "text",
+          "applies_to": "eligibility",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 267, մաս 3 «… չի գերազանցել 24 միլիոն դրամը …»; մաս 5 «Միկրոձեռնարկատիրության սուբյեկտներ չեն կարող համարվել …»",
+          "evidence_en": "Art. 267(3),(5)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "base": "No tax base – exempt from VAT, profit tax and turnover tax on micro activity",
+        "rate": {
+          "value": 0,
+          "unit": "percent",
+          "applies_to": "state taxes on micro activity (except imports, payroll income tax, excise/environmental/road)",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 269, մաս 1 «… ազատվում են … բոլոր պետական հարկերի հաշվարկման և պետական բյուջե վճարման պարտավորությունից …»",
+          "evidence_en": "Art. 269(1): exempt from all state taxes on micro activity",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "vat": "No VAT (exempt); VAT on imports still due",
+        "reporting": {
+          "value": "Annual turnover report by 1 Feb; monthly income-tax return by 20th of next month",
+          "unit": "text",
+          "applies_to": "reporting",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 270, մաս 1 «… մինչև … փետրվարի 1-ը ներառյալ … հաշվետվություն …»; մաս 2 «… մինչև յուրաքանչյուր հաշվետու ամսվան հաջորդող ամսվա 20-ը … եկամտային հարկի հաշվարկ»",
+          "evidence_en": "Art. 270(1)-(2)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        }
+      },
+      {
+        "regime": "Turnover tax (ch. 55)",
+        "who": {
+          "value": "Resident companies & IEs with prior-year turnover ≤ AMD 115M, not excluded under art. 254(3); elect by 20 Feb (or within 20 days of registration)",
+          "unit": "text",
+          "applies_to": "eligibility",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 254, մաս 2 «… չի գերազանցել 115 միլիոն դրամը»; մաս 1, կետ 1 «… մինչև … փետրվարի 20-ը ներառյալ …»",
+          "evidence_en": "Art. 254(1)-(2)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "base": "Sales turnover by activity (art. 257); trade/production/catering/other reduced by % of documented expenses with floors",
+        "rate": {
+          "value": "1–20% by activity: trade 10, production 7, catering 12, other 10, rent/interest/royalty 10, high-tech list 1, secondary raw materials 5, newspapers 1.5; IE also pays AMD 5,000/month fixed profit tax",
+          "unit": "text",
+          "applies_to": "rates",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 258, մաս 1 աղյուսակ; Հոդված 125, մաս 3 «… ամսական հինգ հազար դրամի չափով …»",
+          "evidence_en": "Art. 258(1) table; art. 125(3)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "vat": "Not a VAT payer (turnover tax replaces VAT; for companies also profit tax)",
+        "reporting": {
+          "value": "Quarterly return & payment by 20th of month after quarter; IE fixed profit tax paid by 20 April next year",
+          "unit": "text",
+          "applies_to": "reporting",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 259 «… յուրաքանչյուր հաշվետու եռամսյակը»; Հոդված 261 «… մինչև … հաջորդող ամսվա 20-ը ներառյալ …»; Հոդված 136, մաս 4",
+          "evidence_en": "Arts. 259, 261, 262, 136(4)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        }
+      },
+      {
+        "regime": "General regime – Individual Entrepreneur",
+        "who": {
+          "value": "Any IE (mandatory if turnover > 115M or excluded from special regimes, or no election made)",
+          "unit": "text",
+          "applies_to": "eligibility",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 59, մաս 1, կետ 1 «… չի կարող համարվել շրջանառության հարկ վճարող կամ … չի ներկայացրել … հայտարարություն»",
+          "evidence_en": "Art. 59(1)(1): default VAT/general regime",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "base": "Taxable profit = gross income − deductions (art. 105)",
+        "rate": {
+          "value": 23,
+          "unit": "percent",
+          "applies_to": "IE profit tax",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 125, մաս 3.1 «… 23 տոկոս դրույքաչափով»",
+          "evidence_en": "Art. 125(3.1)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "vat": "VAT payer, 20% (art. 63); monthly VAT return",
+        "reporting": {
+          "value": "Annual profit-tax return & payment by 20 April; monthly VAT return by 20th",
+          "unit": "text",
+          "applies_to": "reporting",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 134, մաս 1 «… մինչև … ապրիլի 20-ը ներառյալ …»; Հոդված 75, մաս 1 «… մինչև … հաջորդող ամսվա 20-ը …»",
+          "evidence_en": "Arts. 134(1), 136(1), 69, 75",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        }
+      },
+      {
+        "regime": "General regime – LLC / company",
+        "who": {
+          "value": "Any resident company not in a special regime",
+          "unit": "text",
+          "applies_to": "eligibility",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 103, մաս 1, կետ 1 «ռեզիդենտ կազմակերպությունները …»",
+          "evidence_en": "Art. 103(1)(1)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "base": "Taxable profit = gross income − deductions (art. 105)",
+        "rate": {
+          "value": 18,
+          "unit": "percent",
+          "applies_to": "company profit tax",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 125, մաս 1 «… 18 տոկոս դրույքաչափով …»",
+          "evidence_en": "Art. 125(1)",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        },
+        "vat": "VAT payer, 20%; monthly VAT return",
+        "reporting": {
+          "value": "Annual profit-tax return & payment by 20 April (plus profit-tax advances per art. 135); monthly VAT",
+          "unit": "text",
+          "applies_to": "reporting",
+          "effective_from": null,
+          "effective_to": null,
+          "source_url": "https://www.arlis.am/hy/acts/230455",
+          "source_name": "RA Tax Code ՀՕ-165-Ն, official consolidated edition in force 01.09.2026–present (arlis.am act 230455)",
+          "evidence": "Հոդված 134, մաս 1; Հոդված 135 (կանխավճարներ)",
+          "evidence_en": "Arts. 134-136",
+          "last_verified": "2026-10-26",
+          "conflict": false,
+          "conflicting_sources": [],
+          "cross_checks": [],
+          "unsure": false,
+          "unsure_reason": null,
+          "note": null
+        }
+      }
+    ],
+    "pending_changes": [
+      {
+        "description": "E-commerce platform operators excluded from turnover tax (art. 254(3)(3)) and micro-enterprise (art. 267(5)(1)) regimes; VAT rules for EAEU e-commerce",
+        "status": "adopted",
+        "effective_from": "2027-01-01",
+        "source_url": "https://www.arlis.am/hy/acts/223255",
+        "evidence": "ՀՕ-83-Ն (04.03.2026), Հոդված 16 «… «փաստաբանական ծառայություն մատուցողները» բառերից հետո լրացնել «, առևտրի էլեկտրոնային հարթակը շահագործողները» …»; Հոդված 17; Հոդված 19(1) «… ուժի մեջ է մտնում 2027 թվականի հունվարի 1-ից …»"
+      },
+      {
+        "description": "Companies that are participants (shareholders) of a bank excluded from turnover tax (new art. 254(3)(8)) and micro-enterprise (new art. 267(5)(12)); 15% profit/income tax on dividends from unlisted bank shares",
+        "status": "adopted",
+        "effective_from": "2027-02-01",
+        "source_url": "https://www.arlis.am/hy/acts/228632",
+        "evidence": "ՀՕ-385-Ն (03.07.2026), Հոդված 10 «… 8) բանկի մասնակից (բաժնետեր) հանդիսացող կազմակերպությունները»; Հոդված 12; Հոդված 14(1) «… ուժի մեջ է մտնում 2027 թվականի փետրվարի 1-ից …»"
+      },
+      {
+        "description": "Realtor and real-estate management service providers excluded from micro-enterprise regime (art. 267(5)(2)); 10% income tax (+10% above AMD 60M) on owner income from property handed to management",
+        "status": "adopted",
+        "effective_from": "2027-06-01",
+        "source_url": "https://www.arlis.am/hy/acts/217643",
+        "evidence": "ՀՕ-391-Ն (13.11.2025), Հոդված 2 «… լրացնել «ռիելթորական, անշարժ գույքի կառավարման ծառայություններ մատուցողները,» …»; Հոդված 4 «… ուժի մեջ է մտնում 2027 թվականի հունիսի 1-ից»"
+      },
+      {
+        "description": "Universal health insurance premium (AMD 129,600/yr) extended to IEs with declared turnover/gross income ≤ AMD 2,400,000 (second year after publication of 24.12.2025)",
+        "status": "adopted",
+        "effective_from": "2027-01-01",
+        "source_url": "https://www.arlis.am/hy/acts/230432",
+        "evidence": "ՀՕ-459-Ն, Հոդված 45, մաս 1, կետ 6 «… մինչև 2 400 000 … դրամ համախառն եկամուտ (իրացման շրջանառություն) հայտարարագրած անձանց համար, որոնց մասով սույն օրենքն ուժի մեջ է մտնում պաշտոնական հրապարակմանը հաջորդող երկրորդ տարվա հունվարի 1-ից …»"
+      },
+      {
+        "description": "High-tech 1% turnover-tax row (art. 258(1) row 8) expires",
+        "status": "adopted",
+        "effective_from": "2032-01-01",
+        "source_url": "https://www.arlis.am/hy/acts/230455",
+        "evidence": "«(հոդվածի 1-ին մասի աղյուսակի 8-րդ տողը գործում է մինչև 2031 թվականի դեկտեմբերի 31-ը` համաձայն … 04.12.24 ՀՕ-500-Ն օրենքի 2-րդ հոդվածի)»"
+      },
+      {
+        "description": "Change of the micro-enterprise (24M) or turnover-tax (115M) thresholds for 2027 – NOT FOUND (no adopted law in the consolidated Code; no current draft located on e-draft.am via search)",
+        "status": "draft",
+        "effective_from": null,
+        "source_url": null,
+        "evidence": "Searches (see notes) returned only older e-draft project 7656 (~2 years old, scope of turnover/micro regimes) – not verified as current; nothing adopted."
+      }
+    ]
+  },
+  "_open_questions": {
+    "count": 18,
+    "note": "Every value whose unsure flag is true. Resolve before production use.",
+    "items": [
+      {
+        "path": "employee.income_tax.reduced_regimes[0].eligibility",
+        "value": "Staff engaged in R&D works (incl. for own needs) that meet Government criteria AND received a positive conclusion of the professional commission under Tax Code Art. 121(2)(4); the staff member's occupation must be on the Government list of high-tech professional jobs; excludes foreign citizens/stateless persons without RA residence right. If the commission's positive conclusion is annulled, tax is recalculated under general rules (20%).",
+        "reason": "The Government criteria, the commission procedure and the list of high-tech occupations are in sub-legal acts that were not fetched.",
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "employee.income_tax.reduced_regimes[1].rate",
+        "value": 10,
+        "reason": "The 10% figure itself is in the old Law on Income Tax Art. 10(1.1), which was not fetched; only the sunset (31.12.2024) was verified in the Tax Code. Regime is NOT available in 2026.",
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "employee.funded_pension.formula_2026",
+        "value": {
+          "bands": [
+            {
+              "from": 0,
+              "to": 500000,
+              "rule": "5% of monthly gross salary"
+            },
+            {
+              "from": 500001,
+              "to": 1125000,
+              "rule": "10% of monthly gross salary minus 25,000 AMD"
+            },
+            {
+              "from": 1125001,
+              "to": null,
+              "rule": "fixed maximum: 10% x 1,125,000 - 25,000 = 87,500 AMD"
+            }
+          ],
+          "cap_base_rule": "Max monthly base = 15 x minimum monthly wage of the reporting month (Art. 6(6)); no social payment on the excess",
+          "cap_base_amd_2026": 1125000,
+          "max_monthly_payment_amd_2026": 87500,
+          "cap_basis": "monthly gross income = sum over ALL employers of salary and equivalent income for the month + contractual income paid that month (Art. 6(6)); refunds of excess where multiple sources",
+          "annual_parallel_limits": "annual: 5% up to 6,000,000; 10% minus 300,000 above; max base 180 x min wage (Art. 6(7)(2))",
+          "opt_out_of_cap": "Person may apply to NOT apply the max-base caps (Art. 6(11)); then payment limited to 5% / 10%-25,000 without cap",
+          "persons_after_pension_age_or_voluntary_joiners": "5% of salary flat (Art. 6(3)(1))"
+        },
+        "reason": "1,125,000 and 87,500 are computed from the law's formula (15 x 75,000; 10% x 1,125,000 - 25,000), not printed as numbers in the law; PwC states the same numbers. effective_from 2023-01-01 inferred: Art. 81(8.1)/(8.2) set different rates only for 2021 and 2022, and PwC says 'From 1 January 2023'. Boundary wording: law says 5% if salary 'does not exceed 500,000' (PwC says 'less than').",
+        "source_url": "https://www.arlis.am/hy/acts/224823"
+      },
+      {
+        "path": "employee.funded_pension.history[3]",
+        "value": {
+          "band_to_500000": "5%",
+          "above_500000": "10% minus 25,000",
+          "cap": "15 x minimum wage"
+        },
+        "reason": "effective_from 2023-01-01 inferred from Art. 81(8.1)-(8.2) and PwC.",
+        "source_url": "https://www.arlis.am/hy/acts/224823"
+      },
+      {
+        "path": "employee.funded_pension.state_cofinancing",
+        "value": {
+          "rule": "State budget tops up the accrual to 10% of monthly gross income: state part = 10% x gross - employee social payment, max 25,000 AMD/month; total accrual capped at 10% of the max monthly base (10% x 1,125,000 = 112,500 in 2026). Does NOT reduce net pay.",
+          "examples_2026": {
+            "salary_300000": {
+              "employee": 15000,
+              "state": 15000
+            },
+            "salary_500000": {
+              "employee": 25000,
+              "state": 25000
+            },
+            "salary_1000000": {
+              "employee": 75000,
+              "state": 25000
+            },
+            "salary_2000000": {
+              "employee": 87500,
+              "state": 25000
+            }
+          },
+          "not_eligible": "Voluntary joiners born before 1974 (Art. 5(1)(2)) and persons past pension age: accrual equals only their own payment (Art. 9(5)), except Art. 81(6) (born after 1964-01-01 and applied before 2018-07-01) who get the full top-up",
+          "income_tax_treatment": "State top-up is non-taxable (Tax Code Art. 147(1)(5))"
+        },
+        "reason": "Example figures are computed from the formula, not quoted.",
+        "source_url": "https://www.arlis.am/hy/acts/224823"
+      },
+      {
+        "path": "employee.stamp_duty.history[0]",
+        "value": [
+          {
+            "from": 0,
+            "to": 100000,
+            "amount": 1500
+          },
+          {
+            "from": 100001,
+            "to": 200000,
+            "amount": 3000
+          },
+          {
+            "from": 200001,
+            "to": 500000,
+            "amount": 5500
+          },
+          {
+            "from": 500001,
+            "to": 1000000,
+            "amount": 8500
+          },
+          {
+            "from": 1000001,
+            "to": null,
+            "amount": 15000
+          }
+        ],
+        "reason": "Start date of this schedule not verified (the article note cites edits by 01.07.21 ՀՕ-282-Ն and 01.03.23 ՀՕ-42-Ն). For employees >= 200,001 it ended for December 2025 salary.",
+        "source_url": "https://www.arlis.am/hy/acts/215609"
+      },
+      {
+        "path": "employee.health_insurance.bands_2026",
+        "value": [
+          {
+            "from": 0,
+            "to": 200000,
+            "amount": 0,
+            "rule": "Not yet covered in 2026 (unless a trigger month occurred, see trigger rule); the law enters into force for employees with salary up to 200,000 on 2027-01-01"
+          },
+          {
+            "from": 200001,
+            "to": 500000,
+            "amount": 4800,
+            "rule": "withheld via tax agent; state budget pays the other 6,000 of the 10,800 monthly premium"
+          },
+          {
+            "from": 500001,
+            "to": null,
+            "amount": 10800,
+            "rule": "100% of monthly premium"
+          }
+        ],
+        "reason": "Primary law is clear on 4,800 / 10,800 and is treated as authoritative; the iravaban 300/3,300 figures are unexplained. Band boundaries: law wording '...մինչև 500 000' (up to 500,000 inclusive -> 4,800) and '500 001 and more' (10,800). Which month's salary decides 4,800 vs 10,800 is not stated explicitly beyond 'աշխատավարձը, ըստ յուրաքանչյուր գործատուի'.",
+        "source_url": "https://www.arlis.am/hy/acts/230432"
+      },
+      {
+        "path": "employee.health_insurance.payer",
+        "value": "Employee (withheld from salary by the tax-agent employer, who transfers it to the state budget); employees of employers exempt from tax-agent duties pay themselves. State budget pays the remaining 6,000 for the 4,800 band.",
+        "reason": "Art. 14(3) enters into force on 2027-01-01 per Art. 45(1)(8); for 2026 the payer wording is Art. 46(9) 'by the tax agent'. That the amount is deducted from the employee's pay (rather than borne by the employer) is confirmed by b24/PwC/hrdrone and by Art. 147(1)(29) treatment, but Art. 46(9) itself does not say 'withheld'.",
+        "source_url": "https://www.arlis.am/hy/acts/230432"
+      },
+      {
+        "path": "employee.health_insurance.future[0]",
+        "value": {
+          "employees_200001_and_more": 10800,
+          "employees_up_to_200000": 10800
+        },
+        "reason": "Under the ADOPTED text, from Jan 2027 all employees would owe the full 10,800/month (no 4,800 band). This is an interpretation of transitional provisions; iravaban.net (2026-10-18, https://iravaban.net/575583.html) reads it the same way ('այլևս չի գործի 4 800 դրամի արտոնյալ ապահովագրավճարը ... 10 800 դրամ'). A draft amendment (see pending_changes) would keep 4,800 for some low earners. Re-check before 2027.",
+        "source_url": "https://www.arlis.am/hy/acts/230432"
+      },
+      {
+        "path": "employee.other_withholdings[3]",
+        "value": "Trade union membership dues: voluntary, deducted only with the member's consent; NOT a statutory withholding.",
+        "reason": "The Law on Trade Unions provision on dues check-off was not fetched; 'voluntary' is based on Labour Code Art. 213 general rule and freedom of association, not on a fetched dues provision.",
+        "source_url": "https://www.arlis.am/hy/acts/227661"
+      },
+      {
+        "path": "employee.other_withholdings[5]",
+        "value": "No employer-side social/payroll tax: the social payment is a payment BY the person (employee), the employer only calculates and transfers it as tax agent. The Tax Code's closed list of taxes contains no payroll tax.",
+        "reason": "Tax Code Art. 7 also lists a 'կենսաթոշակային վճար' (pension payment) among state payments; its law and payers were not identified in this session. Exception noted: employer pays from own funds 3,000/month social payment for employees on childcare leave until child is 2 (Funded Pensions Art. 6(10)); employer pays stamp payment from own funds when civil-contract income is insufficient; employer must pay UHI 4,800 if salary insufficient (UHI Art. 46(20)).",
+        "source_url": "https://www.arlis.am/hy/acts/224823"
+      },
+      {
+        "path": "employee.minimum_wage",
+        "value": 75000,
+        "reason": "arlis change history lists no amendment after 07.12.2022 ՀՕ-501-Ն (checked 2026-10-26). A news search found no adopted 2026/2027 increase; the old 2021-2026 programme target of 85,000 was never enacted. Note Art. 4 wording: minimum wage does not include 'taxes paid from salary' - interpretation as gross is standard but not verified further.",
+        "source_url": "https://www.arlis.am/hy/acts/172160"
+      },
+      {
+        "path": "entrepreneur.turnover_tax.excluded_activities",
+        "value": [
+          "banks, credit organisations, insurers, insurance agents/brokers, crypto-asset service providers, investment companies, securities-market professionals, pawnshops, FX dealers, investment funds and fund managers, payment & settlement organisations, casinos/gambling/totalisator/internet-totalisator and lottery organisers, notaries, audit firms, advocates (art. 254(3)(3))",
+          "NACE-type codes 69 (legal & accounting), 70 (head-office activities; management consultancy), 78.2 and 78.3 (temporary/other labour supply) (art. 254(3)(3.1), in force from 2025-07-01 per ՀՕ-72-Ն art. 9(3))",
+          "related parties under art. 30(1) (unless the related persons stopped activity), and related parties under art. 30(2) whose combined turnover exceeds 115M (art. 254(3)(5)-(6))",
+          "parties to joint-activity contracts, commission contracts or agency contracts for supply of goods acting in the agent's name (art. 254(3)(7))",
+          "activities subject to state duty under arts. 19.7 and 19.8 of the Law on State Duty are outside the turnover-tax object (art. 256(1))",
+          "Catering exception: catering businesses may elect turnover tax regardless of the chapter's restrictions (except points 3 and 3.1) – art. 254(6)-(7)"
+        ],
+        "reason": "Item list is complete for art. 254(3) as consolidated; point 3.1 entry-into-force date (2025-07-01) taken from ՀՕ-72-Ն art. 9(3) (https://www.arlis.am/hy/acts/205201). Point 8 is blank in the consolidated text (future amendment by ՀՕ-385-Ն from 2027-02-01, see pending_changes).",
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.turnover_tax.rates_2026[7].rate",
+        "value": 1,
+        "reason": "The 1% rate and 31.12.2031 sunset are from the current consolidated Tax Code. The amending law ՀՕ-500-Ն (04.12.2024) itself was NOT fetched (not found on arlis via search), so its exact entry-into-force date is inferred: it amends ՀՕ-285-Ն (in force 01.01.2025) and the secondary sources say 1% from 2025. 1% applies only to activities on the Government's high-tech list (list itself not fetched); IT activities not on that list fall under 'other activities' 10%.",
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.micro_enterprise.other_fixed_payments[0]",
+        "value": "5% of income received (micro-only IE treated as 'self-employed person')",
+        "reason": "The law does not define in this article whether 'income received' for a micro IE equals turnover; SRC guidance not fetched.",
+        "source_url": "https://www.arlis.am/hy/acts/224823"
+      },
+      {
+        "path": "entrepreneur.general_regime.ie_income_tax",
+        "value": 23,
+        "reason": "Effective date of the 23% IE rate not verified: art. 125 amendment notes list 'լրաց. 22.03.23 ՀՕ-120-Ն' (part 3.1 absent from the Dec-2022 edition), but ՀՕ-120-Ն itself was not fetched. 23% is the rate in force in 2026. Secondary sources checked did not state 23% (no cross-check).",
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.general_regime.ie_own_social_payment",
+        "value": {
+          "general_regime_income_up_to_6M": "5% of entrepreneurial income",
+          "general_regime_income_over_6M": "10% of entrepreneurial income minus AMD 300,000",
+          "turnover_tax_activities": "AMD 5,000 per month (final)",
+          "micro_only_IE": "5% of income (as self-employed)",
+          "annual_cap": "base capped at 180 × minimum monthly wage (art. 6(6))",
+          "deadline": "annually, within profit-tax payment deadline (20 April)"
+        },
+        "reason": "Minimum monthly wage value needed for the 180× annual cap not fetched here (separate law).",
+        "source_url": "https://www.arlis.am/hy/acts/224823"
+      },
+      {
+        "path": "entrepreneur.general_regime.ie_health_insurance",
+        "value": 129600,
+        "reason": "Amount agrees; payment DEADLINE conflicts: current consolidated law (in force 01.09.2026) art. 46(12) says 20 July 2026 for 2026; secondary (March 2026) says 20 April. Likely changed by amending law ՀՕ-135-Ն (07.04.2026) which amended art. 14, but that law was not read. Regular (post-2026) annual deadline under art. 14 not extracted.",
+        "source_url": "https://www.arlis.am/hy/acts/230432"
+      }
+    ]
+  },
+  "_conflicts": {
+    "count": 6,
+    "note": "Values where a second source disagrees. The main value follows the primary legal text.",
+    "items": [
+      {
+        "path": "employee.health_insurance.bands_2026",
+        "value": [
+          {
+            "from": 0,
+            "to": 200000,
+            "amount": 0,
+            "rule": "Not yet covered in 2026 (unless a trigger month occurred, see trigger rule); the law enters into force for employees with salary up to 200,000 on 2027-01-01"
+          },
+          {
+            "from": 200001,
+            "to": 500000,
+            "amount": 4800,
+            "rule": "withheld via tax agent; state budget pays the other 6,000 of the 10,800 monthly premium"
+          },
+          {
+            "from": 500001,
+            "to": null,
+            "amount": 10800,
+            "rule": "100% of monthly premium"
+          }
+        ],
+        "competing": [
+          {
+            "value": "Employee shares quoted as 300 AMD (up to 500,000), 3,300 AMD (500,001-1,000,000), full 10,800 (above 1,000,000)",
+            "source_url": "https://iravaban.net/573960.html",
+            "source_name": "iravaban.net (date shown 2026-10-4, unclear)",
+            "evidence": "As summarized by the fetch tool; original quote not captured. Not supported by the law text; possibly refers to a net effect after some offset (e.g. social package) - unexplained."
+          }
+        ],
+        "source_url": "https://www.arlis.am/hy/acts/230432"
+      },
+      {
+        "path": "entrepreneur.turnover_tax.eligibility_threshold",
+        "value": 115000000,
+        "competing": [
+          {
+            "value": 120000000,
+            "source_url": "https://armenian-lawyer.com/ru/immigration/armenia-doubles-turnover-tax-from-jan-1-2025-sme-decision-point-on-vat-profit-tax-at-amd-120m/",
+            "source_name": "armenian-lawyer.com article (RU) 'Armenia doubles turnover tax from Jan 1 2025 … at AMD 120M'",
+            "evidence": "URL slug/title says 'decision point on VAT/profit tax at AMD 120m'; page body failed to load (empty) – snippet/title only"
+          }
+        ],
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.turnover_tax.rates_2026[7].rate",
+        "value": 1,
+        "competing": [
+          {
+            "value": 5,
+            "source_url": "https://www.arlis.am/hy/acts/194672",
+            "source_name": "Law ՀՕ-285-Ն of 12.06.2024 amending the Tax Code (arlis.am), in force 01.01.2025 – original text of art. 258 table row 8",
+            "evidence": "«8) «Տեղեկատվական տեխնոլոգիաների ոլորտի պետական աջակցության մասին» օրենքի 3-րդ հոդվածի 1-ին մասի 2-րդ կետով սահմանված գործունեության տեսակներից ստացվող եկամուտներ 5» – superseded before entry into force by ՀՕ-500-Ն (per consolidated note)"
+          }
+        ],
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.turnover_tax.rates_2026[9].rate",
+        "value": 10,
+        "competing": [
+          {
+            "value": 5,
+            "source_url": "https://www.arlis.am/hy/acts/172471",
+            "source_name": "RA Tax Code, consolidated edition in force 28.12.2022–01.01.2023 (arlis.am act 172471)",
+            "evidence": "pre-2025 table: «Այլ գործունեությունից կամ այլ ակտիվների օտարումից ստացվող եկամուտներ 5» – this is the OLD (≤2024) rate; some competitor pages still cite it"
+          }
+        ],
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.micro_enterprise.employee_fixed_income_tax",
+        "value": null,
+        "competing": [
+          {
+            "value": 5000,
+            "source_url": "https://www.arlis.am/hy/acts/172471",
+            "source_name": "RA Tax Code, consolidated edition in force 28.12.2022–01.01.2023 (arlis.am act 172471)",
+            "evidence": "OLD art. 269(2)(2): «… յուրաքանչյուր վարձու աշխատողի համար ամսական հինգ հազար դրամի չափով եկամտային հարկ … որը … համարվում է եկամտային հարկի գծով վերջնական հարկային պարտավորություն» – valid only until 30.06.2023 (abolished by ՀՕ-450-Ն, https://www.arlis.am/hy/acts/171781, art. 8(2))"
+          }
+        ],
+        "source_url": "https://www.arlis.am/hy/acts/230455"
+      },
+      {
+        "path": "entrepreneur.general_regime.ie_health_insurance",
+        "value": 129600,
+        "competing": [
+          {
+            "value": "deadline 20 April each year",
+            "source_url": "https://armenian-lawyer.com/hy/taxes-armenia/",
+            "source_name": "Vardanyan & Partners (armenian-lawyer.com), 'Հարկերը Հայաստանում 2026', last updated March 2026",
+            "evidence": "«… որը պետք է վճարվի մինչև յուրաքանչյուր տարվա ապրիլի 20-ը» (page updated March 2026)"
+          }
+        ],
+        "source_url": "https://www.arlis.am/hy/acts/230432"
+      }
+    ]
+  }
+}

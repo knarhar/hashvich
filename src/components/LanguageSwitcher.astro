@@ -1,0 +1,73 @@
+---
+/**
+ * Switches language while staying on the same page.
+ *
+ * The target URL comes from the route registry rather than from string
+ * surgery on the current path, so a localized slug maps to its counterpart
+ * in the other language instead of producing a 404.
+ */
+import { LOCALES, LOCALE_LABEL, LOCALE_SHORT, HTML_LANG } from "../i18n/config.ts";
+import type { Locale } from "../i18n/config.ts";
+import { pathFor } from "../i18n/routes.ts";
+import { t } from "../i18n/utils.ts";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+---
+
+<nav class="lang" aria-label={t("nav.switchLanguage", locale)}>
+  <ul>
+    {
+      LOCALES.map((target) => {
+        const current = target === locale;
+        return (
+          <li>
+            <a
+              href={pathFor(pageKey, target)}
+              hreflang={HTML_LANG[target]}
+              lang={HTML_LANG[target]}
+              aria-current={current ? "true" : undefined}
+              title={LOCALE_LABEL[target]}
+            >
+              {LOCALE_SHORT[target]}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .lang ul {
+    display: flex;
+    gap: var(--spacing-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lang a {
+    display: inline-block;
+    padding: var(--spacing-8) var(--spacing-12);
+    border-radius: var(--radius-pills);
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-graphite);
+    text-decoration: none;
+  }
+
+  .lang a:hover {
+    color: var(--color-off-black-ink);
+  }
+
+  /* Current language is marked with the parchment surface, not a new color. */
+  .lang a[aria-current="true"] {
+    background: var(--surface-off-white-card);
+    color: var(--color-off-black-ink);
+  }
+</style>
