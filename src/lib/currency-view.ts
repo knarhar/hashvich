@@ -66,8 +66,19 @@ export function conversionView(
   const rate = (v: number) => formatRate(v, locale);
   const unit = (iso: string, v: number, other: string) =>
     `1\u00a0${currencySign(iso)} = ${rate(v)}\u00a0${currencySign(other)}`;
-  const isDirect = from === AMD || to === AMD;
   const result = formatMoney(conversion.result, to, locale);
+
+  // Each formula is written from the published CBA rates, never from a
+  // rounded rate: the line that is a CBA rate itself cites it, the other
+  // divides by it; a cross rate shows its working through the dram.
+  const fromRate = rate(conversion.fromAmd);
+  const toRate = rate(conversion.toAmd);
+  const [rateFormula, inverseFormula] =
+    from !== AMD && to !== AMD
+      ? [`${labels.cross} ${fromRate} ÷ ${toRate}`, `${labels.cross} ${toRate} ÷ ${fromRate}`]
+      : to === AMD
+        ? [labels.direct, `1 ÷ ${fromRate}`]
+        : [`1 ÷ ${toRate}`, labels.direct];
 
   return {
     base: formatMoney(conversion.amount, from, locale),
@@ -78,15 +89,13 @@ export function conversionView(
       {
         key: "rate",
         amount: unit(from, conversion.rate, to),
-        formula: isDirect
-          ? labels.direct
-          : `${labels.cross} ${rate(conversion.fromAmd)} ÷ ${rate(conversion.toAmd)}`,
+        formula: rateFormula,
         note: null,
       },
       {
         key: "inverse",
         amount: unit(to, conversion.inverse, from),
-        formula: `1 ÷ ${rate(conversion.rate)}`,
+        formula: inverseFormula,
         note: null,
       },
     ],

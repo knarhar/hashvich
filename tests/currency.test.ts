@@ -88,11 +88,21 @@ describe("what the result panel shows", () => {
     );
   });
 
+  it("out of drams: the inverse line cites the CBA rate, the rate divides by it", () => {
+    const view = conversionView(convert(P, { amount: 100_000, from: "AMD", to: "EUR" }), "en", LABELS);
+    assert.equal(view.result, `247.46${NB}€`);
+    assert.deepEqual(
+      view.lines.map((l) => l.formula),
+      ["1 ÷ 404.11", "CBA, 26 October 2026"],
+    );
+  });
+
   it("a cross rate shows its working through the dram", () => {
     const view = conversionView(convert(P, { amount: 1_000, from: "USD", to: "RUB" }), "ru", LABELS);
     assert.equal(view.result, `80${NB}621,96${NB}₽`);
     assert.equal(view.lines[0]!.amount, `1${NB}$ = 80,622${NB}₽`);
     assert.equal(view.lines[0]!.formula, "via the dram: 360,88 ÷ 4,4762");
+    assert.equal(view.lines[1]!.formula, "via the dram: 4,4762 ÷ 360,88");
   });
 
   it("amounts show cents only when there are some", () => {
