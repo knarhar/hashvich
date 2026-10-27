@@ -76,9 +76,10 @@ jobs:
           site="${PAGE_URL%/}"
           urls=$(curl -fsS "$site/sitemap-0.xml" | grep -o '<loc>[^<]*</loc>' \
             | sed -E 's#</?loc>##g' | grep -vE '/(ru|hy|en)/$' | sort)
-          # A throwaway first run: the first audit on a fresh runner pays for
-          # Chrome's cold start and scores lower than the page deserves.
-          npx --yes lighthouse@12 "$site/" --quiet --form-factor=mobile \
+          # A throwaway first run on a real calculator page: the first audit on
+          # a fresh runner pays for Chrome's cold start ("unattributable"
+          # script time) and scores lower than the page deserves.
+          npx --yes lighthouse@12 "$(echo "$urls" | tail -1)" --quiet --form-factor=mobile \
             --chrome-flags="--headless=new --no-sandbox" --output=json \
             --output-path=/tmp/warmup.json || true
           for url in $urls; do
