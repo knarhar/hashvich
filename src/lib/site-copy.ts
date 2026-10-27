@@ -42,9 +42,9 @@ export function officialSites(): { host: string; url: string; count: number }[] 
   for (const { sources } of Object.values(CALCULATOR_DATA)) {
     for (const source of sources) {
       if (!source.sourceUrl) continue;
-      const url = new URL(source.sourceUrl);
-      const host = url.hostname.replace(/^www\./, "");
-      const entry = byHost.get(host) ?? { host, url: `${url.protocol}//${url.hostname}/`, count: 0 };
+      // One entry per site: api.cba.am and cba.am are the same source.
+      const host = new URL(source.sourceUrl).hostname.split(".").slice(-2).join(".");
+      const entry = byHost.get(host) ?? { host, url: `https://${host}/`, count: 0 };
       entry.count += 1;
       byHost.set(host, entry);
     }

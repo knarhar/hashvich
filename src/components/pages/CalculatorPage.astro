@@ -466,9 +466,17 @@ const breadcrumbSchema = {
     margin-top: var(--spacing-8);
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-12);
+    align-items: center;
+    gap: 0 var(--spacing-12);
     font-size: var(--text-caption);
     color: var(--color-graphite);
+  }
+
+  /* 44px tall so each document link is a comfortable tap target. */
+  .source-meta a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 
   .updated {
