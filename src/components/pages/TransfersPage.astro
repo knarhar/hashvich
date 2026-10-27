@@ -1,0 +1,64 @@
+---
+/**
+ * The transfer fees page: the shared calculator page with the bank
+ * comparison island, its worked examples and its sources.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { TRANSFERS_PARAMS, transfersBreakdown } from "../../lib/transfers.ts";
+import { EXAMPLE_TRANSFERS, formatMoney, transfersCopyParams } from "../../lib/transfers-copy.ts";
+import { TRANSFER_SOURCES, LAST_VERIFIED } from "../../lib/transfers-sources.ts";
+import { renderBreakdown } from "../../lib/breakdown.ts";
+import CalculatorPage from "./CalculatorPage.astro";
+import Calculator from "../transfers/Calculator.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+
+const tt = useTranslations(locale);
+const copy = transfersCopyParams(locale);
+const c = (key: string) => tt(`pages.transfers.calculator.${key}`, copy);
+
+const lineLabels = Object.fromEntries(
+  TRANSFERS_PARAMS.banks.map((bank) => [bank.id, tt(`pages.transfers.banks.${bank.id}`)]),
+);
+
+// Worked examples run through the same code as the calculator.
+const formulaLabels = { exempt: "", capNote: "", exemptReasons: { feeUnpublished: c("feeUnpublished") } };
+const examples = EXAMPLE_TRANSFERS.map((input) => ({
+  label: tt("pages.transfers.examples.caseLabel", {
+    ...copy,
+    direction: c(`directions.${input.direction}`),
+    amount: formatMoney(input, locale),
+  }),
+  result: renderBreakdown(transfersBreakdown(input), locale, formulaLabels),
+}));
+
+const sources = TRANSFER_SOURCES.map((source) => ({
+  label:
+    source.labelKey === "rate"
+      ? tt("pages.transfers.sources.rate", copy)
+      : tt(`pages.transfers.banks.${source.labelKey}`),
+  name: source.sourceName,
+  url: source.sourceUrl,
+  effectiveFrom: source.effectiveFrom,
+  evidence: source.evidence,
+}));
+---
+
+<CalculatorPage
+  locale={locale}
+  pageKey={pageKey}
+  ns="transfers"
+  copy={copy}
+  examples={examples}
+  lineLabels={lineLabels}
+  sources={sources}
+  lastVerified={LAST_VERIFIED}
+>
+  <Calculator locale={locale} />
+</CalculatorPage>

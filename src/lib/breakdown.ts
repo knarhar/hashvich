@@ -55,6 +55,13 @@ export type Formula =
       floored?: boolean;
     }
   | {
+      /** A bank fee plus an exchange margin: "7 000 ֏ + 0,73%". */
+      kind: "feePlusMargin";
+      /** Null when the fee is not published. */
+      fee: number | null;
+      marginRate: number;
+    }
+  | {
       kind: "exempt";
       /** Picks a specific wording from `exemptReasons`, if one is given. */
       reason?: string;
@@ -125,6 +132,10 @@ export function formulaText(
       return `${n(formula.amount)} × ${n(formula.times)}`;
     case "perUnit":
       return `${formatNumber(formula.rate, locale, 2)} ${formula.rateSymbol} × ${n(formula.units)} ${formula.unitSymbol} × ${formatNumber(formula.fx, locale, 4)}`;
+    case "feePlusMargin": {
+      const fee = formula.fee === null ? (labels.exemptReasons?.feeUnpublished ?? "?") : formatAmd(formula.fee, locale);
+      return `${fee} + ${pct(formula.marginRate)}`;
+    }
     case "exempt":
       return (formula.reason && labels.exemptReasons?.[formula.reason]) || labels.exempt;
   }

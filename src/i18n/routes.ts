@@ -74,7 +74,7 @@ export const ROUTES: PageRoute[] = [
       hy: "dramakan-poxancum",
       en: "money-transfer-fees",
     },
-    enabled: false,
+    enabled: true,
   },
 ];
 

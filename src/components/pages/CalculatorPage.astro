@@ -159,11 +159,14 @@ const breadcrumbSchema = {
                     </dd>
                   </div>
                 ))}
-                <div class="example-row sub">
-                  <dt>{p("examples.totalLabel")}</dt>
-                  <dd><span class="amount">{example.result.total}</span></dd>
-                </div>
-                <div class="example-row net">
+                {/* A ranking's total is its headline, so it is not repeated. */}
+                {example.result.total !== example.result.result && (
+                  <div class="example-row sub">
+                    <dt>{p("examples.totalLabel")}</dt>
+                    <dd><span class="amount">{example.result.total}</span></dd>
+                  </div>
+                )}
+                <div class:list={["example-row", "net", { sub: example.result.total === example.result.result }]}>
                   <dt>{p("examples.netLabel")}</dt>
                   <dd><span class="amount">{example.result.result}</span></dd>
                 </div>

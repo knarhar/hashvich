@@ -1,0 +1,135 @@
+---
+/**
+ * The transfer cost comparison island.
+ *
+ * Built from the shared calculator parts in src/components/calc. Each row of
+ * the result is a bank, ranked by fee plus exchange margin. The browser gets
+ * the fee rules and margins serialised into the page and runs the same pure
+ * functions as the server.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { TRANSFERS_PARAMS, transfersBreakdown, type TransferInput } from "../../lib/transfers.ts";
+import { transfersCopyParams } from "../../lib/transfers-copy.ts";
+import { renderBreakdown } from "../../lib/breakdown.ts";
+import { formatAmount } from "../../lib/format.ts";
+import CalcShell from "../calc/CalcShell.astro";
+import AmountField from "../calc/AmountField.astro";
+import SelectField from "../calc/SelectField.astro";
+import ResultPanel from "../calc/ResultPanel.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+const copy = transfersCopyParams(locale);
+const c = (key: string) => t(`pages.transfers.calculator.${key}`, copy);
+
+const defaults: TransferInput = { direction: "send", currency: "USD", amount: 1_000 };
+
+const labels = {
+  exempt: "",
+  capNote: "",
+  exemptReasons: { feeUnpublished: c("feeUnpublished") },
+};
+
+// Every compared bank gets a row; the island reorders them cheapest first
+// and hides any bank that does not publish the chosen transfer.
+const initial = renderBreakdown(transfersBreakdown(defaults), locale, labels);
+const lineLabels = Object.fromEntries(
+  TRANSFERS_PARAMS.banks.map((bank) => [bank.id, t(`pages.transfers.banks.${bank.id}`)]),
+);
+
+const config = { params: TRANSFERS_PARAMS, locale, labels };
+---
+
+<CalcShell legend={c("legend")} name="transfers" config={config}>
+  <SelectField
+    id="direction"
+    input="direction"
+    label={c("directionLabel")}
+    hint={c("directionHint")}
+    selected={defaults.direction}
+    options={[
+      { value: "send", label: c("directions.send") },
+      { value: "receive", label: c("directions.receive") },
+    ]}
+  />
+  <SelectField
+    id="currency"
+    input="currency"
+    label={c("currencyLabel")}
+    hint={c("currencyHint")}
+    selected={defaults.currency}
+    options={[
+      { value: "USD", label: "USD, $" },
+      { value: "EUR", label: "EUR, €" },
+      { value: "RUB", label: "RUB, ₽" },
+    ]}
+  />
+  <AmountField
+    id="amount"
+    input="amount"
+    label={c("amountLabel")}
+    hint={c("amountHint")}
+    value={formatAmount(defaults.amount, locale)}
+    currency="$"
+  />
+
+  <ResultPanel
+    slot="result"
+    heading={c("resultHeading")}
+    resultLabel={c("resultLabel")}
+    baseLabel={c("baseLabel")}
+    lineLabels={lineLabels}
+    initial={initial}
+    sign="none"
+  />
+</CalcShell>
+
+<script>
+  import {
+    transfersBreakdown,
+    type Currency,
+    type TransfersParams,
+  } from "../../lib/transfers-core.ts";
+  import { renderBreakdown, type FormulaLabels } from "../../lib/breakdown.ts";
+  import type { Locale } from "../../i18n/config.ts";
+  import {
+    amountReader,
+    applyBreakdown,
+    inputOf,
+    mountIslands,
+    onAnyInput,
+  } from "../../scripts/calc-island.ts";
+
+  interface Config {
+    params: TransfersParams;
+    locale: Locale;
+    labels: FormulaLabels;
+  }
+
+  const SIGN: Record<Currency, string> = { USD: "$", EUR: "€", RUB: "₽" };
+
+  mountIslands<Config>("transfers", (root, config) => {
+    const direction = inputOf<HTMLSelectElement>(root, "direction");
+    const currency = inputOf<HTMLSelectElement>(root, "currency");
+    const amountInput = inputOf(root, "amount");
+    const amount = amountReader(amountInput, config.locale);
+    const sign = amountInput.parentElement!.querySelector("[data-sign]")!;
+
+    onAnyInput(root, () => {
+      const cur = currency.value as Currency;
+      sign.textContent = SIGN[cur];
+      const breakdown = transfersBreakdown(config.params, {
+        direction: direction.value === "receive" ? "receive" : "send",
+        currency: cur,
+        amount: amount(),
+      });
+      applyBreakdown(root, renderBreakdown(breakdown, config.locale, config.labels));
+    });
+  });
+</script>

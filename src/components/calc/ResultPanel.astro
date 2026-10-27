@@ -4,7 +4,8 @@
  * breakdown (base, each line with its formula, total with its share).
  *
  * The island script updates it through the data- attributes, using
- * applyBreakdown in src/scripts/calc-island.ts.
+ * applyBreakdown in src/scripts/calc-island.ts, which also reorders the
+ * rows when the lines come back in a different order (a ranking).
  */
 import type { RenderedBreakdown } from "../../lib/breakdown.ts";
 
@@ -15,13 +16,16 @@ interface Props {
   resultLabel: string;
   /** Label of the first row, e.g. "Gross salary". */
   baseLabel: string;
-  /** Label of the total row, e.g. "Total withheld". */
-  totalLabel: string;
+  /** Label of the total row, e.g. "Total withheld". Omit to leave the row out. */
+  totalLabel?: string;
   /** Label for each line, by line key. */
   lineLabels: Record<string, string>;
   initial: RenderedBreakdown;
-  /** "minus" when the lines are taken off the base, "plus" when added to it. */
-  sign?: "minus" | "plus";
+  /**
+   * "minus" when the lines are taken off the base, "plus" when added to it,
+   * "none" when they are alternatives, as in a ranking.
+   */
+  sign?: "minus" | "plus" | "none";
   /** A warning shown under the headline, e.g. a regime limit was exceeded. */
   warning?: string | null;
 }
@@ -65,11 +69,15 @@ const {
       ))
     }
 
-    <div class="row total">
-      <dt>{totalLabel}</dt>
-      <dd class="formula" data-effective>{initial.effectiveRate}</dd>
-      <dd class:list={["value", sign]} data-total>{initial.total}</dd>
-    </div>
+    {
+      totalLabel && (
+        <div class="row total">
+          <dt>{totalLabel}</dt>
+          <dd class="formula" data-effective>{initial.effectiveRate}</dd>
+          <dd class:list={["value", sign]} data-total>{initial.total}</dd>
+        </div>
+      )
+    }
   </dl>
 </div>
 

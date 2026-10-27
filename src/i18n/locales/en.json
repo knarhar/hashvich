@@ -416,6 +416,116 @@
           "The calculator does not cover special-purpose off-road vehicles, motorhomes, special vehicles or customs' reference values."
         ]
       }
+    },
+    "transfers": {
+      "title": "Send Money to Armenia: Fees and Exchange Rates Compared {year}",
+      "description": "What sending money to or from Armenia really costs: the bank fee plus the exchange margin. {bankCount} of the largest banks compared for dollars, euros and rubles, step by step, with links to their tariffs.",
+      "breadcrumb": "Transfer fees",
+      "h1": "Send money to Armenia and abroad: fees compared",
+      "intro": "A bank charges for a transfer twice: the fee, and the gap in its exchange rate, which often costs more. Pick a direction, a currency and an amount, and this calculator ranks {bankCount} of Armenia's largest banks by the full cost of the transfer, cheapest first.",
+      "calculator": {
+        "legend": "Transfer details",
+        "directionLabel": "What you are doing",
+        "directionHint": "Sending: you pay in drams, the bank buys the currency and sends it by SWIFT. Receiving: money arrives in an Armenian account and you change it into drams.",
+        "directions": {
+          "send": "Sending abroad from Armenia",
+          "receive": "Receiving money in Armenia"
+        },
+        "currencyLabel": "Transfer currency",
+        "currencyHint": "Central Bank of Armenia rate of {rateDate}: $1 = {usdRate}, €1 = {eurRate}, ₽1 = {rubRate}.",
+        "amountLabel": "Amount",
+        "amountHint": "In the transfer currency.",
+        "resultHeading": "Result",
+        "resultLabel": "Cheapest total cost",
+        "baseLabel": "Amount at the central bank rate",
+        "feeUnpublished": "fee not published"
+      },
+      "banks": {
+        "ardshinbank": "Ardshinbank",
+        "ameriabank": "Ameriabank",
+        "acba": "ACBA Bank",
+        "amiobank": "AMIO Bank",
+        "evocabank": "Evocabank",
+        "armeconombank": "Armeconombank",
+        "conversebank": "Converse Bank",
+        "idbank": "IDBank"
+      },
+      "howItWorks": {
+        "heading": "How the cost of a transfer is worked out",
+        "intro": "The full cost of a transfer is the bank's fee plus what you lose on the exchange. The calculator works out both in drams and adds them up.",
+        "steps": [
+          "The amount is converted to drams at the Central Bank of Armenia rate. That is the reference point.",
+          "Fee: a percentage of the amount, with the minimum and maximum from the bank's tariff. Sending uses the bank's online SWIFT tariff from an account; receiving uses its fee for crediting an incoming transfer.",
+          "Exchange margin: when you send, the bank sells you the currency above the central bank rate; when you receive, it buys it below. That gap is a hidden fee. For dollars received it is {usdBuyRange} depending on the bank, for rubles {rubBuyRange}.",
+          "Cost of the transfer = fee + amount at the central bank rate × the margin. Banks are listed from cheapest to most expensive."
+        ],
+        "note": "Bank rates were captured once, on {rateDate}, and move several times a day. Fee tariffs change a few times a year. No bank publishes the charges of intermediary banks, so they are not included."
+      },
+      "examples": {
+        "heading": "Worked examples",
+        "intro": "Three typical transfers at the rates of {rateDate}, run through the same code as the calculator above.",
+        "caseLabel": "{direction} · {amount}",
+        "netLabel": "Cheapest",
+        "totalLabel": "Total"
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "q": "How much does it cost to send money abroad from Armenia?",
+            "a": "For a SWIFT transfer of {ex1Amount} on {rateDate}, the lowest full cost was {ex1Cost} ({ex1Bank}), fee and exchange margin together. The most expensive of the {bankCount} banks would have charged {ex1WorstCost} for the same transfer."
+          },
+          {
+            "q": "What are the fees for receiving money in Armenia?",
+            "a": "Most banks credit an incoming transfer to an account for free, or publish no fee for it. Armeconombank charges {aebIncomingLow} to {aebIncomingHigh} depending on the amount. The main cost is the exchange rate: receiving {ex2Amount} and changing it into drams cost from {ex2Cost} ({ex2Bank}) to {ex2WorstCost}."
+          },
+          {
+            "q": "Why does the exchange rate matter more than the fee?",
+            "a": "The fee is in the tariff; the rate gap is not. Banks buy dollars from you {usdBuyRange} below the central bank rate, and rubles {rubBuyRange} below. On a large amount that gap easily exceeds the fee, so compare banks on the full cost of the transfer."
+          },
+          {
+            "q": "How do I send money from Armenia to Russia?",
+            "a": "In rubles is cheapest: banks charge a small percentage with a minimum, and Ardshinbank a flat {ardshinRubFee}. For {ex3Amount}, the lowest cost including the exchange margin was {ex3Cost} ({ex3Bank}). Many banks will not send dollars or euros to Russia, or charge far more: ACBA Bank's minimum is {acbaToRussiaMin}, Armeconombank's {aebToRussiaMin}."
+          },
+          {
+            "q": "Which services send money to Armenia from Russia?",
+            "a": "Unistream sends transfers to Armenia paid out in cash in rubles; paying with a Unistream card, the fee is {unistreamRate}. KoronaPay's status is unclear: its official site shows us only its European branch's notice, so we do not quote its fees. Once rubles reach an Armenian account, mind the bank's exchange rate, which the calculator covers."
+          },
+          {
+            "q": "How do I send money to Armenia from the US or Europe?",
+            "a": "Wise pays out in drams to an Armenian bank account. On {rateDate}, sending {wiseAmount} from the US cost {wiseFee} in fees, and Wise's rate was slightly better than the central bank's. Wise prices change constantly, so treat this as an example, not a tariff. Western Union does not offer online transfers to Armenia."
+          },
+          {
+            "q": "Why is Inecobank not in the comparison?",
+            "a": "Inecobank's website blocks automated access with a Cloudflare check, and we did not get around it. No official tariff was found publicly, so the bank is left out."
+          },
+          {
+            "q": "How often is this data updated?",
+            "a": "Bank rates move several times a day, so the calculator holds a snapshot from {rateDate}. Fee tariffs change a few times a year. Check the rate in your bank's app before you transfer."
+          }
+        ]
+      },
+      "related": {
+        "heading": "Other calculators"
+      },
+      "sources": {
+        "heading": "Sources",
+        "intro": "Fees come from the banks' official tariffs, and rates from the banks' sites and the Central Bank of Armenia on the same day. Below is each bank's tariff for sending dollars abroad.",
+        "effectiveFrom": "in force from",
+        "lastUpdated": "Data checked",
+        "openLaw": "Open the tariff",
+        "rate": "Central Bank of Armenia rate"
+      },
+      "disclaimer": {
+        "heading": "Important",
+        "text": "This is a reference comparison, not financial advice. Check the rate and the fee with your bank before you transfer.",
+        "caveats": [
+          "Bank rates are a snapshot from {rateDate}; they move several times a day.",
+          "Banks split intermediary charges differently: some have the sender pay them, others take them out of the amount. The calculator uses each bank's main online tariff; intermediary charges are not included.",
+          "Tariffs are for residents sending from their own account. Fees are higher for non-residents and for transfers without an account.",
+          "Where a bank publishes no fee for crediting an incoming transfer, the calculator counts only the exchange margin."
+        ]
+      }
     }
   },
   "calculators": {

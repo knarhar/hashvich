@@ -78,9 +78,17 @@ export function applyBreakdown(
     warningEl.hidden = !warning;
   }
 
+  // Lines may come back in a new order (a ranking): move each row to its
+  // place, keeping the total row last.
+  const totalRow = root.querySelector(".total");
+  const shown = new Set(view.lines.map((line) => line.key));
+  for (const row of root.querySelectorAll<HTMLElement>("[data-line]")) {
+    row.hidden = !shown.has(row.dataset.line!);
+  }
   for (const line of view.lines) {
     const row = root.querySelector<HTMLElement>(`[data-line="${line.key}"]`);
     if (!row) continue;
+    row.parentElement!.insertBefore(row, totalRow);
     const value = row.querySelector("[data-value]")!;
     value.textContent = line.amount;
     value.classList.toggle("zero", line.amount === "—");
