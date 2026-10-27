@@ -1,0 +1,111 @@
+---
+/**
+ * The currency converter island.
+ *
+ * Built from the shared calculator parts in src/components/calc. The result
+ * panel shows the converted amount, the rate and the inverse rate. The
+ * browser gets every CBA rate serialised into the page and runs the same
+ * pure functions as the server.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { CURRENCY_CODES, CURRENCY_PARAMS, convert, currencyName } from "../../lib/currency.ts";
+import { currencyCopyParams, defaultConversion } from "../../lib/currency-copy.ts";
+import { conversionView, currencySign } from "../../lib/currency-view.ts";
+import { formatAmount } from "../../lib/format.ts";
+import CalcShell from "../calc/CalcShell.astro";
+import AmountField from "../calc/AmountField.astro";
+import SelectField from "../calc/SelectField.astro";
+import ResultPanel from "../calc/ResultPanel.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+const copy = currencyCopyParams(locale);
+const c = (key: string) => t(`pages.currency.calculator.${key}`, copy);
+
+const defaults = defaultConversion(locale);
+const labels = { direct: c("directRate"), cross: c("crossRate") };
+const initial = conversionView(convert(defaults), locale, labels);
+
+const lineLabels = { rate: c("rateLabel"), inverse: c("inverseLabel") };
+const options = CURRENCY_CODES.map((iso) => ({ value: iso, label: `${currencyName(iso, locale)} (${iso})` }));
+const signs = Object.fromEntries(CURRENCY_CODES.map((iso) => [iso, currencySign(iso)]));
+
+const config = { params: CURRENCY_PARAMS, locale, labels, signs };
+---
+
+<CalcShell legend={c("legend")} name="currency" config={config}>
+  <AmountField
+    id="amount"
+    input="amount"
+    label={c("amountLabel")}
+    hint={c("amountHint")}
+    value={formatAmount(defaults.amount, locale)}
+    currency={currencySign(defaults.from)}
+  />
+  <SelectField
+    id="from"
+    input="from"
+    label={c("fromLabel")}
+    hint={c("fromHint")}
+    selected={defaults.from}
+    options={options}
+  />
+  <SelectField
+    id="to"
+    input="to"
+    label={c("toLabel")}
+    hint={c("toHint")}
+    selected={defaults.to}
+    options={options}
+  />
+
+  <ResultPanel
+    slot="result"
+    heading={c("resultHeading")}
+    resultLabel={c("resultLabel")}
+    baseLabel={c("baseLabel")}
+    lineLabels={lineLabels}
+    initial={initial}
+    sign="none"
+  />
+</CalcShell>
+
+<script>
+  import { convert, type CurrencyParams } from "../../lib/currency-core.ts";
+  import { conversionView, type ConversionLabels } from "../../lib/currency-view.ts";
+  import type { Locale } from "../../i18n/config.ts";
+  import {
+    amountReader,
+    applyBreakdown,
+    inputOf,
+    mountIslands,
+    onAnyInput,
+  } from "../../scripts/calc-island.ts";
+
+  interface Config {
+    params: CurrencyParams;
+    locale: Locale;
+    labels: ConversionLabels;
+    signs: Record<string, string>;
+  }
+
+  mountIslands<Config>("currency", (root, config) => {
+    const from = inputOf<HTMLSelectElement>(root, "from");
+    const to = inputOf<HTMLSelectElement>(root, "to");
+    const amountInput = inputOf(root, "amount");
+    const amount = amountReader(amountInput, config.locale);
+    const sign = amountInput.parentElement!.querySelector("[data-sign]")!;
+
+    onAnyInput(root, () => {
+      sign.textContent = config.signs[from.value] ?? from.value;
+      const conversion = convert(config.params, { amount: amount(), from: from.value, to: to.value });
+      applyBreakdown(root, conversionView(conversion, config.locale, config.labels));
+    });
+  });
+</script>

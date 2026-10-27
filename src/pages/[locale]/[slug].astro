@@ -19,6 +19,7 @@ import { enabledRoutes, HOME_KEY } from "../../i18n/routes.ts";
 import SalaryPage from "../../components/pages/SalaryPage.astro";
 import EntrepreneurPage from "../../components/pages/EntrepreneurPage.astro";
 import CarCustomsPage from "../../components/pages/CarCustomsPage.astro";
+import CurrencyPage from "../../components/pages/CurrencyPage.astro";
 import TransfersPage from "../../components/pages/TransfersPage.astro";
 
 export const getStaticPaths: GetStaticPaths = () =>
@@ -35,6 +36,7 @@ const PAGE_COMPONENTS: Record<string, typeof SalaryPage> = {
   salary: SalaryPage,
   entrepreneur: EntrepreneurPage,
   "car-customs": CarCustomsPage,
+  currency: CurrencyPage,
   transfers: TransfersPage,
 };
 

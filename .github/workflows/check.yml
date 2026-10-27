@@ -23,6 +23,7 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: node scripts/fetch-cba-rates.mjs
       - run: npm test
       - run: npm run check
       - run: npm run build

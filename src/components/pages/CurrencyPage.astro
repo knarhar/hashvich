@@ -1,0 +1,57 @@
+---
+/**
+ * The currency converter page: the shared calculator page with the
+ * converter island, its worked examples and its sources.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { CURRENCY_PARAMS, convert } from "../../lib/currency.ts";
+import { EXAMPLE_CONVERSIONS, conversionLabel, currencyCopyParams } from "../../lib/currency-copy.ts";
+import { CURRENCY_SOURCES } from "../../lib/currency-sources.ts";
+import { conversionView } from "../../lib/currency-view.ts";
+import CalculatorPage from "./CalculatorPage.astro";
+import Calculator from "../currency/Calculator.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+
+const tt = useTranslations(locale);
+const copy = currencyCopyParams(locale);
+const c = (key: string) => tt(`pages.currency.calculator.${key}`, copy);
+
+const lineLabels = { rate: c("rateLabel"), inverse: c("inverseLabel") };
+
+// Worked examples run through the same code as the calculator.
+const labels = { direct: c("directRate"), cross: c("crossRate") };
+const examples = EXAMPLE_CONVERSIONS.map((input) => ({
+  label: conversionLabel(input, locale),
+  result: conversionView(convert(input), locale, labels),
+}));
+
+const sources = CURRENCY_SOURCES.map((source) => ({
+  label: ["rate", "what", "units"].includes(source.labelKey)
+    ? tt(`pages.currency.sources.${source.labelKey}`, copy)
+    : tt("pages.currency.sources.bankRates", { bank: tt(`pages.transfers.banks.${source.labelKey}`) }),
+  name: source.sourceName,
+  url: source.sourceUrl,
+  effectiveFrom: source.effectiveFrom,
+  evidence: source.evidence,
+}));
+---
+
+<CalculatorPage
+  locale={locale}
+  pageKey={pageKey}
+  ns="currency"
+  copy={copy}
+  examples={examples}
+  lineLabels={lineLabels}
+  sources={sources}
+  lastVerified={CURRENCY_PARAMS.date}
+>
+  <Calculator locale={locale} />
+</CalculatorPage>

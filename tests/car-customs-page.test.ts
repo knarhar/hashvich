@@ -30,9 +30,9 @@ import { LOCALES } from "../src/i18n/config.ts";
 import { getDictionary, t, tEntries, tList } from "../src/i18n/utils.ts";
 import { CAR_CUSTOMS_PARAMS as P } from "../src/lib/car-customs.ts";
 import { carView, type CarForm } from "../src/lib/car-customs-view.ts";
-import { EXAMPLE_CARS, carCopyParams } from "../src/lib/car-customs-copy.ts";
+import { EXAMPLE_CARS as PAGE_EXAMPLES, carCopyParams } from "../src/lib/car-customs-copy.ts";
 import { CAR_SOURCES } from "../src/lib/car-customs-sources.ts";
-import { CBA_RATES } from "../src/lib/cba-rates.ts";
+import { CBA_SNAPSHOT as CBA_RATES } from "../src/lib/cba-rates.ts";
 import { renderBreakdown } from "../src/lib/breakdown.ts";
 
 const LABELS = {
@@ -52,6 +52,11 @@ const base: CarForm = {
   currency: "EUR",
   clearanceDate: "2026-10-26",
 };
+
+// The page's examples convert at the latest rates; the hand-worked figures
+// above are for the 2026-10-26 snapshot, so the tests pin both the rate and
+// the clearance date to it.
+const EXAMPLE_CARS = PAGE_EXAMPLES.map((car) => ({ ...car, clearanceDate: CBA_RATES.date }));
 
 const view = (form: Partial<CarForm>) => carView({ ...base, ...form }, CBA_RATES, P);
 

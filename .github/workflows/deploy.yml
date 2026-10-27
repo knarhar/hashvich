@@ -1,6 +1,11 @@
 # Test, build and publish the site to GitHub Pages on every push to main,
 # then run a mobile Lighthouse audit against the published pages.
 #
+# Also rebuilds twice a day, so the pages carry the latest Central Bank of
+# Armenia exchange rates: the CBA API cannot be called from a visitor's
+# browser, so the rates are fetched here, before the build. 05:00 and 13:00
+# UTC are 09:00 and 17:00 in Yerevan; the CBA publishes once per business day.
+#
 # The site address comes from the repository's Pages settings: the
 # knarhar.github.io/hashvich/ address until a custom domain is set there,
 # then the custom domain. Nothing needs changing here when the domain moves.
@@ -10,6 +15,8 @@ name: Deploy
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "0 5,13 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +41,9 @@ jobs:
           cache: npm
 
       - run: npm ci
+      # Fails the run if the CBA cannot be reached: the site then keeps the
+      # rates of its last good deploy.
+      - run: node scripts/fetch-cba-rates.mjs
       - run: npm test
       - run: npm run check
 
@@ -63,6 +73,8 @@ jobs:
 
   lighthouse:
     needs: deploy
+    # A rate refresh changes figures, not pages: audit on code changes only.
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Audit every calculator page in every language (mobile)

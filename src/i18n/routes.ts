@@ -65,7 +65,7 @@ export const ROUTES: PageRoute[] = [
       hy: "poxarjeq",
       en: "currency-converter",
     },
-    enabled: false,
+    enabled: true,
   },
   {
     key: "transfers",

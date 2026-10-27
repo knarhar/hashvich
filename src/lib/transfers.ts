@@ -22,7 +22,7 @@ import {
   type TransferInput,
   type TransfersParams,
 } from "./transfers-core.ts";
-import { CBA_RATES } from "./cba-rates.ts";
+import { CBA_SNAPSHOT } from "./cba-rates.ts";
 
 export type { BankCost, Currency, Direction, TransferInput, TransfersParams } from "./transfers-core.ts";
 
@@ -74,10 +74,10 @@ const banks: BankParams[] = COMPARED_BANKS.map((bank) => {
  * The margins were measured against the CBA rate of the capture day, so the
  * comparison uses that same rate.
  */
-export const TRANSFERS_PARAMS: TransfersParams = { cba: CBA_RATES.amdPer, banks };
+export const TRANSFERS_PARAMS: TransfersParams = { cba: CBA_SNAPSHOT.amdPer, banks };
 
 /** When the bank rates were captured: the date of the CBA snapshot. */
-export const RATES_DATE = CBA_RATES.date;
+export const RATES_DATE = CBA_SNAPSHOT.date;
 
 export function compareBanks(input: TransferInput) {
   return coreCompare(TRANSFERS_PARAMS, input);

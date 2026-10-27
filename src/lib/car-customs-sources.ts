@@ -1,11 +1,11 @@
 /**
  * The source list shown at the foot of the car customs page, read out of
- * the sourced-value objects in src/data/car-customs.json and the CBA rate
- * snapshot, so the page cites exactly what the calculator computed with.
+ * the sourced-value objects in src/data/car-customs.json and the CBA rates
+ * of the build, so the page cites exactly what the calculator computed with.
  */
 
 import data from "../data/car-customs.json" with { type: "json" };
-import { CBA_RATES, CBA_SOURCE } from "./cba-rates.ts";
+import { CBA_RATES, CBA_LATEST_SOURCE } from "./cba-rates.ts";
 import { sourceEntry as entry, type SourceEntry } from "./sources.ts";
 
 export const CAR_SOURCES: SourceEntry[] = [
@@ -20,10 +20,10 @@ export const CAR_SOURCES: SourceEntry[] = [
   entry("stateDuty", data.fees.customs_state_duty),
   {
     labelKey: "rate",
-    sourceName: CBA_SOURCE.name,
-    sourceUrl: CBA_SOURCE.url,
+    sourceName: CBA_LATEST_SOURCE.name,
+    sourceUrl: CBA_LATEST_SOURCE.url,
     effectiveFrom: CBA_RATES.date,
-    evidence: CBA_SOURCE.evidence,
+    evidence: CBA_LATEST_SOURCE.evidence,
     unsure: false,
   },
 ];

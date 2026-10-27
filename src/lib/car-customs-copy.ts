@@ -16,8 +16,8 @@ import { CBA_RATES } from "./cba-rates.ts";
 import data from "../data/car-customs.json" with { type: "json" };
 
 /**
- * The worked examples, dated on the day of the rate snapshot so their
- * figures match the official calculator run that day.
+ * The worked examples, dated on the day of the rates the page was built
+ * with, so they convert at that day's central bank rate.
  */
 export const EXAMPLE_CARS: CarForm[] = [
   { situation: "personal", fuel: "petrol", year: 2021, month: null, engineCc: 2000, price: 15_000, currency: "EUR", clearanceDate: CBA_RATES.date },

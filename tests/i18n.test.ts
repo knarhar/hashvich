@@ -141,7 +141,7 @@ describe("route registry", () => {
   it("the built pages are home and the finished calculators", () => {
     assert.deepEqual(
       enabledRoutes().map((r) => r.key),
-      [HOME_KEY, "salary", "entrepreneur", "car-customs", "transfers"],
+      [HOME_KEY, "salary", "entrepreneur", "car-customs", "currency", "transfers"],
     );
   });
 });

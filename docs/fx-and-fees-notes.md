@@ -25,7 +25,9 @@ charges that none of them publish.
   cache the result.
 - **Important for this site:** the API does not allow calls from a visitor's
   browser (no CORS; tested in Chromium). A static site has to fetch the rates
-  at build time and save them into `src/data`.
+  at build time and save them into `src/data`. This is what
+  `scripts/fetch-cba-rates.mjs` does: the deploy workflow runs it before every
+  build and twice a day on a schedule, writing `src/data/cba-latest.json`.
 
 Snapshot used for the margins: USD 360.88, EUR 404.11, RUB 4.4762 AMD.
 

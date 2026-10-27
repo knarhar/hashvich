@@ -5,7 +5,7 @@
  */
 
 import data from "../data/fx-and-fees.json" with { type: "json" };
-import { CBA_RATES, CBA_SOURCE } from "./cba-rates.ts";
+import { CBA_SNAPSHOT, CBA_SOURCE } from "./cba-rates.ts";
 import { FEE_ROWS, COMPARED_BANKS } from "./transfers.ts";
 import type { SourceEntry } from "./sources.ts";
 
@@ -26,7 +26,7 @@ export const TRANSFER_SOURCES: SourceEntry[] = [
     labelKey: "rate",
     sourceName: CBA_SOURCE.name,
     sourceUrl: CBA_SOURCE.url,
-    effectiveFrom: CBA_RATES.date,
+    effectiveFrom: CBA_SNAPSHOT.date,
     evidence: CBA_SOURCE.evidence,
     unsure: false,
   },

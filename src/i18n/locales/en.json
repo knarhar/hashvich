@@ -411,9 +411,106 @@
         "heading": "Important",
         "text": "This is an estimate, not customs advice. Customs decides the customs value and may not accept the price you declare.",
         "caveats": [
-          "Exchange rates are fixed at {rateDate}. Customs applies the central bank rate on the day the declaration is filed, so the result can differ slightly.",
+          "The central bank rate is that of {rateDate}, updated every business day. Customs applies the rate on the day the declaration is filed, so the result can differ slightly.",
           "For an individual, the EAEU Customs Code leaves shipping and insurance out of the customs value, while Armenian customs guidance includes them up to the border. This affects cars up to 3 years old and the environmental tax.",
           "The calculator does not cover special-purpose off-road vehicles, motorhomes, special vehicles or customs' reference values."
+        ]
+      }
+    },
+    "currency": {
+      "title": "USD to AMD Converter at the Central Bank of Armenia Rate",
+      "description": "Convert dollars, euros, rubles and other currencies ({currencyCount} in all) to Armenian drams at the official Central Bank of Armenia rate of {rateDate}: $1 = {usdRate}. Updated every business day.",
+      "breadcrumb": "Currency converter",
+      "h1": "USD to AMD converter: dram, dollar, euro and ruble",
+      "intro": "Enter an amount and pick two currencies: the converter uses the Central Bank of Armenia rate of {rateDate}, taken straight from the central bank and updated every business day. Banks and exchange offices use their own rates; the difference is explained below.",
+      "calculator": {
+        "legend": "What to convert",
+        "amountLabel": "Amount",
+        "amountHint": "A whole number, in the currency you convert from.",
+        "fromLabel": "From",
+        "fromHint": "Central Bank of Armenia rate of {rateDate}: $1 = {usdRate}, €1 = {eurRate}, ₽1 = {rubRate}.",
+        "toLabel": "To",
+        "toHint": "A pair without the dram is converted through the dram, using two central bank rates.",
+        "resultHeading": "Result",
+        "resultLabel": "At the central bank rate",
+        "baseLabel": "Amount",
+        "rateLabel": "Rate",
+        "inverseLabel": "Inverse rate",
+        "directRate": "Central Bank of Armenia, {rateDate}",
+        "crossRate": "via the dram:"
+      },
+      "howItWorks": {
+        "heading": "How the conversion works",
+        "intro": "The Central Bank of Armenia publishes the dram's rate against each currency, and every conversion goes through it.",
+        "steps": [
+          "The central bank rate is the average rate formed on the currency market. The central bank publishes it every business day, and this page takes it straight from the central bank.",
+          "From a currency into drams: amount × rate. At $1 = {usdRate}, {ex2Amount} is {ex2Result}.",
+          "From drams into a currency: amount ÷ rate.",
+          "Between two other currencies, through the dram: amount × the first rate ÷ the second. So {ex3Amount} is {ex3Result}.",
+          "Some rates are quoted for more than one unit: per 10 for the {per10}, per 100 for the {per100}. The calculator converts them to one unit."
+        ],
+        "note": "This is the official reference rate. Banks and exchange offices buy below it and sell above it. For the cost of a transfer including the bank's fee, use the transfer fees calculator."
+      },
+      "examples": {
+        "heading": "Worked examples",
+        "intro": "Three common conversions at the central bank rate of {rateDate}, run through the same code as the converter above.",
+        "netLabel": "Result",
+        "totalLabel": "Total"
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "q": "What is the USD to AMD rate today?",
+            "a": "At the Central Bank of Armenia rate of {rateDate}, $1 = {usdRate}, so {ex2Amount} is {ex2Result}. The euro is €1 = {eurRate} and the ruble ₽1 = {rubRate}."
+          },
+          {
+            "q": "Why does my bank give a different rate?",
+            "a": "The central bank rate is the market average. Banks buy currency below it and sell above it, and the gap is their margin. On {snapshotDate}, {bankCount} large banks bought non-cash dollars {usdBuyRange} below the central bank rate. For the full cost of a transfer including the bank's fee, use the transfer fees calculator."
+          },
+          {
+            "q": "Why are cash rubles exchanged at a worse rate?",
+            "a": "Banks pay much less for cash rubles than for rubles on an account. On {snapshotDate}, {bankCount} large banks bought cash rubles {rubCashBuyRange} below the central bank rate, against {rubCashlessBuyRange} for non-cash rubles. Bank rates move several times a day."
+          },
+          {
+            "q": "How often is the rate updated?",
+            "a": "The central bank publishes a new rate every business day. There is none on weekends and holidays, when the last published rate stays in force. This page fetches the rate from the central bank twice a day, and the calculator shows its date."
+          },
+          {
+            "q": "How do I convert dollars to rubles?",
+            "a": "Through the dram: divide the dollar rate by the ruble rate. On {rateDate}, $1 = {usdRate} and ₽1 = {rubRate}, so $1 = {usdInRub} and {ex3Amount} is {ex3Result}."
+          },
+          {
+            "q": "Which rate does customs use?",
+            "a": "The Central Bank of Armenia rate on the day the declaration is filed. The car customs calculator on this site uses the same rate as this converter."
+          },
+          {
+            "q": "Which currencies can I convert?",
+            "a": "All {currencyCount} currencies the Central Bank of Armenia publishes a rate for: besides the dollar, euro and ruble, for example the lari, the dirham, the yuan and the tenge."
+          }
+        ]
+      },
+      "related": {
+        "heading": "Other calculators"
+      },
+      "sources": {
+        "heading": "Sources",
+        "intro": "Rates come straight from the Central Bank of Armenia. Bank rates for the cash and non-cash ruble comparison come from the banks' sites, on one day.",
+        "effectiveFrom": "as of",
+        "lastUpdated": "Rates of",
+        "openLaw": "Open the source",
+        "rate": "Central Bank of Armenia rates",
+        "what": "What the central bank rate is",
+        "units": "Rates per 10 and 100 units",
+        "bankRates": "{bank} exchange rates"
+      },
+      "disclaimer": {
+        "heading": "Important",
+        "text": "This is a conversion at the official rate, not an exchange offer. A bank or exchange office will use its own rate.",
+        "caveats": [
+          "The rate is the central bank's of {rateDate}; it publishes a new one every business day.",
+          "Bank rates in the answers above are from {snapshotDate}; they move several times a day.",
+          "Amounts are rounded to the cent."
         ]
       }
     },
@@ -543,7 +640,7 @@
     },
     "currency": {
       "name": "Currency converter",
-      "summary": "Dram, dollar, euro and ruble at central bank and bank rates."
+      "summary": "Dram, dollar, euro, ruble and more at the central bank rate."
     },
     "transfers": {
       "name": "Transfer fees",
