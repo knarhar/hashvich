@@ -7,36 +7,9 @@
  */
 
 import data from "../data/salary-tax.json" with { type: "json" };
+import { sourceEntry as entry, type SourceEntry } from "./sources.ts";
 
-export interface SourceEntry {
-  /** i18n key for the deduction this source governs. */
-  labelKey: string;
-  sourceName: string;
-  sourceUrl: string;
-  effectiveFrom: string | null;
-  /** Original-language quote proving the value. */
-  evidence: string;
-  unsure: boolean;
-}
-
-interface SourcedValue {
-  source_name?: string;
-  source_url?: string;
-  effective_from?: string | null;
-  evidence?: string;
-  unsure?: boolean;
-}
-
-function entry(labelKey: string, node: SourcedValue): SourceEntry {
-  return {
-    labelKey,
-    sourceName: node.source_name ?? "",
-    sourceUrl: node.source_url ?? "",
-    effectiveFrom: node.effective_from ?? null,
-    evidence: node.evidence ?? "",
-    unsure: node.unsure === true,
-  };
-}
+export type { SourceEntry } from "./sources.ts";
 
 const e = data.employee;
 

@@ -268,6 +268,154 @@
           "With several activities, turnover tax is calculated for each one separately. The calculator handles one."
         ]
       }
+    },
+    "car-customs": {
+      "title": "Armenia Car Customs Clearance Calculator {year}",
+      "description": "Work out the customs payments on a car imported into Armenia in {year}: the unified payment for individuals, duty and {vatRate} VAT for companies, electric cars and hybrids, and the environmental tax. Step by step at the central bank rate, with links to the law.",
+      "breadcrumb": "Car import customs",
+      "h1": "Armenia car customs clearance calculator {year}",
+      "intro": "Say who is importing and from where, then the car's fuel, year, engine size and price, and this car import duty calculator shows every customs payment for bringing it into Armenia: the unified payment or the duty, VAT and the environmental tax. It covers cars from the USA, Georgia, the UAE, China, Europe and the EAEU. Rates come from the EAEU customs tariff and the Armenian Tax Code; the sources are listed at the foot of the page.",
+      "calculator": {
+        "legend": "Car details",
+        "situationLabel": "Who imports, and from where",
+        "situationHint": "\"Outside the EAEU\" means the USA, Georgia, the UAE, China, Europe and so on. For a car already cleared in Russia, Belarus, Kazakhstan or Kyrgyzstan, pick an EAEU option.",
+        "situations": {
+          "personal": "Individual, for own use, outside the EAEU",
+          "business": "Company, outside the EAEU",
+          "eaeuFirst": "Individual, from the EAEU, first car this year",
+          "eaeu": "From the EAEU: company or second car"
+        },
+        "fuelLabel": "Engine",
+        "fuelHint": "For an individual, a hybrid is charged like a petrol car of the same engine size.",
+        "fuels": {
+          "petrol": "Petrol",
+          "diesel": "Diesel",
+          "hybrid": "Hybrid",
+          "electric": "Electric"
+        },
+        "yearLabel": "Year of manufacture",
+        "yearHint": "Age runs from the production date to the day the customs declaration is filed.",
+        "monthLabel": "Month of manufacture",
+        "monthHint": "If the month is unknown, customs treats the car as made on 1 July.",
+        "monthUnknown": "Unknown",
+        "ccLabel": "Engine size",
+        "ccHint": "In cubic centimetres, as in the registration papers. Not needed for an electric car.",
+        "priceLabel": "Car price",
+        "priceHint": "The customs value for a car from outside the EAEU; the purchase price for a car from the EAEU.",
+        "currencyLabel": "Price currency",
+        "currencyHint": "Converted at the Central Bank of Armenia rate of {rateDate}: €1 = {eurRate}, $1 = {usdRate}.",
+        "resultHeading": "Result",
+        "resultLabel": "Price with customs",
+        "baseLabel": "Car value",
+        "totalLabel": "Total customs payments",
+        "lines": {
+          "duty": "Duty or unified payment",
+          "vat": "VAT",
+          "environmental": "Environmental tax"
+        },
+        "exempt": "not payable",
+        "floorNote": "The per-cm³ minimum applies",
+        "exemptReasons": {
+          "eaeu": "not payable: EAEU goods",
+          "evQuota": "0% under the quota",
+          "unified": "included in the unified payment",
+          "ev2026": "exempt in {year}",
+          "eaeuFirst": "first car this year"
+        },
+        "warnings": {
+          "hybridAssumed": "The hybrid is charged {hybridPercent}, as the official calculator does. If the combustion engine is more powerful than the electric motor, duty follows the petrol or diesel table instead.",
+          "eaeuEnvUnconfirmed": "No source confirms whether the first car of the year is exempt from the environmental tax, so it is included."
+        }
+      },
+      "howItWorks": {
+        "heading": "How car customs in Armenia are calculated",
+        "intro": "What you pay depends first on who imports the car and where it comes from. Each case has its own rules.",
+        "steps": [
+          "An individual importing for their own use from outside the EAEU pays one unified payment that already includes VAT. For a car up to 3 years old it is {unifiedPercent} of the value ({unifiedLowPercent} for cars under {unifiedLowMax}), but not less than a minimum in euros per cubic centimetre. For an older car the value does not matter: the payment is a euro rate times the engine size.",
+          "A company importing from outside the EAEU pays EAEU tariff duty: {tariffNewPercent} for cars up to 3 years old, {tariffUsedPercent} (but not less than a per-cm³ minimum) for 3 to 7 years, and a per-cm³ rate for older cars. VAT of {vatRate} is then charged on the value plus the duty.",
+          "An electric car pays {evPercent} duty at any age, even for an individual, plus VAT. In {year} there is no VAT if the car was made after {evMadeAfter}.",
+          "A car from an EAEU country pays no duty. VAT is {vatRate} of the purchase price, except on an individual's first car of the year. It is paid to the tax authority by the 20th of the following month.",
+          "Everyone pays the environmental tax: {env1} of the value for cars up to 3 years old, {env2} for 3 to 5, {env3} for 5 to 10, {env4} for 10 to 15 and {env5} above 15 years.",
+          "Euros are converted to drams at the Central Bank of Armenia rate on the day the declaration is filed. The calculator uses the rate of {rateDate}: €1 = {eurRate}, $1 = {usdRate}, ₽1 = {rubRate}."
+        ],
+        "note": "On top of these: the state fee for the declaration, {stateDutyPassenger} for an individual and {stateDutyGoods} for a company, and registration with the road police. Armenia charges no excise on passenger cars."
+      },
+      "examples": {
+        "heading": "Worked examples",
+        "intro": "Three cars an individual brings in for their own use from outside the EAEU: an older petrol car, a recent hybrid and an electric car. Calculated for {rateDate} at that day's central bank rate, with the same code as the calculator above.",
+        "caseLabel": "{fuel} · {carYear} · {cc} cm³ · {price}",
+        "caseLabelEv": "{fuel} · {carYear} · {price}",
+        "netLabel": "With customs",
+        "totalLabel": "Customs payments"
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "q": "How much is customs for a car in Armenia in {year}?",
+            "a": "It depends on the car's age, engine size and, for cars up to 3 years old, its value. A {ex1Year} petrol car with a {ex1Cc} cm³ engine priced at {ex1Price} pays {ex1Total} in customs payments. A {ex2Year} hybrid at {ex2Price} pays {ex2Total}. A {ex3Year} electric car at {ex3Price} pays {ex3Total}."
+          },
+          {
+            "q": "How is customs different for an individual and a company?",
+            "a": "An individual bringing in one car for their own use pays a unified customs payment that already includes both duty and VAT. A company pays EAEU tariff duty and, separately, {vatRate} VAT. Which works out cheaper depends on the car's age, engine and price, so run both in the calculator. Both pay the environmental tax."
+          },
+          {
+            "q": "What is the import duty on an electric car in Armenia in {year}?",
+            "a": "Electric cars get no unified payment, even for individuals: duty is {evPercent} of the value, plus {vatRate} VAT. In {year} there is no VAT if the car was made after {evMadeAfter}; the exemption runs until {evExemptTo}. A zero-duty quota runs until {evQuotaTo}, but customs reported that the share for individuals ran out on {evQuotaClosed}, so the calculator charges {evPercent}. The environmental tax applies."
+          },
+          {
+            "q": "How is a hybrid cleared through customs in Armenia?",
+            "a": "An individual pays the unified payment on the combustion engine's size, exactly as for a petrol car. A company pays {hybridPercent} duty if the electric motor is more powerful than the combustion engine, and the petrol or diesel table otherwise. The official customs calculator does not ask about power and always uses {hybridPercent}."
+          },
+          {
+            "q": "Is it different importing a car from the USA, Georgia, Dubai or China?",
+            "a": "No. The same rules apply to every country outside the EAEU: what matters is the car's age, engine size and value, and who imports it. The country only affects the customs value: for a company it includes shipping and insurance to the Armenian border."
+          },
+          {
+            "q": "Do I pay customs on a car from Russia or another EAEU country?",
+            "a": "If the car is already cleared in an EAEU country, there is no duty and no customs declaration. You still pay {vatRate} VAT on the purchase price (an individual's first car of the year is exempt) and the environmental tax, to the tax authority, by the 20th of the following month."
+          },
+          {
+            "q": "What is the environmental tax on an imported car?",
+            "a": "It is a one-off tax on importing a car that depends on its age: {env1} of the value up to 3 years, {env2} up to 5, {env3} up to 10, {env4} up to 15 and {env5} above that. This scale has applied since 1 June 2024; older pages show different rates."
+          },
+          {
+            "q": "Can I calculate customs for taking a car from Armenia to Russia here?",
+            "a": "No. Taking a car from Armenia into Russia follows Russian rules, including the recycling fee. This calculator only covers importing a car into Armenia."
+          }
+        ]
+      },
+      "related": {
+        "heading": "Other calculators"
+      },
+      "sources": {
+        "heading": "Sources",
+        "intro": "Every value in the calculator comes from the EAEU customs tariff, EEC decisions, the Armenian Tax Code and customs guidance. Here is where each one comes from.",
+        "effectiveFrom": "in force from",
+        "lastUpdated": "Data checked",
+        "openLaw": "Open the source",
+        "labels": {
+          "unifiedNew": "Unified payment: cars up to 3 years old",
+          "unifiedOld": "Unified payment: cars over 5 years old",
+          "tariff": "Duty for companies",
+          "electric": "Duty on electric cars",
+          "vat": "VAT",
+          "evVat": "VAT exemption for electric cars",
+          "environmental": "Environmental tax",
+          "eaeu": "Cars from EAEU countries",
+          "stateDuty": "State fee for the declaration",
+          "rate": "Central Bank of Armenia rate"
+        }
+      },
+      "disclaimer": {
+        "heading": "Important",
+        "text": "This is an estimate, not customs advice. Customs decides the customs value and may not accept the price you declare.",
+        "caveats": [
+          "Exchange rates are fixed at {rateDate}. Customs applies the central bank rate on the day the declaration is filed, so the result can differ slightly.",
+          "For an individual, the EAEU Customs Code leaves shipping and insurance out of the customs value, while Armenian customs guidance includes them up to the border. This affects cars up to 3 years old and the environmental tax.",
+          "The calculator does not cover special-purpose off-road vehicles, motorhomes, special vehicles or customs' reference values."
+        ]
+      }
     }
   },
   "calculators": {

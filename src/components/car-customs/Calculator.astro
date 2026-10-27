@@ -1,0 +1,239 @@
+---
+/**
+ * The car import customs calculator island.
+ *
+ * Built from the shared calculator parts in src/components/calc. The browser
+ * gets the customs parameters and the CBA rate snapshot serialised into the
+ * page and runs the same pure functions as the server. In the browser the
+ * clearance date is today; on the server it is the build date.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { CAR_CUSTOMS_PARAMS } from "../../lib/car-customs.ts";
+import { carView, type CarForm } from "../../lib/car-customs-view.ts";
+import { carCopyParams } from "../../lib/car-customs-copy.ts";
+import { CBA_RATES } from "../../lib/cba-rates.ts";
+import { renderBreakdown } from "../../lib/breakdown.ts";
+import { formatAmount, intlLocale } from "../../lib/format.ts";
+import CalcShell from "../calc/CalcShell.astro";
+import AmountField from "../calc/AmountField.astro";
+import SelectField from "../calc/SelectField.astro";
+import ResultPanel from "../calc/ResultPanel.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+const copy = carCopyParams(locale);
+const c = (key: string) => t(`pages.car-customs.calculator.${key}`, copy);
+
+const today = new Date().toISOString().slice(0, 10);
+const thisYear = Number(today.slice(0, 4));
+
+const defaults: CarForm = {
+  situation: "personal",
+  fuel: "petrol",
+  year: thisYear - 5,
+  month: null,
+  engineCc: 2000,
+  price: 15_000,
+  currency: "EUR",
+  clearanceDate: today,
+};
+
+const labels = {
+  exempt: c("exempt"),
+  capNote: "",
+  floorNote: c("floorNote"),
+  exemptReasons: {
+    eaeu: c("exemptReasons.eaeu"),
+    evQuota: c("exemptReasons.evQuota"),
+    unified: c("exemptReasons.unified"),
+    ev2026: c("exemptReasons.ev2026"),
+    eaeuFirst: c("exemptReasons.eaeuFirst"),
+  },
+};
+const warnings = {
+  hybridAssumed: c("warnings.hybridAssumed"),
+  eaeuEnvUnconfirmed: c("warnings.eaeuEnvUnconfirmed"),
+};
+
+const view = carView(defaults, CBA_RATES, CAR_CUSTOMS_PARAMS);
+const initial = renderBreakdown(view.breakdown, locale, labels);
+const lineLabels = Object.fromEntries(
+  initial.lines.map((line) => [line.key, c(`lines.${line.key}`)]),
+);
+
+const monthName = new Intl.DateTimeFormat(intlLocale(locale), { month: "long", timeZone: "UTC" });
+const years = Array.from({ length: 31 }, (_, i) => thisYear - i);
+
+// Serialised for the browser: a few tables and rates, not the data files.
+const config = { params: CAR_CUSTOMS_PARAMS, rates: CBA_RATES, locale, labels, warnings };
+---
+
+<CalcShell legend={c("legend")} name="car-customs" config={config}>
+  <SelectField
+    id="situation"
+    input="situation"
+    label={c("situationLabel")}
+    hint={c("situationHint")}
+    selected={defaults.situation}
+    options={(["personal", "business", "eaeuFirst", "eaeu"] as const).map((key) => ({
+      value: key,
+      label: c(`situations.${key}`),
+    }))}
+  />
+  <SelectField
+    id="fuel"
+    input="fuel"
+    label={c("fuelLabel")}
+    hint={c("fuelHint")}
+    selected={defaults.fuel}
+    options={(["petrol", "diesel", "hybrid", "electric"] as const).map((key) => ({
+      value: key,
+      label: c(`fuels.${key}`),
+    }))}
+  />
+  <SelectField
+    id="year"
+    input="year"
+    label={c("yearLabel")}
+    hint={c("yearHint")}
+    selected={String(defaults.year)}
+    options={years.map((y) => ({ value: String(y), label: String(y) }))}
+  />
+  <SelectField
+    id="month"
+    input="month"
+    label={c("monthLabel")}
+    hint={c("monthHint")}
+    selected=""
+    options={[
+      { value: "", label: c("monthUnknown") },
+      ...Array.from({ length: 12 }, (_, i) => ({
+        value: String(i + 1),
+        label: monthName.format(new Date(Date.UTC(2000, i, 1))),
+      })),
+    ]}
+  />
+  <AmountField
+    id="engine"
+    input="engine"
+    label={c("ccLabel")}
+    hint={c("ccHint")}
+    value={formatAmount(defaults.engineCc, locale)}
+    currency="cm³"
+  />
+  <AmountField
+    id="price"
+    input="price"
+    label={c("priceLabel")}
+    hint={c("priceHint")}
+    value={formatAmount(defaults.price, locale)}
+    currency="€"
+  />
+  <SelectField
+    id="currency"
+    input="currency"
+    label={c("currencyLabel")}
+    hint={c("currencyHint")}
+    selected={defaults.currency}
+    options={[
+      { value: "EUR", label: "EUR, €" },
+      { value: "USD", label: "USD, $" },
+      { value: "RUB", label: "RUB, ₽" },
+      { value: "AMD", label: "AMD, ֏" },
+    ]}
+  />
+
+  <ResultPanel
+    slot="result"
+    heading={c("resultHeading")}
+    resultLabel={c("resultLabel")}
+    baseLabel={c("baseLabel")}
+    totalLabel={c("totalLabel")}
+    lineLabels={lineLabels}
+    initial={initial}
+    sign="plus"
+    warning={view.warning ? warnings[view.warning] : null}
+  />
+</CalcShell>
+
+<script>
+  import type { CarCustomsParams } from "../../lib/car-customs-core.ts";
+  import {
+    carView,
+    type CarWarning,
+    type FormFuel,
+    type PriceCurrency,
+    type Situation,
+  } from "../../lib/car-customs-view.ts";
+  import type { CbaRates } from "../../lib/cba-rates.ts";
+  import { renderBreakdown, type FormulaLabels } from "../../lib/breakdown.ts";
+  import type { Locale } from "../../i18n/config.ts";
+  import {
+    amountReader,
+    applyBreakdown,
+    inputOf,
+    mountIslands,
+    onAnyInput,
+  } from "../../scripts/calc-island.ts";
+
+  interface Config {
+    params: CarCustomsParams;
+    rates: CbaRates;
+    locale: Locale;
+    labels: FormulaLabels;
+    warnings: Record<CarWarning, string>;
+  }
+
+  const SIGN: Record<PriceCurrency, string> = { EUR: "€", USD: "$", RUB: "₽", AMD: "֏" };
+
+  mountIslands<Config>("car-customs", (root, config) => {
+    const situation = inputOf<HTMLSelectElement>(root, "situation");
+    const fuel = inputOf<HTMLSelectElement>(root, "fuel");
+    const year = inputOf<HTMLSelectElement>(root, "year");
+    const month = inputOf<HTMLSelectElement>(root, "month");
+    const engineInput = inputOf(root, "engine");
+    const priceInput = inputOf(root, "price");
+    const engine = amountReader(engineInput, config.locale);
+    const price = amountReader(priceInput, config.locale);
+    const currency = inputOf<HTMLSelectElement>(root, "currency");
+    const priceSign = priceInput.parentElement!.querySelector("[data-sign]")!;
+
+    const update = () => {
+      const cur = currency.value as PriceCurrency;
+      priceSign.textContent = SIGN[cur];
+      const isEv = fuel.value === "electric";
+      engineInput.disabled = isEv;
+
+      const view = carView(
+        {
+          situation: situation.value as Situation,
+          fuel: fuel.value as FormFuel,
+          year: Number(year.value),
+          month: month.value ? Number(month.value) : null,
+          // An engine of 0 cm³ has no tariff band; keep the last real size.
+          engineCc: Math.max(engine(), 1),
+          price: price(),
+          currency: cur,
+          clearanceDate: new Date().toISOString().slice(0, 10),
+        },
+        config.rates,
+        config.params,
+      );
+      applyBreakdown(
+        root,
+        renderBreakdown(view.breakdown, config.locale, config.labels),
+        view.warning ? config.warnings[view.warning] : null,
+      );
+    };
+
+    onAnyInput(root, update);
+    // The server rendered the build date; recalculate for today.
+    update();
+  });
+</script>

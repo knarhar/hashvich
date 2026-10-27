@@ -1,0 +1,77 @@
+---
+/**
+ * The car import customs page: the shared calculator page with the car
+ * customs island, its worked examples and its sources.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { CAR_CUSTOMS_PARAMS } from "../../lib/car-customs.ts";
+import { carView } from "../../lib/car-customs-view.ts";
+import { EXAMPLE_CARS, carCopyParams, formatPrice } from "../../lib/car-customs-copy.ts";
+import { CAR_SOURCES, LAST_VERIFIED } from "../../lib/car-customs-sources.ts";
+import { CBA_RATES } from "../../lib/cba-rates.ts";
+import { renderBreakdown } from "../../lib/breakdown.ts";
+import { formatAmount } from "../../lib/format.ts";
+import CalculatorPage from "./CalculatorPage.astro";
+import Calculator from "../car-customs/Calculator.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+
+const tt = useTranslations(locale);
+const copy = carCopyParams(locale);
+const c = (key: string) => tt(`pages.car-customs.calculator.${key}`, copy);
+
+const lineLabels = Object.fromEntries(
+  (["duty", "vat", "environmental"] as const).map((key) => [key, c(`lines.${key}`)]),
+);
+
+// Worked examples run through the same code as the calculator.
+const formulaLabels = {
+  exempt: c("exempt"),
+  capNote: "",
+  floorNote: c("floorNote"),
+  exemptReasons: {
+    eaeu: c("exemptReasons.eaeu"),
+    evQuota: c("exemptReasons.evQuota"),
+    unified: c("exemptReasons.unified"),
+    ev2026: c("exemptReasons.ev2026"),
+    eaeuFirst: c("exemptReasons.eaeuFirst"),
+  },
+};
+const examples = EXAMPLE_CARS.map((car) => ({
+  label: tt(car.fuel === "electric" ? "pages.car-customs.examples.caseLabelEv" : "pages.car-customs.examples.caseLabel", {
+    ...copy,
+    fuel: c(`fuels.${car.fuel}`),
+    carYear: car.year,
+    cc: formatAmount(car.engineCc, locale),
+    price: formatPrice(car, locale),
+  }),
+  result: renderBreakdown(carView(car, CBA_RATES, CAR_CUSTOMS_PARAMS).breakdown, locale, formulaLabels),
+}));
+
+const sources = CAR_SOURCES.map((source) => ({
+  label: tt(`pages.car-customs.sources.labels.${source.labelKey}`, copy),
+  name: source.sourceName,
+  url: source.sourceUrl,
+  effectiveFrom: source.effectiveFrom,
+  evidence: source.evidence,
+}));
+---
+
+<CalculatorPage
+  locale={locale}
+  pageKey={pageKey}
+  ns="car-customs"
+  copy={copy}
+  examples={examples}
+  lineLabels={lineLabels}
+  sources={sources}
+  lastVerified={LAST_VERIFIED}
+>
+  <Calculator locale={locale} />
+</CalculatorPage>

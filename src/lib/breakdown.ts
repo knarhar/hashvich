@@ -10,7 +10,7 @@
  * shape when the page becomes interactive.
  */
 
-import { formatAmount, formatAmd, formatPercent, intlLocale } from "./format.ts";
+import { formatAmount, formatAmd, formatNumber, formatPercent, intlLocale } from "./format.ts";
 import type { Locale } from "../i18n/config.ts";
 
 /**
@@ -43,7 +43,22 @@ export type Formula =
     }
   | { kind: "band"; from: number; to: number | null }
   | { kind: "times"; amount: number; times: number }
-  | { kind: "exempt" };
+  | {
+      /** A rate per unit, converted: "5,5 € × 3 000 cm³ × 404,11". */
+      kind: "perUnit";
+      rate: number;
+      rateSymbol: string;
+      units: number;
+      unitSymbol: string;
+      fx: number;
+      /** True when this per-unit minimum replaced a percentage. */
+      floored?: boolean;
+    }
+  | {
+      kind: "exempt";
+      /** Picks a specific wording from `exemptReasons`, if one is given. */
+      reason?: string;
+    };
 
 export interface BreakdownLine {
   /** i18n key of the line's label, relative to the calculator's namespace. */
@@ -71,6 +86,8 @@ export interface FormulaLabels {
   capNote: string;
   /** Shown under a line where a statutory minimum applied. */
   floorNote?: string;
+  /** Wording for specific exemptions, by reason. */
+  exemptReasons?: Record<string, string>;
 }
 
 /**
@@ -81,7 +98,8 @@ export interface FormulaLabels {
  *   "200 001 – 500 000"
  *   "> 1 000 000"
  *   "5 000 × 12"
- * Only the exempt case uses a translated word.
+ *   "5,5 € × 3 000 cm³ × 404,11"
+ * Only the exempt case uses translated words.
  */
 export function formulaText(
   formula: Formula,
@@ -105,8 +123,10 @@ export function formulaText(
         : `${n(formula.from)} – ${n(formula.to)}`;
     case "times":
       return `${n(formula.amount)} × ${n(formula.times)}`;
+    case "perUnit":
+      return `${formatNumber(formula.rate, locale, 2)} ${formula.rateSymbol} × ${n(formula.units)} ${formula.unitSymbol} × ${formatNumber(formula.fx, locale, 4)}`;
     case "exempt":
-      return labels.exempt;
+      return (formula.reason && labels.exemptReasons?.[formula.reason]) || labels.exempt;
   }
 }
 
@@ -118,7 +138,9 @@ export function isCapped(formula: Formula): boolean {
 /** The note shown under a line, if any. */
 export function noteFor(formula: Formula, labels: FormulaLabels): string | null {
   if (isCapped(formula)) return labels.capNote;
-  if (formula.kind === "floor") return labels.floorNote ?? null;
+  if (formula.kind === "floor" || (formula.kind === "perUnit" && formula.floored)) {
+    return labels.floorNote ?? null;
+  }
   return null;
 }
 

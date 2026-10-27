@@ -56,7 +56,7 @@ export const ROUTES: PageRoute[] = [
       hy: "maqsazercum",
       en: "car-customs-calculator",
     },
-    enabled: false,
+    enabled: true,
   },
   {
     key: "currency",

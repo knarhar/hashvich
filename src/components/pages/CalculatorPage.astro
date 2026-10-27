@@ -14,6 +14,7 @@ import { HOME_KEY, ROUTES, pathFor } from "../../i18n/routes.ts";
 import { tEntries, tList, useTranslations } from "../../i18n/utils.ts";
 import type { RenderedBreakdown } from "../../lib/breakdown.ts";
 import { formatDate } from "../../lib/format.ts";
+import { quoteLang } from "../../lib/sources.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../Breadcrumbs.astro";
 import JsonLd from "../JsonLd.astro";
@@ -34,8 +35,6 @@ interface PageSource {
   effectiveFrom: string | null;
   /** Original-language quote proving the value, if there is one. */
   evidence: string;
-  /** Language of the quote, for the lang attribute. */
-  evidenceLang?: string;
 }
 
 interface Props {
@@ -233,7 +232,7 @@ const breadcrumbSchema = {
               <p class="source-label">{source.label}</p>
               <p class="source-name">{source.name}</p>
               {source.evidence && (
-                <p class="evidence" lang={source.evidenceLang ?? "hy"}>«{source.evidence}»</p>
+                <p class="evidence" lang={quoteLang(source.evidence)}>«{source.evidence}»</p>
               )}
               <p class="source-meta">
                 {source.effectiveFrom && (

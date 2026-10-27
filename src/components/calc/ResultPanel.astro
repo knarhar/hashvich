@@ -58,7 +58,7 @@ const {
             {line.formula}
             {line.note && <span class="note">{line.note}</span>}
           </dd>
-          <dd class:list={["value", sign]} data-value>
+          <dd class:list={["value", sign, { zero: line.amount === "—" }]} data-value>
             {line.amount}
           </dd>
         </div>
@@ -155,6 +155,12 @@ const {
   .plus::before {
     content: "+";
     margin-right: 2px;
+  }
+
+  /* A line with nothing to pay shows a bare dash, not "− —". */
+  .minus.zero::before,
+  .plus.zero::before {
+    content: none;
   }
 
   .total {

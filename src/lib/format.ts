@@ -32,6 +32,13 @@ export function formatAmount(value: number, locale: Locale): string {
   }).format(Math.round(value));
 }
 
+/** A number with up to `fractionDigits` decimals, e.g. 404.11 -> "404,11". */
+export function formatNumber(value: number, locale: Locale, fractionDigits: number): string {
+  return new Intl.NumberFormat(INTL_LOCALE[locale], {
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+}
+
 /**
  * An amount with the dram sign, e.g. "219 200 ֏".
  *

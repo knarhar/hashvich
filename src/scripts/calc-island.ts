@@ -81,7 +81,9 @@ export function applyBreakdown(
   for (const line of view.lines) {
     const row = root.querySelector<HTMLElement>(`[data-line="${line.key}"]`);
     if (!row) continue;
-    row.querySelector("[data-value]")!.textContent = line.amount;
+    const value = row.querySelector("[data-value]")!;
+    value.textContent = line.amount;
+    value.classList.toggle("zero", line.amount === "—");
     const formula = row.querySelector("[data-formula]")!;
     formula.textContent = line.formula;
     if (line.note) {

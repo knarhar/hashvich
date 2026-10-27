@@ -65,16 +65,21 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Audit the salary page in every language (mobile)
+      - name: Audit every calculator page in every language (mobile)
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
           mkdir -p reports
           echo "| Page | Performance | Accessibility | Best practices | SEO |" >> "$GITHUB_STEP_SUMMARY"
           echo "|---|---|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
-          for path in en/salary-calculator ru/kalkulyator-zarplaty hy/ashxatavardzi-hashvich; do
-            name="${path%%/*}"
-            npx --yes lighthouse@12 "${PAGE_URL%/}/${path}/" \
+          # Every page in the sitemap except the three home pages.
+          site="${PAGE_URL%/}"
+          urls=$(curl -fsS "$site/sitemap-0.xml" | grep -o '<loc>[^<]*</loc>' \
+            | sed -E 's#</?loc>##g' | grep -vE '/(ru|hy|en)/$' | sort)
+          for url in $urls; do
+            path="${url#"$site"/}"
+            name=$(echo "$path" | tr '/' '_' | sed 's/_$//')
+            npx --yes lighthouse@12 "$url" \
               --quiet --form-factor=mobile \
               --chrome-flags="--headless=new --no-sandbox" \
               --only-categories=performance,accessibility,best-practices,seo \

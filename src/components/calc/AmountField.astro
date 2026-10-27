@@ -28,7 +28,7 @@ const { id, label, hint, value, input, currency = "֏" } = Astro.props;
       data-input={input}
       data-amount
     />
-    <span class="currency" aria-hidden="true">{currency}</span>
+    <span class="currency" aria-hidden="true" data-sign>{currency}</span>
   </div>
   <p id={`${id}-hint`} class="hint">{hint}</p>
 </div>
