@@ -7,7 +7,8 @@
  * src/i18n/routes.ts and hands off to the component for that page key.
  *
  * Adding a calculator means flipping `enabled` in the registry and adding one
- * entry to PAGE_COMPONENTS below.
+ * entry to PAGE_COMPONENTS below. Category and information pages are
+ * rendered by kind, from their text in the translation files.
  *
  * Note: `getStaticPaths` is evaluated in isolation during the build, so it
  * must not reference PAGE_COMPONENTS or anything else that pulls in a
@@ -15,12 +16,14 @@
  */
 import type { GetStaticPaths } from "astro";
 import { LOCALES, type Locale } from "../../i18n/config.ts";
-import { enabledRoutes, HOME_KEY } from "../../i18n/routes.ts";
+import { enabledRoutes, getRoute, HOME_KEY } from "../../i18n/routes.ts";
 import SalaryPage from "../../components/pages/SalaryPage.astro";
 import EntrepreneurPage from "../../components/pages/EntrepreneurPage.astro";
 import CarCustomsPage from "../../components/pages/CarCustomsPage.astro";
 import CurrencyPage from "../../components/pages/CurrencyPage.astro";
 import TransfersPage from "../../components/pages/TransfersPage.astro";
+import CategoryPage from "../../components/pages/CategoryPage.astro";
+import InfoPage from "../../components/pages/InfoPage.astro";
 
 export const getStaticPaths: GetStaticPaths = () =>
   enabledRoutes()
@@ -43,7 +46,9 @@ const PAGE_COMPONENTS: Record<string, typeof SalaryPage> = {
 const { pageKey } = Astro.props as { pageKey: string };
 const locale = Astro.params.locale as Locale;
 
-const Page = PAGE_COMPONENTS[pageKey];
+const kind = getRoute(pageKey).kind;
+const Page =
+  kind === "category" ? CategoryPage : kind === "info" ? InfoPage : PAGE_COMPONENTS[pageKey];
 if (!Page) {
   // A route marked `enabled` with no component would otherwise render blank.
   throw new Error(

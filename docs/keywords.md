@@ -33,6 +33,21 @@ Currency rates and transfer fees were split into two pages because they are diff
 | 4. `currency` | Convert an amount AMD ↔ USD/EUR/RUB at today's rate | конвертер драм рубль | դոլարի փոխարժեք | usd to amd *(unverified)* |
 | 5. `transfers` | Total cost (fee + FX markup) of sending money to/from Armenia | перевод денег в армению комиссия | դրամական փոխանցում Ռուսաստանից Հայաստան միջնորդավճար *(provisional)* | send money to armenia fees |
 
+### Hub and project pages: no primary keyword of their own
+
+Added 2026-10-27. The home page, the three category pages (`taxes`, `car`,
+`money`) and the project pages (`about`, `methodology`, `contacts`,
+`privacy`) are navigation and trust pages. They target no calculator intent:
+their titles and H1s must not contain any calculator's full primary keyword
+(checked with the same script as the calculator pages). They pass link weight
+to the calculators instead of competing with them.
+
+| Page | ru title | hy title | en title |
+|---|---|---|---|
+| `taxes` | Налоги в Армении: зарплата и предприниматели | Հարկերը Հայաստանում՝ աշխատողների և անհատ ձեռնարկատերերի համար | Taxes in Armenia: Employees and Sole Proprietors |
+| `car` | Автомобиль в Армении: ввоз и таможенные платежи | Ավտոմեքենա՝ ներմուծում Հայաստան և մաքսային վճարներ | Cars in Armenia: Import and Customs Payments |
+| `money` | Деньги в Армении: курс ЦБ и стоимость переводов | Գումար՝ ԿԲ փոխարժեք և փոխանցումների արժեք | Money in Armenia: CBA Exchange Rate and Transfer Costs |
+
 ### Ownership of keywords that could fit two pages
 
 Decided during the merge, so no keyword is targeted on two pages. Three variants were removed from secondary lists for this reason: `armenia tax calculator 2026` (removed from entrepreneur), `best armenian dram exchange rate` and `dramakan poxancum rusastanic hayastan` (removed from transfers).

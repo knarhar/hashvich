@@ -29,7 +29,7 @@ interface Props {
    * to a missing file.
    */
   image?: string;
-  /** Set on pages that should not be indexed (e.g. the root redirect). */
+  /** Set on pages that should not be indexed (the 404). */
   noindex?: boolean;
 }
 
@@ -56,15 +56,20 @@ const siteName = t("site.name", locale);
 
 <title>{title}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{/*
+  A noindex page (the 404) has no URL of its own to declare and belongs to
+  no language cluster, so it gets neither a canonical nor hreflang.
+*/}
+{!noindex && <link rel="canonical" href={canonical} />}
 
 {noindex && <meta name="robots" content="noindex, follow" />}
 
 {/* hreflang: every locale, plus x-default pointing at the default locale. */}
 {
-  alternates.map((alt) => (
-    <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
-  ))
+  !noindex &&
+    alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))
 }
 
 {/* Open Graph */}
@@ -72,7 +77,7 @@ const siteName = t("site.name", locale);
 <meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={canonical} />
+{!noindex && <meta property="og:url" content={canonical} />}
 {ogImage && <meta property="og:image" content={ogImage} />}
 <meta property="og:locale" content={ogLocale(locale)} />
 {

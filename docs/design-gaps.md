@@ -4,7 +4,7 @@ Required by `CLAUDE.md`: where `docs/DESIGN.md` doesn't specify something, the
 simplest option was taken and recorded here. Every entry says what the design
 doc says, what was built, and why.
 
-Last updated: 2026-10-26 (project skeleton).
+Last updated: 2026-10-27 (category, project and 404 pages).
 
 ---
 
@@ -201,3 +201,32 @@ close).
 15 000 as "15 000". This is the CLDR rule for Armenian (no grouping below five
 digits), not a bug, so it is left as the locale dictates rather than forced to
 match ru/en. Flagged for the native-language review (`hy` is TODO-REVIEW).
+
+## 14. One 404 page for three languages
+
+**DESIGN.md says:** nothing about error pages.
+
+**Constraint:** GitHub Pages serves a single `/404.html` for every missing
+URL, so there cannot be one 404 per locale.
+
+**Built:** `src/pages/404.astro` carries the ru, hy and en versions. An inline
+script reads the language from the requested path (`/hy/...`) and shows only
+that version; on a path with no language, or without JavaScript, all three
+are shown one under another. The header and footer around them are in the
+default locale (ru). The page is `noindex` and, like any noindex page, gets
+no canonical or hreflang (`Seo.astro`).
+
+## 15. Footer link columns
+
+DESIGN.md describes the footer as "multi-column layout with link lists",
+headers 12px uppercase 0.1em in Ash. Built exactly that: one column per
+category (its calculators underneath) plus a "Project" column. Because the
+footer is on every page and links every page, no page is an orphan;
+`scripts/check-links.mjs` checks this on every build.
+
+## 16. 44px tap targets on small links
+
+DESIGN.md gives 12-14px sizes for breadcrumbs, the language switcher, the menu
+button and footer links, but no hit-area size. The project's floor is 44px, so
+those links are `inline-flex` with `min-height: 44px` (the switcher also
+`min-width: 44px`). The text size is unchanged; only the clickable box grows.

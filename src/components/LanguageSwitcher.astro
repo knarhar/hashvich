@@ -52,7 +52,11 @@ const { locale, pageKey } = Astro.props;
   }
 
   .lang a {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     padding: var(--spacing-8) var(--spacing-12);
     border-radius: var(--radius-pills);
     font-size: var(--text-body-sm);

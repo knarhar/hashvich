@@ -1,0 +1,102 @@
+---
+/**
+ * Not found. GitHub Pages serves this one file for every missing URL in
+ * every language, so it carries all three versions. A tiny inline script
+ * reads the language from the requested path and shows only that one;
+ * without it, or on a path with no language, all three are shown.
+ * The surrounding chrome is in the default locale. See docs/design-gaps.md.
+ */
+import { DEFAULT_LOCALE, HTML_LANG, LOCALES } from "../i18n/config.ts";
+import { HOME_KEY, calculatorRoutes, pathFor } from "../i18n/routes.ts";
+import { t } from "../i18n/utils.ts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/ui/Button.astro";
+import LinkList from "../components/LinkList.astro";
+
+const versions = LOCALES.map((locale) => ({
+  locale,
+  heading: t("pages.notFound.h1", locale),
+  text: t("pages.notFound.text", locale),
+  home: { label: t("pages.notFound.homeButton", locale), href: pathFor(HOME_KEY, locale) },
+  links: calculatorRoutes()
+    .filter((r) => r.enabled)
+    .map((r) => ({ label: t(`calculators.${r.key}.name`, locale), href: pathFor(r.key, locale) })),
+}));
+---
+
+<BaseLayout
+  locale={DEFAULT_LOCALE}
+  pageKey={HOME_KEY}
+  title={`${t("pages.notFound.title", DEFAULT_LOCALE)} — ${t("site.name", DEFAULT_LOCALE)}`}
+  description={t("pages.notFound.text", DEFAULT_LOCALE)}
+  noindex
+>
+  <script is:inline slot="head" define:vars={{ locales: LOCALES }}>
+    const first = location.pathname.split("/")[1];
+    if (locales.includes(first)) {
+      document.documentElement.dataset.nf = first;
+      document.documentElement.lang = first;
+    }
+  </script>
+
+  {
+    versions.map((v) => (
+      <section class="nf" data-nf={v.locale} lang={HTML_LANG[v.locale]}>
+        <h1>{v.heading}</h1>
+        <p class="text">{v.text}</p>
+        <div class="home">
+          <Button href={v.home.href}>{v.home.label}</Button>
+        </div>
+        <LinkList items={v.links} />
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  .nf {
+    padding-block: var(--spacing-40) var(--spacing-24);
+  }
+
+  .nf + .nf {
+    border-top: 1px solid var(--color-ash);
+  }
+
+  /* Once the script knows the language, only that version is shown. */
+  :global(html[data-nf]) .nf {
+    display: none;
+  }
+
+  :global(html[data-nf="ru"]) .nf[data-nf="ru"],
+  :global(html[data-nf="hy"]) .nf[data-nf="hy"],
+  :global(html[data-nf="en"]) .nf[data-nf="en"] {
+    display: block;
+    border-top: none;
+  }
+
+  h1 {
+    font-size: var(--text-heading);
+    line-height: var(--text-heading--line-height);
+  }
+
+  .text {
+    margin-top: var(--spacing-16);
+    max-width: 62ch;
+    color: var(--color-graphite);
+  }
+
+  .home {
+    margin-top: var(--spacing-24);
+  }
+
+  @media (min-width: 768px) {
+    .nf {
+      padding-block: var(--spacing-60) var(--spacing-40);
+    }
+
+    h1 {
+      font-size: var(--text-heading-lg);
+      line-height: var(--text-heading-lg--line-height);
+    }
+  }
+</style>

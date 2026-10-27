@@ -1,6 +1,6 @@
 ---
 import type { Locale } from "../i18n/config.ts";
-import { HOME_KEY, ROUTES, pathFor } from "../i18n/routes.ts";
+import { HOME_KEY, calculatorRoutes, pathFor } from "../i18n/routes.ts";
 import { t } from "../i18n/utils.ts";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
@@ -14,7 +14,7 @@ const { locale, pageKey } = Astro.props;
 // All calculators appear in the dropdown; reserved ones show as "coming soon"
 // and are not links. This keeps the top bar to a logo, one menu and the
 // language switcher instead of a growing row of links.
-const items = ROUTES.filter((r) => r.key !== HOME_KEY);
+const items = calculatorRoutes();
 ---
 
 <header class="site-header" data-site-header>
@@ -143,6 +143,9 @@ const items = ROUTES.filter((r) => r.key !== HOME_KEY);
   }
 
   .wordmark {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font-size: var(--text-subheading);
     font-weight: var(--font-weight-medium);
     letter-spacing: -0.03em;
@@ -166,6 +169,7 @@ const items = ROUTES.filter((r) => r.key !== HOME_KEY);
   .menu-trigger {
     display: inline-flex;
     align-items: center;
+    min-height: 44px;
     gap: var(--spacing-8);
     padding: var(--spacing-8) var(--spacing-16);
     border: 1px solid var(--color-ash);

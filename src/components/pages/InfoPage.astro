@@ -1,0 +1,134 @@
+---
+/**
+ * About, Methodology, Contacts and Privacy. The text is in
+ * `pages.<pageKey>` in the translation files; this adds what each page
+ * links to: calculators' sources, the cited sites, the contact channel and
+ * the host's privacy statement.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { calculatorRoutes, pathFor } from "../../i18n/routes.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { formatDate } from "../../lib/format.ts";
+import { CALCULATOR_DATA, SITE, officialSites, privacyCopyParams } from "../../lib/site-copy.ts";
+import Button from "../ui/Button.astro";
+import Card from "../ui/Card.astro";
+import LinkList, { type LinkItem } from "../LinkList.astro";
+import ContentPage from "./ContentPage.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+const tt = useTranslations(locale);
+const p = (key: string, params?: Record<string, string>) => tt(`pages.${pageKey}.${key}`, params);
+
+const SCHEMA_TYPE: Record<string, string> = {
+  about: "AboutPage",
+  methodology: "WebPage",
+  contacts: "ContactPage",
+  privacy: "WebPage",
+};
+const schemaType = SCHEMA_TYPE[pageKey];
+if (!schemaType) throw new Error(`InfoPage has no layout for "${pageKey}"`);
+
+const page = (key: string): LinkItem => ({
+  label: tt(`pages.${key}.breadcrumb`),
+  href: pathFor(key, locale),
+  note: tt(`pages.${key}.summary`),
+});
+
+// Each calculator's "Sources" section, with the date its data was checked.
+const sourcesByCalculator: LinkItem[] = calculatorRoutes()
+  .filter((r) => r.enabled)
+  .map((r) => ({
+    label: tt(`calculators.${r.key}.name`),
+    href: `${pathFor(r.key, locale)}#sources`,
+    note: tt("pages.methodology.verifiedOn", { date: formatDate(CALCULATOR_DATA[r.key]!.verified, locale) }),
+  }));
+
+const citedSites: LinkItem[] = officialSites().map((s) => ({ label: s.host, href: s.url, external: true }));
+
+const copy = pageKey === "privacy" ? privacyCopyParams(locale) : {};
+---
+
+<ContentPage locale={locale} pageKey={pageKey} schemaType={schemaType} copy={copy}>
+  {
+    pageKey === "about" && (
+      <section class="reveal" aria-labelledby="more">
+        <h2 id="more">{tt("common.moreHeading")}</h2>
+        <LinkList items={["taxes", "car", "money", "methodology", "contacts"].map(page)} />
+      </section>
+    )
+  }
+
+  {
+    pageKey === "methodology" && (
+      <>
+        <section class="reveal" aria-labelledby="by-calculator">
+          <h2 id="by-calculator">{p("byCalculatorHeading")}</h2>
+          <p>{p("byCalculatorIntro")}</p>
+          <LinkList items={sourcesByCalculator} />
+        </section>
+        <section class="reveal" aria-labelledby="sites">
+          <h2 id="sites">{p("sitesHeading")}</h2>
+          <p>{p("sitesIntro")}</p>
+          <LinkList items={citedSites} />
+        </section>
+      </>
+    )
+  }
+
+  {
+    pageKey === "contacts" && (
+      <section class="reveal" aria-labelledby="write">
+        <h2 id="write">{p("writeHeading")}</h2>
+        <Card surface="parchment">
+          <p class="card-text">{p("writeText")}</p>
+          <div class="actions">
+            <Button href={SITE.contact.new_issue_url}>{p("writeButton")}</Button>
+            <a class="plain" href={SITE.contact.repository_url} target="_blank" rel="noopener">{p("repoLink")}</a>
+          </div>
+        </Card>
+      </section>
+    )
+  }
+
+  {
+    pageKey === "privacy" && (
+      <section class="reveal" aria-labelledby="docs">
+        <h2 id="docs">{p("docsHeading")}</h2>
+        <LinkList
+          items={[
+            { label: SITE.privacy.host_policy.source_name, href: SITE.privacy.host_policy.source_url, external: true },
+            { label: SITE.privacy.hosting.source_name, href: SITE.privacy.hosting.source_url, note: SITE.privacy.hosting.evidence, noteLang: "en", external: true },
+            page("contacts"),
+          ]}
+        />
+      </section>
+    )
+  }
+</ContentPage>
+
+<style>
+  .card-text {
+    max-width: 60ch;
+  }
+
+  .actions {
+    margin-top: var(--spacing-24);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-16) var(--spacing-24);
+  }
+
+  .plain {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: var(--font-weight-medium);
+    text-underline-offset: 3px;
+  }
+</style>

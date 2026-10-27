@@ -1,0 +1,74 @@
+---
+/**
+ * A short list of links with an optional note under each, drawn like the
+ * "Sources" list on calculator pages: a hairline on the left, the link as an
+ * underline link, the note in muted text. External links open in a new tab.
+ */
+export interface LinkItem {
+  label: string;
+  href: string;
+  note?: string;
+  /** Language of the note, when it is a quote in another language. */
+  noteLang?: string;
+  external?: boolean;
+}
+
+interface Props {
+  items: LinkItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="link-list">
+  {
+    items.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          {...(item.external ? { target: "_blank", rel: "noopener" } : {})}
+        >
+          {item.label}
+        </a>
+        {item.note && <p lang={item.noteLang}>{item.note}</p>}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .link-list {
+    margin: var(--spacing-20) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--spacing-12);
+    max-width: 68ch;
+  }
+
+  li {
+    padding-left: var(--spacing-16);
+    border-left: 2px solid var(--color-ash);
+  }
+
+  /* The link's own box is the 44px tap target. */
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-off-black-ink);
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  a:hover {
+    color: var(--color-graphite);
+  }
+
+  p {
+    font-size: var(--text-body-sm);
+    line-height: var(--text-body--line-height);
+    color: var(--color-graphite);
+  }
+</style>

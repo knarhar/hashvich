@@ -1,0 +1,50 @@
+---
+/**
+ * A category page: what the category covers, its calculators as cards,
+ * a few paragraphs on choosing between them, and links to the other
+ * categories and to the methodology.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { calculatorsIn, pathFor, routesOfKind } from "../../i18n/routes.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { categoryCopyParams } from "../../lib/site-copy.ts";
+import CalculatorCards from "../CalculatorCards.astro";
+import LinkList from "../LinkList.astro";
+import ContentPage from "./ContentPage.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+const tt = useTranslations(locale);
+
+const others = routesOfKind("category")
+  .filter((r) => r.key !== pageKey)
+  .map((r) => ({
+    label: tt(`pages.${r.key}.breadcrumb`),
+    href: pathFor(r.key, locale),
+    note: tt(`pages.${r.key}.summary`),
+  }));
+const more = [
+  ...others,
+  {
+    label: tt("pages.methodology.breadcrumb"),
+    href: pathFor("methodology", locale),
+    note: tt("pages.methodology.summary"),
+  },
+];
+---
+
+<ContentPage locale={locale} pageKey={pageKey} schemaType="CollectionPage" copy={categoryCopyParams(locale)}>
+  <section slot="lead" aria-labelledby="calculators">
+    <h2 id="calculators">{tt("common.calculatorsHeading")}</h2>
+    <CalculatorCards locale={locale} routes={calculatorsIn(pageKey)} />
+  </section>
+
+  <section class="reveal" aria-labelledby="more">
+    <h2 id="more">{tt("common.moreHeading")}</h2>
+    <LinkList items={more} />
+  </section>
+</ContentPage>

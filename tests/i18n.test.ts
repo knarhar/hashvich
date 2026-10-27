@@ -17,6 +17,9 @@ import {
   allPathsFor,
   getRoute,
   enabledRoutes,
+  calculatorRoutes,
+  calculatorsIn,
+  routesOfKind,
 } from "../src/i18n/routes.ts";
 import { t, localeFromPath, otherLocales, getDictionary } from "../src/i18n/utils.ts";
 
@@ -138,11 +141,53 @@ describe("route registry", () => {
     }
   });
 
-  it("the built pages are home and the finished calculators", () => {
+  it("the built pages are home, the categories, the calculators and the project pages", () => {
     assert.deepEqual(
       enabledRoutes().map((r) => r.key),
-      [HOME_KEY, "salary", "entrepreneur", "car-customs", "currency", "transfers"],
+      [
+        HOME_KEY,
+        "taxes",
+        "car",
+        "money",
+        "salary",
+        "entrepreneur",
+        "car-customs",
+        "currency",
+        "transfers",
+        "about",
+        "methodology",
+        "contacts",
+        "privacy",
+      ],
     );
+  });
+
+  it("every calculator belongs to a built category, and every category has a calculator", () => {
+    const categories = routesOfKind("category").map((r) => r.key);
+    for (const route of calculatorRoutes()) {
+      assert.ok(categories.includes(route.category!), `${route.key} has no category`);
+    }
+    for (const key of categories) {
+      assert.ok(calculatorsIn(key).length > 0, `category ${key} is empty`);
+    }
+    for (const route of ROUTES) {
+      if (route.kind !== "calculator") assert.equal(route.category, undefined, route.key);
+    }
+  });
+
+  it("category and project pages have their own title, H1 and breadcrumb in every locale", () => {
+    for (const locale of LOCALES) {
+      const titles = new Set<string>();
+      for (const route of [...routesOfKind("category"), ...routesOfKind("info")]) {
+        const page = (getDictionary(locale) as Record<string, any>).pages[route.key];
+        for (const key of ["title", "description", "breadcrumb", "summary", "h1", "intro"]) {
+          assert.ok(typeof page?.[key] === "string" && page[key].length > 0, `${locale} pages.${route.key}.${key}`);
+        }
+        assert.ok(page.sections.length >= 2, `${locale} pages.${route.key} needs sections`);
+        assert.ok(!titles.has(page.title), `${locale}: duplicate title ${page.title}`);
+        titles.add(page.title);
+      }
+    }
   });
 });
 
@@ -189,8 +234,7 @@ describe("translations", () => {
   });
 
   it("every registered calculator has a name and summary in every locale", () => {
-    for (const route of ROUTES) {
-      if (route.key === HOME_KEY) continue;
+    for (const route of calculatorRoutes()) {
       for (const locale of LOCALES) {
         assert.ok(t(`calculators.${route.key}.name`, locale).length > 0);
         assert.ok(t(`calculators.${route.key}.summary`, locale).length > 0);

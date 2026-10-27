@@ -6,11 +6,12 @@
  * all text comes from src/i18n/locales/*.json.
  */
 import { LOCALES, type Locale } from "../../i18n/config.ts";
-import { HOME_KEY, ROUTES, pathFor } from "../../i18n/routes.ts";
+import { HOME_KEY, calculatorRoutes, calculatorsIn, pathFor, routesOfKind } from "../../i18n/routes.ts";
 import { useTranslations } from "../../i18n/utils.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CalculatorCards from "../../components/CalculatorCards.astro";
 import JsonLd from "../../components/JsonLd.astro";
-import Card from "../../components/ui/Card.astro";
+import LinkList from "../../components/LinkList.astro";
 import Tag from "../../components/ui/Tag.astro";
 
 export function getStaticPaths() {
@@ -22,8 +23,14 @@ const t = useTranslations(locale);
 
 const site = Astro.site ?? new URL("http://localhost:4321");
 
-// Every calculator, built or not: reserved ones render as "coming soon".
-const calculators = ROUTES.filter((r) => r.key !== HOME_KEY);
+// Every calculator, one click away, grouped under its category.
+const categories = routesOfKind("category");
+
+const project = ["about", "methodology"].map((key) => ({
+  label: t(`pages.${key}.breadcrumb`),
+  href: pathFor(key, locale),
+  note: t(`pages.${key}.summary`),
+}));
 
 const websiteSchema = {
   "@context": "https://schema.org",
@@ -33,6 +40,19 @@ const websiteSchema = {
   url: new URL(pathFor(HOME_KEY, locale), site).href,
   inLanguage: locale,
 };
+
+const listSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: calculatorRoutes()
+    .filter((r) => r.enabled)
+    .map((r, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: t(`calculators.${r.key}.name`),
+      url: new URL(pathFor(r.key, locale), site).href,
+    })),
+};
 ---
 
 <BaseLayout
@@ -41,7 +61,10 @@ const websiteSchema = {
   title={`${t("pages.home.title")} — ${t("site.name")}`}
   description={t("pages.home.description")}
 >
-  <JsonLd slot="head" schema={websiteSchema} />
+  <Fragment slot="head">
+    <JsonLd schema={websiteSchema} />
+    <JsonLd schema={listSchema} />
+  </Fragment>
 
   <section class="hero">
     <Tag variant="inline">{t("site.tagline")}</Tag>
@@ -49,29 +72,24 @@ const websiteSchema = {
     <p class="intro">{t("pages.home.intro")}</p>
   </section>
 
-  <section class="grid" aria-label={t("pages.home.heading")} data-stagger>
-    {
-      calculators.map((route) => {
-        const name = t(`calculators.${route.key}.name`);
-        const summary = t(`calculators.${route.key}.summary`);
-        return route.enabled ? (
-          <a class="cell reveal" href={pathFor(route.key, locale)}>
-            <Card surface="parchment" interactive>
-              <h2>{name}</h2>
-              <p>{summary}</p>
-            </Card>
+  {
+    categories.map((category) => (
+      <section class="group" aria-labelledby={`cat-${category.key}`}>
+        <div class="group-head">
+          <h2 id={`cat-${category.key}`}>{t(`pages.${category.key}.breadcrumb`)}</h2>
+          <a class="all" href={pathFor(category.key, locale)}>
+            {t("pages.home.categoryLink")}
           </a>
-        ) : (
-          <div class="cell reveal">
-            <Card surface="white">
-              <Tag>{t("common.comingSoon")}</Tag>
-              <h2>{name}</h2>
-              <p>{summary}</p>
-            </Card>
-          </div>
-        );
-      })
-    }
+        </div>
+        <CalculatorCards locale={locale} routes={calculatorsIn(category.key)} />
+      </section>
+    ))
+  }
+
+  <section class="about reveal" aria-labelledby="about">
+    <h2 id="about">{t("pages.home.aboutHeading")}</h2>
+    <p>{t("pages.home.aboutText")}</p>
+    <LinkList items={project} />
   </section>
 </BaseLayout>
 
@@ -84,7 +102,7 @@ const websiteSchema = {
   }
 
   .hero h1 {
-    /* Mobile-first: the 60px/90px display sizes come in at wider viewports. */
+    /* Mobile-first: the 60px display size comes in at wider viewports. */
     font-size: var(--text-heading);
     line-height: var(--text-heading--line-height);
   }
@@ -94,35 +112,44 @@ const websiteSchema = {
     color: var(--color-graphite);
   }
 
-  .grid {
-    display: grid;
-    gap: var(--spacing-20);
-    padding-bottom: var(--spacing-80);
-    /* auto-fit so a card drops to its own row instead of overflowing a fixed
-       track at narrow widths. */
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  .group + .group {
+    margin-top: var(--spacing-40);
   }
 
-  .cell {
-    text-decoration: none;
-    color: inherit;
-    min-width: 0;
+  .group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-8) var(--spacing-16);
+    margin-bottom: var(--spacing-16);
   }
 
-  /* The card fills the link, so the whole cell is the hit area and lift. */
-  .cell > :global(.card) {
-    height: 100%;
-  }
-
-  .cell :global(h2) {
-    margin-top: var(--spacing-12);
+  h2 {
     font-size: var(--text-subheading);
     line-height: var(--text-subheading--line-height);
   }
 
-  .cell :global(p) {
-    margin-top: var(--spacing-8);
+  .all {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+    text-underline-offset: 3px;
+  }
+
+  .all:hover {
+    color: var(--color-graphite);
+  }
+
+  .about {
+    margin-top: var(--section-gap-min);
+  }
+
+  .about > p {
+    margin-top: var(--spacing-16);
+    max-width: 62ch;
     color: var(--color-graphite);
   }
 
@@ -136,8 +163,14 @@ const websiteSchema = {
       line-height: var(--text-heading-lg--line-height);
     }
 
-    .grid {
-      gap: var(--spacing-24);
+    .group + .group {
+      margin-top: var(--spacing-60);
+    }
+
+    h2 {
+      font-size: var(--text-heading);
+      line-height: var(--text-heading--line-height);
+      letter-spacing: var(--text-heading--letter-spacing);
     }
   }
 </style>

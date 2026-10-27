@@ -19,7 +19,64 @@
       "title": "Calculators for Armenia",
       "description": "Work out net salary, sole proprietor tax, car import customs, currency conversion and money transfer fees under the rules in force.",
       "heading": "Calculators for Armenia",
-      "intro": "Plain calculations from the official rules. Every value cites its source."
+      "intro": "Free calculators for living and working in Armenia. Every rate and every exchange rate links to its official source.",
+      "categoryLink": "About this section",
+      "aboutHeading": "What this site is",
+      "aboutText": "Hashvich is a free reference site. Tax and duty rates come only from laws and government documents, and exchange rates from the Central Bank of Armenia. Every calculator shows how its result was reached and when its data was checked. No sign-up is needed, and the numbers you enter never leave your browser."
+    },
+    "taxes": {
+      "title": "Taxes in Armenia: Employees and Sole Proprietors",
+      "description": "Calculators built on Armenia's {year} tax rules: take-home pay after withholdings, and a sole proprietor's taxes for the year.",
+      "breadcrumb": "Taxes",
+      "summary": "Take-home pay and a sole proprietor's taxes.",
+      "h1": "Taxes in Armenia",
+      "intro": "Two calculators on the {year} rules: one for people paid a salary, one for people working as sole proprietors.",
+      "sections": [
+        {
+          "heading": "Which calculator to use",
+          "text": "If you are employed, open the salary calculator. It shows income tax, the pension contribution and the other withholdings, and what is left to take home. Your employer withholds them, but it helps to know what the figure is made of.\n\nIf you are registered as a sole proprietor, open the sole proprietor tax calculator. Choose the regime (turnover tax or micro-enterprise), your type of activity and your turnover for the year, and it shows every tax and mandatory payment."
+        },
+        {
+          "heading": "Where the rates come from",
+          "text": "Rates are taken from the Tax Code of Armenia and other laws as in force in {year}. On each calculator page every rate links to its document, with a quote from it and the date it was checked."
+        }
+      ]
+    },
+    "car": {
+      "title": "Cars in Armenia: Import and Customs Payments",
+      "description": "Bringing a car into Armenia: a calculator for the duty or unified payment, VAT and environmental tax, and what changes the amount.",
+      "breadcrumb": "Cars",
+      "summary": "Customs payments on a car brought into Armenia.",
+      "h1": "Cars",
+      "intro": "This section has one calculator for now: it works out every customs payment on a passenger car brought into Armenia.",
+      "sections": [
+        {
+          "heading": "What changes the amount",
+          "text": "Who imports the car (a person for their own use, or a company) and where from: cars from EAEU countries follow different rules from cars from the US, Georgia, the UAE, China or Europe. After that, the engine type and size, the year and month of manufacture and the price all matter."
+        },
+        {
+          "heading": "Exchange rate used",
+          "text": "A price in dollars, euros or rubles is converted to drams at the Central Bank of Armenia rate. The rate updates automatically every business day, and its date is shown on the calculator page."
+        }
+      ]
+    },
+    "money": {
+      "title": "Money in Armenia: CBA Exchange Rate and Transfer Costs",
+      "description": "A currency converter at the official Central Bank of Armenia rate, and a comparison of what transfers and bank exchange really cost.",
+      "breadcrumb": "Money",
+      "summary": "A converter at the CBA rate and a comparison of transfer fees.",
+      "h1": "Money: Rates and Transfers",
+      "intro": "Two calculators: what a currency is worth at the central bank rate, and how much actually arrives after a transfer or a bank exchange.",
+      "sections": [
+        {
+          "heading": "Rate or transfer?",
+          "text": "To see how many drams your rubles, dollars or euros are worth, open the converter: it uses the official Central Bank of Armenia rate.\n\nAt a bank or through a transfer you get less: banks buy currency below the central bank rate and charge a fee. The transfer comparison adds the fee and the exchange margin together and shows which way is cheaper."
+        },
+        {
+          "heading": "How fresh the data is",
+          "text": "The site updates the central bank rate automatically every business day. Bank fees and exchange rates were recorded on {snapshotDate}, and that date is shown on the comparison page."
+        }
+      ]
     },
     "salary": {
       "title": "Armenia Salary Tax Calculator {year}",
@@ -623,6 +680,130 @@
           "Where a bank publishes no fee for crediting an incoming transfer, the calculator counts only the exchange margin."
         ]
       }
+    },
+    "about": {
+      "title": "About Hashvich",
+      "description": "Hashvich is a set of free calculators for Armenia in Armenian, Russian and English: salary, sole proprietor tax, car customs, exchange rates and transfers.",
+      "breadcrumb": "About",
+      "summary": "What this site is and who it is for.",
+      "h1": "About",
+      "intro": "Hashvich (Armenian «հաշվիչ», “calculator”) is a set of free calculators for people who live, work or do business in Armenia.",
+      "sections": [
+        {
+          "heading": "What you can work out here",
+          "text": "Take-home pay, a sole proprietor's taxes, customs payments on an imported car, currency conversion at the central bank rate, and the full cost of a money transfer. Every calculator shows how it reached its result, not just the total, with worked examples."
+        },
+        {
+          "heading": "Where the numbers come from",
+          "text": "Tax and duty rates come from laws and government documents, exchange rates from the Central Bank of Armenia, and fees from bank and transfer-service websites. Every page lists its sources with quotes and the date they were checked. The methodology page explains how the data is collected and verified."
+        },
+        {
+          "heading": "Who it is for",
+          "text": "Employees and employers, sole proprietors, people who have moved to Armenia or are planning to, and anyone who needs to check a figure quickly. The site is in Armenian, Russian and English, and the calculations are the same in every language."
+        },
+        {
+          "heading": "What you won't find here",
+          "text": "Sign-up, ads or data collection: everything is calculated in your browser. Results are for reference and do not replace advice from a tax adviser or a customs representative."
+        }
+      ]
+    },
+    "methodology": {
+      "title": "Methodology: Where Our Data Comes From and How It Is Checked",
+      "description": "How Hashvich collects rates, exchange rates and fees: primary sources only, a quote and a check date for every value, hand-worked examples and automated tests.",
+      "breadcrumb": "Methodology",
+      "summary": "Where the data comes from and how it is checked.",
+      "h1": "Methodology",
+      "intro": "Every number on this site can be traced back to the document it was taken from. This page explains how the data is collected and checked.",
+      "sections": [
+        {
+          "heading": "Primary sources only",
+          "text": "Tax and payment rates come from the laws (the official arlis.am database) and State Revenue Committee material, customs rules from EAEU acts, and exchange rates from the Central Bank of Armenia. Bank and transfer-service fees and rates come from those companies' own pages.\n\nNews articles and other calculators help us find where to look, but no figure is taken from them."
+        },
+        {
+          "heading": "What is stored with every value",
+          "text": "The document's address and title, the date the rule applies from, the date we checked it, and a short quote in the original language that proves the figure. All of it is shown in the “Sources” section of each calculator page."
+        },
+        {
+          "heading": "When sources disagree",
+          "text": "If two official sources contradict each other, we keep both and flag the conflict. If a value could not be found, it is left empty: we never fill in a figure from memory or by analogy."
+        },
+        {
+          "heading": "How the calculations are checked",
+          "text": "Each calculator has examples worked out by hand. Before every release of the site, automated tests recompute them and compare the results with the hand-worked ones. If a single figure does not match, the site is not updated. The same examples, with their intermediate steps, are shown on the calculator pages."
+        },
+        {
+          "heading": "How the data is kept current",
+          "text": "The site fetches the Central Bank of Armenia rate automatically twice a day. If the central bank cannot be reached, the last rate received stays in place, and its date is always shown on the page. Tax and duty rates and bank fees and rates are checked by hand; the date of the last check is given for each calculator below."
+        }
+      ],
+      "verifiedOn": "Data checked on {date}",
+      "byCalculatorHeading": "Sources by calculator",
+      "byCalculatorIntro": "Each link opens the list of sources on the calculator page: the document, a quote and the date.",
+      "sitesHeading": "Sites we cite",
+      "sitesIntro": "Every site whose documents appear in the calculators' sources, most cited first."
+    },
+    "contacts": {
+      "title": "Contact Hashvich",
+      "description": "How to reach Hashvich: report a calculation error, an outdated rate or an inaccurate translation.",
+      "breadcrumb": "Contacts",
+      "summary": "How to report an error or ask a question.",
+      "h1": "Contacts",
+      "intro": "Found a calculation error, an outdated rate or a poor translation? Write to us: that is how the site gets more accurate.",
+      "sections": [
+        {
+          "heading": "What to include",
+          "text": "A link to the page, the values you entered, what you got and what you expected. If you know the correct figure, add a link to the document: we will check it against the primary source and fix the calculation."
+        },
+        {
+          "heading": "What we can't help with",
+          "text": "We don't give advice on personal tax or customs matters. For those, contact the State Revenue Committee, a tax adviser or a customs representative."
+        }
+      ],
+      "writeHeading": "Write to us",
+      "writeText": "Messages are taken on GitHub, where the site's code lives: press the button, describe your question and submit. You will need a free GitHub account. Messages there are public, so do not include personal details.",
+      "writeButton": "Write on GitHub",
+      "repoLink": "The site's code on GitHub"
+    },
+    "privacy": {
+      "title": "Hashvich Privacy Policy",
+      "description": "Hashvich collects no personal data: no sign-up, cookies, ads or analytics. What the GitHub Pages host records.",
+      "breadcrumb": "Privacy",
+      "summary": "What data the site collects and where it is kept.",
+      "h1": "Privacy",
+      "intro": "In short: we don't ask for, collect or keep your data. The details, including about the site's host, are below.",
+      "sections": [
+        {
+          "heading": "What you enter into the calculators",
+          "text": "Every calculation runs in your browser. Amounts and other values are not sent anywhere and not saved: once you close the page, they exist nowhere."
+        },
+        {
+          "heading": "Cookies, ads and analytics",
+          "text": "The site sets no cookies, shows no ads and uses no visit counters or analytics services. Fonts and every other file load from the site itself, so the pages make no requests to third-party services."
+        },
+        {
+          "heading": "Hosting",
+          "text": "The site is hosted on GitHub Pages. According to GitHub, when a GitHub Pages site is visited, the visitor's IP address is logged and stored for security purposes. GitHub keeps those records under its own privacy statement; we have no access to them."
+        },
+        {
+          "heading": "Links to other sites",
+          "text": "The source lists link to government, bank and transfer-service websites. Once you follow those links, those sites' own rules apply."
+        },
+        {
+          "heading": "Messages on GitHub",
+          "text": "If you write to us through GitHub, your message and your username are public and stored by GitHub. Do not include personal details."
+        },
+        {
+          "heading": "Changes",
+          "text": "If any of this changes, for example if analytics is added, we will update this page. This version applies from {effectiveDate}."
+        }
+      ],
+      "docsHeading": "Documents"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "h1": "Page not found",
+      "text": "There is no such page: the address may have a typo, or the page has moved. Start from the home page or open the calculator you need.",
+      "homeButton": "Go to the home page"
     }
   },
   "calculators": {
@@ -652,11 +833,15 @@
     "inDevelopment": "In development",
     "yes": "Yes",
     "no": "No",
-    "breadcrumbAria": "Breadcrumb"
+    "breadcrumbAria": "Breadcrumb",
+    "calculatorsHeading": "Calculators in this section",
+    "moreHeading": "See also"
   },
   "footer": {
     "disclaimer": "Advisory calculations, not tax advice. Check values against the primary sources.",
     "sources": "Sources",
-    "lastVerified": "Data verified"
+    "lastVerified": "Data verified",
+    "navAria": "Site sections",
+    "project": "Project"
   }
 }

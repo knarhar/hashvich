@@ -1,0 +1,96 @@
+---
+/**
+ * A grid of calculator cards: name and one-line summary, the whole card a
+ * link. Shared by the home page, the category pages and the "related
+ * calculators" block, so the pattern looks the same everywhere. A reserved
+ * calculator renders as a plain card with a "coming soon" tag.
+ */
+import type { Locale } from "../i18n/config.ts";
+import type { PageRoute } from "../i18n/routes.ts";
+import { pathFor } from "../i18n/routes.ts";
+import { useTranslations } from "../i18n/utils.ts";
+import Card from "./ui/Card.astro";
+import Tag from "./ui/Tag.astro";
+
+interface Props {
+  locale: Locale;
+  routes: PageRoute[];
+  /** Heading level of each card's title, to fit the page outline. */
+  heading?: "h2" | "h3";
+  label?: string;
+}
+
+const { locale, routes, heading: Heading = "h3", label } = Astro.props;
+const tt = useTranslations(locale);
+---
+
+<div class="cards" aria-label={label} data-stagger>
+  {
+    routes.map((route) => {
+      const name = tt(`calculators.${route.key}.name`);
+      const summary = tt(`calculators.${route.key}.summary`);
+      return route.enabled ? (
+        <a class="cell reveal" href={pathFor(route.key, locale)}>
+          <Card surface="parchment" interactive>
+            <Heading>{name}</Heading>
+            <p>{summary}</p>
+          </Card>
+        </a>
+      ) : (
+        <div class="cell reveal">
+          <Card surface="white">
+            <Tag>{tt("common.comingSoon")}</Tag>
+            <Heading>{name}</Heading>
+            <p>{summary}</p>
+          </Card>
+        </div>
+      );
+    })
+  }
+</div>
+
+<style>
+  /* auto-fit so a card drops to its own row instead of overflowing a fixed
+     track at narrow widths. */
+  .cards {
+    display: grid;
+    gap: var(--spacing-20);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+
+  .cell {
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+  }
+
+  /* The card fills the link, so the whole cell is the hit area and lift. */
+  .cell > :global(.card) {
+    height: 100%;
+  }
+
+  .cell :global(h2),
+  .cell :global(h3) {
+    font-size: var(--text-subheading);
+    line-height: var(--text-subheading--line-height);
+    letter-spacing: normal;
+  }
+
+  .cell :global(.tag) + :global(h2),
+  .cell :global(.tag) + :global(h3) {
+    margin-top: var(--spacing-12);
+  }
+
+  .cell :global(p) {
+    margin-top: var(--spacing-8);
+    font-size: var(--text-body-sm);
+    line-height: var(--text-body--line-height);
+    color: var(--color-graphite);
+  }
+
+  @media (min-width: 768px) {
+    .cards {
+      gap: var(--spacing-24);
+    }
+  }
+</style>

@@ -9,13 +9,22 @@
  * `enabled: false` means the page is planned and its slugs are reserved, but
  * no page file exists yet, so it is left out of navigation and the sitemap.
  * Flip the flag when the calculator is built.
+ *
+ * Every calculator belongs to one category. Category pages list their
+ * calculators, and calculator breadcrumbs go through the category, so no
+ * calculator is reachable only from the menu.
  */
 
 import { LOCALES, type Locale } from "./config.ts";
 
+export type PageKind = "home" | "category" | "calculator" | "info";
+
 export interface PageRoute {
   /** Stable identifier used in code and in translation keys. */
   key: string;
+  kind: PageKind;
+  /** The category a calculator belongs to. Calculators only. */
+  category?: string;
   /** URL slug per locale, without any locale prefix or slashes. */
   slugs: Record<Locale, string>;
   /** Whether a page file exists. Disabled pages are reserved, not built. */
@@ -28,11 +37,32 @@ export const HOME_KEY = "home";
 export const ROUTES: PageRoute[] = [
   {
     key: HOME_KEY,
+    kind: "home",
     slugs: { ru: "", hy: "", en: "" },
     enabled: true,
   },
   {
+    key: "taxes",
+    kind: "category",
+    slugs: { ru: "nalogi", hy: "harker", en: "taxes" },
+    enabled: true,
+  },
+  {
+    key: "car",
+    kind: "category",
+    slugs: { ru: "avto", hy: "avtomeqena", en: "car" },
+    enabled: true,
+  },
+  {
+    key: "money",
+    kind: "category",
+    slugs: { ru: "dengi", hy: "gumar", en: "money" },
+    enabled: true,
+  },
+  {
     key: "salary",
+    kind: "calculator",
+    category: "taxes",
     slugs: {
       ru: "kalkulyator-zarplaty",
       hy: "ashxatavardzi-hashvich",
@@ -42,6 +72,8 @@ export const ROUTES: PageRoute[] = [
   },
   {
     key: "entrepreneur",
+    kind: "calculator",
+    category: "taxes",
     slugs: {
       ru: "nalogi-ip",
       hy: "adz-harker",
@@ -51,6 +83,8 @@ export const ROUTES: PageRoute[] = [
   },
   {
     key: "car-customs",
+    kind: "calculator",
+    category: "car",
     slugs: {
       ru: "rastamozhka-avto",
       hy: "maqsazercum",
@@ -60,6 +94,8 @@ export const ROUTES: PageRoute[] = [
   },
   {
     key: "currency",
+    kind: "calculator",
+    category: "money",
     slugs: {
       ru: "konverter-valyut",
       hy: "poxarjeq",
@@ -69,11 +105,37 @@ export const ROUTES: PageRoute[] = [
   },
   {
     key: "transfers",
+    kind: "calculator",
+    category: "money",
     slugs: {
       ru: "perevod-deneg",
       hy: "dramakan-poxancum",
       en: "money-transfer-fees",
     },
+    enabled: true,
+  },
+  {
+    key: "about",
+    kind: "info",
+    slugs: { ru: "o-proekte", hy: "mer-masin", en: "about" },
+    enabled: true,
+  },
+  {
+    key: "methodology",
+    kind: "info",
+    slugs: { ru: "metodologiya", hy: "metodabanutyun", en: "methodology" },
+    enabled: true,
+  },
+  {
+    key: "contacts",
+    kind: "info",
+    slugs: { ru: "kontakty", hy: "kap", en: "contacts" },
+    enabled: true,
+  },
+  {
+    key: "privacy",
+    kind: "info",
+    slugs: { ru: "konfidencialnost", hy: "gaghtniutyun", en: "privacy" },
     enabled: true,
   },
 ];
@@ -91,6 +153,21 @@ export function getRoute(key: string): PageRoute {
 /** Pages that actually exist, in navigation order. */
 export function enabledRoutes(): PageRoute[] {
   return ROUTES.filter((r) => r.enabled);
+}
+
+/** Built pages of one kind, in registry order. */
+export function routesOfKind(kind: PageKind): PageRoute[] {
+  return enabledRoutes().filter((r) => r.kind === kind);
+}
+
+/** Every calculator, built or reserved, in navigation order. */
+export function calculatorRoutes(): PageRoute[] {
+  return ROUTES.filter((r) => r.kind === "calculator");
+}
+
+/** The calculators listed on a category page. */
+export function calculatorsIn(category: string): PageRoute[] {
+  return calculatorRoutes().filter((r) => r.category === category);
 }
 
 /**

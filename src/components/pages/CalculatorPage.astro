@@ -10,13 +10,14 @@
  */
 import type { Locale } from "../../i18n/config.ts";
 import type { Params } from "../../i18n/utils.ts";
-import { HOME_KEY, ROUTES, pathFor } from "../../i18n/routes.ts";
+import { HOME_KEY, calculatorRoutes, getRoute, pathFor } from "../../i18n/routes.ts";
 import { tEntries, tList, useTranslations } from "../../i18n/utils.ts";
 import type { RenderedBreakdown } from "../../lib/breakdown.ts";
 import { formatDate } from "../../lib/format.ts";
 import { quoteLang } from "../../lib/sources.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../Breadcrumbs.astro";
+import CalculatorCards from "../CalculatorCards.astro";
 import JsonLd from "../JsonLd.astro";
 import Card from "../ui/Card.astro";
 import Tag from "../ui/Tag.astro";
@@ -68,10 +69,12 @@ const steps = tList(`pages.${ns}.howItWorks.steps`, locale, copy);
 const faq = tEntries<{ q: string; a: string }>(`pages.${ns}.faq.items`, locale, copy);
 const caveats = tList(`pages.${ns}.disclaimer.caveats`, locale, copy);
 
-const related = ROUTES.filter((r) => r.key !== HOME_KEY && r.key !== pageKey);
+const related = calculatorRoutes().filter((r) => r.key !== pageKey);
 
+const category = getRoute(pageKey).category!;
 const crumbs = [
   { label: tt("nav.home"), href: pathFor(HOME_KEY, locale) },
+  { label: tt(`pages.${category}.breadcrumb`), href: pathFor(category, locale) },
   { label: p("breadcrumb") },
 ];
 
@@ -195,30 +198,7 @@ const breadcrumbSchema = {
 
     <section class="reveal" aria-labelledby="related">
       <h2 id="related">{p("related.heading")}</h2>
-      <div class="related" data-stagger>
-        {
-          related.map((route) => {
-            const name = tt(`calculators.${route.key}.name`);
-            const summary = tt(`calculators.${route.key}.summary`);
-            return route.enabled ? (
-              <a class="related-cell reveal" href={pathFor(route.key, locale)}>
-                <Card surface="parchment" interactive>
-                  <h3>{name}</h3>
-                  <p>{summary}</p>
-                </Card>
-              </a>
-            ) : (
-              <div class="related-cell reveal">
-                <Card surface="white">
-                  <Tag>{tt("common.comingSoon")}</Tag>
-                  <h3>{name}</h3>
-                  <p>{summary}</p>
-                </Card>
-              </div>
-            );
-          })
-        }
-      </div>
+      <CalculatorCards locale={locale} routes={related} />
     </section>
 
     <p class="updated reveal">
@@ -336,16 +316,14 @@ const breadcrumbSchema = {
     ("10% × 1 125 000 − 25 000") set the floor. `min(100%, 20rem)` lets a
     card fall to one column instead of pushing the page wide.
   */
-  .examples,
-  .related {
+  .examples {
     margin-top: var(--spacing-24);
     display: grid;
     gap: var(--spacing-20);
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   }
 
-  .examples > *,
-  .related > * {
+  .examples > * {
     min-width: 0;
   }
 
@@ -508,26 +486,9 @@ const breadcrumbSchema = {
     color: var(--color-graphite);
   }
 
-  .related-cell {
-    text-decoration: none;
-    color: inherit;
-    min-width: 0;
-  }
-
-  /* Cards in both grids stretch to equal height so the hover lift reads evenly. */
-  .related-cell > :global(.card),
+  /* Example cards stretch to equal height so the row reads evenly. */
   .examples > :global(.card) {
     height: 100%;
-  }
-
-  .related-cell :global(h3) {
-    margin-top: var(--spacing-12);
-  }
-
-  .related-cell :global(p) {
-    margin-top: var(--spacing-8);
-    font-size: var(--text-body-sm);
-    color: var(--color-graphite);
   }
 
   @media (min-width: 768px) {

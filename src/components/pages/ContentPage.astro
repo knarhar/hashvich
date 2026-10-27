@@ -1,0 +1,149 @@
+---
+/**
+ * The page category and information pages share: breadcrumbs, H1 and intro,
+ * then text sections from `pages.<pageKey>.sections` in the translation
+ * files. Uses the same type scale and spacing as CalculatorPage.
+ *
+ * Slots: "lead" renders between the intro and the sections (a category's
+ * calculator cards); the default slot renders after the sections (link
+ * lists, a contact button).
+ */
+import type { Locale } from "../../i18n/config.ts";
+import type { Params } from "../../i18n/utils.ts";
+import { HOME_KEY, pathFor } from "../../i18n/routes.ts";
+import { tEntries, useTranslations } from "../../i18n/utils.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../Breadcrumbs.astro";
+import JsonLd from "../JsonLd.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+  /** schema.org type of the page, e.g. "AboutPage". */
+  schemaType: string;
+  /** Formatted values the copy refers to by name. */
+  copy?: Params;
+}
+
+const { locale, pageKey, schemaType, copy = {} } = Astro.props;
+
+const tt = useTranslations(locale);
+const p = (key: string) => tt(`pages.${pageKey}.${key}`, copy);
+
+const site = Astro.site ?? new URL("http://localhost:4321");
+const title = p("title");
+const description = p("description");
+const sections = tEntries<{ heading: string; text: string }>(`pages.${pageKey}.sections`, locale, copy);
+
+const crumbs = [
+  { label: tt("nav.home"), href: pathFor(HOME_KEY, locale) },
+  { label: p("breadcrumb") },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": schemaType,
+  name: title,
+  description,
+  url: new URL(pathFor(pageKey, locale), site).href,
+  inLanguage: locale,
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbs.map((crumb, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: crumb.label,
+    ...(crumb.href ? { item: new URL(crumb.href, site).href } : {}),
+  })),
+};
+---
+
+<BaseLayout locale={locale} pageKey={pageKey} title={title} description={description}>
+  <Fragment slot="head">
+    <JsonLd schema={pageSchema} />
+    <JsonLd schema={breadcrumbSchema} />
+  </Fragment>
+
+  <Breadcrumbs locale={locale} crumbs={crumbs} />
+
+  <article>
+    <header class="page-head">
+      <h1>{p("h1")}</h1>
+      <p class="intro">{p("intro")}</p>
+    </header>
+
+    <slot name="lead" />
+
+    {
+      sections.map((section) => (
+        <section class="reveal">
+          <h2>{section.heading}</h2>
+          {section.text.split("\n\n").map((para) => <p>{para}</p>)}
+        </section>
+      ))
+    }
+
+    <slot />
+  </article>
+</BaseLayout>
+
+<style>
+  article > :global(section) {
+    margin-top: var(--section-gap-min);
+  }
+
+  .page-head {
+    padding-block: var(--spacing-24) var(--spacing-32);
+  }
+
+  /* The lead block continues the page head, so it takes no section gap. */
+  .page-head + :global(section) {
+    margin-top: 0;
+  }
+
+  h1 {
+    font-size: var(--text-heading);
+    line-height: var(--text-heading--line-height);
+  }
+
+  .intro {
+    margin-top: var(--spacing-16);
+    max-width: 62ch;
+    color: var(--color-graphite);
+  }
+
+  article :global(h2) {
+    font-size: var(--text-subheading);
+    line-height: var(--text-subheading--line-height);
+    margin-bottom: var(--spacing-16);
+  }
+
+  article :global(section > p) {
+    max-width: 68ch;
+    color: var(--color-graphite);
+  }
+
+  article :global(section > p + p) {
+    margin-top: var(--spacing-12);
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: var(--text-heading-lg);
+      line-height: var(--text-heading-lg--line-height);
+    }
+
+    article :global(h2) {
+      font-size: var(--text-heading);
+      line-height: var(--text-heading--line-height);
+      letter-spacing: var(--text-heading--letter-spacing);
+    }
+
+    .page-head {
+      padding-block: var(--spacing-40) var(--spacing-40);
+    }
+  }
+</style>

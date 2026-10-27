@@ -27,6 +27,8 @@ jobs:
       - run: npm test
       - run: npm run check
       - run: npm run build
+      # Every internal link resolves and every page is linked from another.
+      - run: node scripts/check-links.mjs
 
       - uses: actions/upload-artifact@v4
         with:

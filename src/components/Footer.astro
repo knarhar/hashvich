@@ -1,10 +1,14 @@
 ---
 /**
- * Dark footer: per DESIGN.md, the only inverted moment on the page.
+ * Dark footer: per DESIGN.md, the only inverted moment on the page, with
+ * link lists in columns. It links every built page (each category with
+ * its calculators, then the project pages), so no page is an orphan.
  */
 import type { Locale } from "../i18n/config.ts";
+import { calculatorsIn, pathFor, routesOfKind } from "../i18n/routes.ts";
 import { t } from "../i18n/utils.ts";
-import taxData from "../data/salary-tax.json" with { type: "json" };
+import { formatDate } from "../lib/format.ts";
+import { LAST_VERIFIED } from "../lib/site-copy.ts";
 
 interface Props {
   locale: Locale;
@@ -12,16 +16,49 @@ interface Props {
 
 const { locale } = Astro.props;
 
-// The verification date is read from the data file, never typed by hand.
-const lastVerified = taxData._readme.last_verified;
+const columns = routesOfKind("category").map((category) => ({
+  heading: { label: t(`pages.${category.key}.breadcrumb`, locale), href: pathFor(category.key, locale) },
+  links: calculatorsIn(category.key)
+    .filter((r) => r.enabled)
+    .map((r) => ({ label: t(`calculators.${r.key}.name`, locale), href: pathFor(r.key, locale) })),
+}));
+
+const projectLinks = routesOfKind("info").map((r) => ({
+  label: t(`pages.${r.key}.breadcrumb`, locale),
+  href: pathFor(r.key, locale),
+}));
+
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="container-page inner">
+    <nav class="columns" aria-label={t("footer.navAria", locale)}>
+      {
+        columns.map((column) => (
+          <div>
+            <a class="heading" href={column.heading.href}>{column.heading.label}</a>
+            <ul>
+              {column.links.map((link) => (
+                <li><a href={link.href}>{link.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+      <div>
+        <p class="heading">{t("footer.project", locale)}</p>
+        <ul>
+          {projectLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
     <p class="disclaimer">{t("footer.disclaimer", locale)}</p>
     <p class="meta">
-      <span>{t("footer.lastVerified", locale)}: {lastVerified}</span>
+      <span>{t("footer.lastVerified", locale)}: <time datetime={LAST_VERIFIED}>{formatDate(LAST_VERIFIED, locale)}</time></span>
       <span aria-hidden="true">·</span>
       <span>© {year} {t("site.name", locale)}</span>
     </p>
@@ -39,7 +76,52 @@ const year = new Date().getFullYear();
     display: flex;
     flex-direction: column;
     gap: var(--spacing-16);
-    padding-block: var(--spacing-80);
+    padding-block: var(--spacing-60);
+  }
+
+  .columns {
+    display: grid;
+    gap: var(--spacing-24);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    padding-bottom: var(--spacing-24);
+    margin-bottom: var(--spacing-8);
+    border-bottom: 1px solid var(--color-deep-charcoal);
+  }
+
+  /* DESIGN.md: footer section headers are 12px uppercase, 0.1em, Ash. */
+  .heading {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-ash);
+  }
+
+  a.heading {
+    text-underline-offset: 3px;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: var(--text-body-sm);
+    color: var(--color-off-white-canvas);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .disclaimer {
@@ -54,5 +136,11 @@ const year = new Date().getFullYear();
     gap: var(--spacing-8);
     font-size: var(--text-caption);
     color: var(--color-ash);
+  }
+
+  @media (min-width: 768px) {
+    .inner {
+      padding-block: var(--spacing-80);
+    }
   }
 </style>

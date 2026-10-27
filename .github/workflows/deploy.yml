@@ -55,6 +55,11 @@ jobs:
           SITE_URL: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
+      # Every internal link resolves and every page is linked from another.
+      - run: node scripts/check-links.mjs
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -77,17 +82,17 @@ jobs:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
-      - name: Audit every calculator page in every language (mobile)
+      - name: Audit every page in every language (mobile)
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
           mkdir -p reports
           echo "| Page | Performance | Accessibility | Best practices | SEO |" >> "$GITHUB_STEP_SUMMARY"
           echo "|---|---|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
-          # Every page in the sitemap except the three home pages.
+          # Every page in the sitemap.
           site="${PAGE_URL%/}"
           urls=$(curl -fsS "$site/sitemap-0.xml" | grep -o '<loc>[^<]*</loc>' \
-            | sed -E 's#</?loc>##g' | grep -vE '/(ru|hy|en)/$' | sort)
+            | sed -E 's#</?loc>##g' | sort)
           # A throwaway first run on a real calculator page: the first audit on
           # a fresh runner pays for Chrome's cold start ("unattributable"
           # script time) and scores lower than the page deserves.
