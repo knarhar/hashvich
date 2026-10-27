@@ -1,12 +1,10 @@
 ---
 /**
- * The calculator island.
+ * The salary calculator island.
  *
- * Rendered fully on the server with a default salary, so the page is useful
- * with JavaScript disabled and the result is in the HTML for crawlers. A
- * small script then recalculates on input using the same pure functions,
- * driven by parameters serialised into the page rather than by importing the
- * data file (which is ~180 KB and must not reach the browser).
+ * Built from the shared calculator parts in src/components/calc. The browser
+ * gets SALARY_PARAMS serialised into the page and runs the same pure
+ * functions as the server, so the data file never reaches the client.
  */
 import type { Locale } from "../../i18n/config.ts";
 import { useTranslations } from "../../i18n/utils.ts";
@@ -14,6 +12,11 @@ import { SALARY_PARAMS, calculateNetSalary } from "../../lib/salary.ts";
 import { salaryCopyParams } from "../../lib/salary-copy.ts";
 import { renderResult } from "../../lib/salary-view.ts";
 import { formatAmount } from "../../lib/format.ts";
+import CalcShell from "../calc/CalcShell.astro";
+import AmountField from "../calc/AmountField.astro";
+import CheckField from "../calc/CheckField.astro";
+import SelectField from "../calc/SelectField.astro";
+import ResultPanel from "../calc/ResultPanel.astro";
 
 interface Props {
   locale: Locale;
@@ -28,117 +31,65 @@ const copy = salaryCopyParams(locale);
 const c = (key: string) => t(`pages.salary.calculator.${key}`, copy);
 
 const labels = { exempt: c("exempt"), capNote: c("capNote") };
-const initial = renderResult(
-  calculateNetSalary({ gross: defaultGross }),
-  locale,
-  labels,
+const initial = renderResult(calculateNetSalary({ gross: defaultGross }), locale, labels);
+
+const lineLabels = Object.fromEntries(
+  initial.lines.map((line) => [line.key, c(`deductions.${line.key}`)]),
 );
 
 // Serialised for the browser: a few numbers, not the data file.
-const islandConfig = {
-  params: SALARY_PARAMS,
-  locale,
-  labels,
-  deductionLabels: {
-    incomeTax: c("deductions.incomeTax"),
-    pension: c("deductions.pension"),
-    stamp: c("deductions.stamp"),
-    health: c("deductions.health"),
-  },
-};
+const config = { params: SALARY_PARAMS, locale, labels };
 ---
 
-<section class="calc" aria-labelledby="calc-heading" data-salary-calculator>
-  <h2 id="calc-heading" class="sr-only">{c("legend")}</h2>
-
-  <form class="inputs" novalidate>
-    <div class="field">
-      <label for="gross">{c("grossLabel")}</label>
-      <div class="amount-input">
-        <input
-          id="gross"
-          name="gross"
-          type="text"
-          inputmode="numeric"
-          autocomplete="off"
-          value={formatAmount(defaultGross, locale)}
-          aria-describedby="gross-hint"
-          data-gross-input
-        />
-        <span class="currency" aria-hidden="true">֏</span>
-      </div>
-      <p id="gross-hint" class="hint">{c("grossHint")}</p>
-    </div>
-
-    <div class="field">
-      <label class="check">
-        <input type="checkbox" checked aria-describedby="pension-hint" data-pension-input />
-        <span>{c("pensionLabel")}</span>
-      </label>
-      <p id="pension-hint" class="hint">{c("pensionHint")}</p>
-    </div>
-
-    <div class="field">
-      <label for="regime">{c("regimeLabel")}</label>
-      <select id="regime" name="regime" aria-describedby="regime-hint" data-regime-input>
-        <option value="standard">{c("regimeStandard")}</option>
-        <option value="rd">{c("regimeRd")}</option>
-      </select>
-      <p id="regime-hint" class="hint">{c("regimeHint")}</p>
-    </div>
-  </form>
-
-  <div class="result" role="region" aria-live="polite" aria-label={c("resultHeading")}>
-    <p class="net-label">{c("netLabel")}</p>
-    <p class="net" data-net>{initial.net}</p>
-
-    <dl class="breakdown">
-      <div class="row gross-row">
-        <dt>{c("grossSummary")}</dt>
-        <dd class="formula" aria-hidden="true"></dd>
-        <dd class="value" data-gross-out>{initial.gross}</dd>
-      </div>
-
-      {
-        initial.lines.map((line) => (
-          <div class="row" data-line={line.key}>
-            <dt>{c(`deductions.${line.key}`)}</dt>
-            <dd class="formula" data-formula>
-              {line.formula}
-              {line.capped && <span class="cap-note">{labels.capNote}</span>}
-            </dd>
-            <dd class="value minus" data-value>
-              {line.amount}
-            </dd>
-          </div>
-        ))
-      }
-
-      <div class="row total">
-        <dt>{c("totalLabel")}</dt>
-        <dd class="formula" data-effective>{initial.effectiveRate}</dd>
-        <dd class="value minus" data-total>{initial.total}</dd>
-      </div>
-    </dl>
-  </div>
-
-  {/* A data block, not code: is:inline keeps Astro from trying to bundle it. */}
-  <script
-    is:inline
-    type="application/json"
-    data-salary-config
-    set:html={JSON.stringify(islandConfig).replace(/</g, "\\u003c")}
+<CalcShell legend={c("legend")} name="salary" config={config}>
+  <AmountField
+    id="gross"
+    input="gross"
+    label={c("grossLabel")}
+    hint={c("grossHint")}
+    value={formatAmount(defaultGross, locale)}
   />
-</section>
+  <CheckField
+    id="pension"
+    input="pension"
+    label={c("pensionLabel")}
+    hint={c("pensionHint")}
+    checked
+  />
+  <SelectField
+    id="regime"
+    input="regime"
+    label={c("regimeLabel")}
+    hint={c("regimeHint")}
+    options={[
+      { value: "standard", label: c("regimeStandard") },
+      { value: "rd", label: c("regimeRd") },
+    ]}
+  />
+
+  <ResultPanel
+    slot="result"
+    heading={c("resultHeading")}
+    resultLabel={c("netLabel")}
+    baseLabel={c("grossSummary")}
+    totalLabel={c("totalLabel")}
+    lineLabels={lineLabels}
+    initial={initial}
+  />
+</CalcShell>
 
 <script>
-  import {
-    calculateNetSalary,
-    type SalaryParams,
-  } from "../../lib/salary-core.ts";
-  import { renderResult, type FormulaLabels } from "../../lib/salary-view.ts";
-  import { formatAmount, parseAmount } from "../../lib/format.ts";
+  import { calculateNetSalary, type SalaryParams } from "../../lib/salary-core.ts";
+  import { renderResult } from "../../lib/salary-view.ts";
+  import type { FormulaLabels } from "../../lib/breakdown.ts";
   import type { Locale } from "../../i18n/config.ts";
+  import {
+    amountReader,
+    applyBreakdown,
+    inputOf,
+    mountIslands,
+    onAnyInput,
+  } from "../../scripts/calc-island.ts";
 
   interface Config {
     params: SalaryParams;
@@ -146,260 +97,18 @@ const islandConfig = {
     labels: FormulaLabels;
   }
 
-  for (const root of document.querySelectorAll<HTMLElement>("[data-salary-calculator]")) {
-    const configEl = root.querySelector<HTMLScriptElement>("[data-salary-config]");
-    if (!configEl?.textContent) continue;
-    const config: Config = JSON.parse(configEl.textContent);
+  mountIslands<Config>("salary", (root, config) => {
+    const gross = amountReader(inputOf(root, "gross"), config.locale);
+    const pension = inputOf(root, "pension");
+    const regime = inputOf<HTMLSelectElement>(root, "regime");
 
-    const grossInput = root.querySelector<HTMLInputElement>("[data-gross-input]");
-    const pensionInput = root.querySelector<HTMLInputElement>("[data-pension-input]");
-    const regimeInput = root.querySelector<HTMLSelectElement>("[data-regime-input]");
-    if (!grossInput || !pensionInput || !regimeInput) continue;
-
-    // Keeps the last good number, so clearing the field does not show NaN.
-    let lastGross = parseAmount(grossInput.value) ?? 0;
-
-    const update = () => {
-      const parsed = parseAmount(grossInput.value);
-      if (parsed !== null) lastGross = parsed;
-
+    onAnyInput(root, () => {
       const result = calculateNetSalary(config.params, {
-        gross: lastGross,
-        pensionParticipant: pensionInput.checked,
-        regime: regimeInput.value === "rd" ? "rd" : "standard",
+        gross: gross(),
+        pensionParticipant: pension.checked,
+        regime: regime.value === "rd" ? "rd" : "standard",
       });
-      const view = renderResult(result, config.locale, config.labels);
-
-      root.querySelector("[data-net]")!.textContent = view.net;
-      root.querySelector("[data-gross-out]")!.textContent = view.gross;
-      root.querySelector("[data-total]")!.textContent = view.total;
-      root.querySelector("[data-effective]")!.textContent = view.effectiveRate;
-
-      for (const line of view.lines) {
-        const row = root.querySelector<HTMLElement>(`[data-line="${line.key}"]`);
-        if (!row) continue;
-        row.querySelector("[data-value]")!.textContent = line.amount;
-        const formula = row.querySelector("[data-formula]")!;
-        formula.textContent = line.formula;
-        if (line.capped) {
-          const note = document.createElement("span");
-          note.className = "cap-note";
-          note.textContent = config.labels.capNote;
-          formula.appendChild(note);
-        }
-      }
-    };
-
-    // Reformat the typed number on blur ("300000" becomes "300 000"), but
-    // never while typing: regrouping mid-entry moves the caret.
-    grossInput.addEventListener("blur", () => {
-      const parsed = parseAmount(grossInput.value);
-      if (parsed !== null) grossInput.value = formatAmount(parsed, config.locale);
+      applyBreakdown(root, renderResult(result, config.locale, config.labels));
     });
-
-    grossInput.addEventListener("input", update);
-    pensionInput.addEventListener("change", update);
-    regimeInput.addEventListener("change", update);
-  }
+  });
 </script>
-
-<style>
-  .calc {
-    display: grid;
-    gap: var(--spacing-24);
-    padding: var(--spacing-24);
-    border-radius: var(--radius-cards);
-    background: var(--surface-off-white-card);
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .inputs {
-    display: grid;
-    gap: var(--spacing-20);
-  }
-
-  .field label {
-    display: block;
-    font-size: var(--text-body-sm);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .hint {
-    margin-top: var(--spacing-4);
-    font-size: var(--text-caption);
-    line-height: var(--text-caption--line-height);
-    color: var(--color-graphite);
-  }
-
-  .amount-input {
-    position: relative;
-    margin-top: var(--spacing-8);
-  }
-
-  input[type="text"],
-  select {
-    width: 100%;
-    padding: var(--spacing-12) var(--spacing-16);
-    border: 1px solid var(--color-ash);
-    border-radius: var(--radius-inputs);
-    background: var(--color-pure-white);
-    color: var(--color-off-black-ink);
-    font-family: inherit;
-    font-size: var(--text-body);
-    line-height: 1.4;
-  }
-
-  input[type="text"] {
-    padding-right: var(--spacing-40);
-    /* Figures line up while typing. */
-    font-variant-numeric: tabular-nums;
-  }
-
-  select {
-    margin-top: var(--spacing-8);
-    /*
-      The native dropdown arrow is kept: without it the control reads as a
-      text field. iOS only zooms on focus when the font is under 16px, and
-      the shared rule above already sets 16px, so no appearance reset is
-      needed for that.
-    */
-  }
-
-  .currency {
-    position: absolute;
-    right: var(--spacing-16);
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-graphite);
-  }
-
-  /*
-    `.field label` above also matches this element and is equally specific,
-    so it would win on source order and reset display to block, collapsing
-    the gap between the box and its text. Qualifying the selector keeps the
-    flex layout.
-  */
-  .field label.check {
-    display: flex;
-    gap: var(--spacing-12);
-    align-items: flex-start;
-    cursor: pointer;
-  }
-
-  /* 24px minimum, per the WCAG 2.2 target-size rule. */
-  .check input {
-    margin-top: 1px;
-    width: 24px;
-    height: 24px;
-    accent-color: var(--color-off-black-ink);
-    flex: none;
-  }
-
-  .result {
-    padding: var(--spacing-24);
-    border-radius: var(--radius-inner);
-    background: var(--color-electric-lime);
-  }
-
-  .net-label {
-    font-size: var(--text-caption);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .net {
-    margin-top: var(--spacing-4);
-    font-size: var(--text-heading);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--text-heading--line-height);
-    letter-spacing: -0.03em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .breakdown {
-    margin: var(--spacing-20) 0 0;
-    display: grid;
-    gap: var(--spacing-4);
-  }
-
-  .row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--spacing-4) var(--spacing-12);
-    align-items: baseline;
-    padding-block: var(--spacing-8);
-    /* Derived from the ink token rather than written as a literal, so the
-       rule stays tied to the palette. A divider on the lime surface has no
-       token of its own in DESIGN.md; see docs/design-gaps.md. */
-    border-top: 1px solid color-mix(in srgb, var(--color-off-black-ink) 15%, transparent);
-  }
-
-  .row dt {
-    font-size: var(--text-body-sm);
-  }
-
-  .row .formula {
-    grid-column: 1;
-    margin: 0;
-    font-size: var(--text-caption);
-    color: color-mix(in srgb, var(--color-off-black-ink) 70%, transparent);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .row .value {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    margin: 0;
-    align-self: center;
-    font-size: var(--text-body);
-    font-weight: var(--font-weight-medium);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-
-  .minus::before {
-    content: "−";
-    margin-right: 2px;
-  }
-
-  .gross-row .value::before {
-    content: none;
-  }
-
-  .total {
-    border-top-width: 2px;
-  }
-
-  .total dt {
-    font-weight: var(--font-weight-medium);
-  }
-
-  .cap-note {
-    display: block;
-  }
-
-  @media (min-width: 768px) {
-    .calc {
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
-      padding: var(--spacing-32);
-      gap: var(--spacing-32);
-    }
-
-    .net {
-      font-size: var(--text-heading-lg);
-      line-height: var(--text-heading-lg--line-height);
-    }
-  }
-</style>

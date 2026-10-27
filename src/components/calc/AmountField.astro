@@ -1,0 +1,76 @@
+---
+/** A whole-number amount input with a currency sign and a hint. */
+interface Props {
+  id: string;
+  label: string;
+  hint: string;
+  /** Already formatted for the locale, e.g. "300 000". */
+  value: string;
+  /** Name the island script reads it by: [data-input="…"]. */
+  input: string;
+  currency?: string;
+}
+
+const { id, label, hint, value, input, currency = "֏" } = Astro.props;
+---
+
+<div class="field">
+  <label for={id}>{label}</label>
+  <div class="amount-input">
+    <input
+      id={id}
+      name={id}
+      type="text"
+      inputmode="numeric"
+      autocomplete="off"
+      value={value}
+      aria-describedby={`${id}-hint`}
+      data-input={input}
+      data-amount
+    />
+    <span class="currency" aria-hidden="true">{currency}</span>
+  </div>
+  <p id={`${id}-hint`} class="hint">{hint}</p>
+</div>
+
+<style>
+  label {
+    display: block;
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .hint {
+    margin-top: var(--spacing-4);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    color: var(--color-graphite);
+  }
+
+  .amount-input {
+    position: relative;
+    margin-top: var(--spacing-8);
+  }
+
+  input {
+    width: 100%;
+    padding: var(--spacing-12) var(--spacing-40) var(--spacing-12) var(--spacing-16);
+    border: 1px solid var(--color-ash);
+    border-radius: var(--radius-inputs);
+    background: var(--color-pure-white);
+    color: var(--color-off-black-ink);
+    font-family: inherit;
+    font-size: var(--text-body);
+    line-height: 1.4;
+    /* Figures line up while typing. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  .currency {
+    position: absolute;
+    right: var(--spacing-16);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-graphite);
+  }
+</style>

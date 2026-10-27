@@ -1953,7 +1953,19 @@
       "ie_stamp_duty": {
         "value": {
           "base_up_to_12M": 12000,
-          "base_over_12M": 120000
+          "base_over_12M": 120000,
+          "bands": [
+            {
+              "from": 0,
+              "to": 12000000,
+              "amount": 12000
+            },
+            {
+              "from": 12000001,
+              "to": null,
+              "amount": 120000
+            }
+          ]
         },
         "unit": "AMD/year",
         "applies_to": "Stamp payment of IEs (all regimes). Base: turnover in turnover-tax returns (turnover regime); turnover in micro report (micro); gross income in profit-tax return (general regime). Paid annually within profit-tax deadline.",
@@ -1979,6 +1991,7 @@
       },
       "ie_health_insurance": {
         "value": 129600,
+        "applies_from_prior_year_income": 2400001,
         "unit": "AMD/year",
         "applies_to": "Universal health insurance premium for registered IEs (group art. 11(2)(12)). 2026: only IEs whose 2025 declared gross income/turnover ≥ AMD 2,400,001; 100% of annual premium; IEs pay it themselves by 20 July 2026 and become insured from the month after full payment. IEs with ≤ 2,400,000: from 2027-01-01 (see pending).",
         "effective_from": "2026-01-01",

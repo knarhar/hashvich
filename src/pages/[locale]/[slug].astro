@@ -17,6 +17,7 @@ import type { GetStaticPaths } from "astro";
 import { LOCALES, type Locale } from "../../i18n/config.ts";
 import { enabledRoutes, HOME_KEY } from "../../i18n/routes.ts";
 import SalaryPage from "../../components/pages/SalaryPage.astro";
+import EntrepreneurPage from "../../components/pages/EntrepreneurPage.astro";
 
 export const getStaticPaths: GetStaticPaths = () =>
   enabledRoutes()
@@ -30,6 +31,7 @@ export const getStaticPaths: GetStaticPaths = () =>
 
 const PAGE_COMPONENTS: Record<string, typeof SalaryPage> = {
   salary: SalaryPage,
+  entrepreneur: EntrepreneurPage,
 };
 
 const { pageKey } = Astro.props as { pageKey: string };

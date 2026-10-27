@@ -1,0 +1,60 @@
+---
+/** A labelled native select with a hint. */
+interface Props {
+  id: string;
+  label: string;
+  hint: string;
+  options: { value: string; label: string }[];
+  selected?: string;
+  /** Name the island script reads it by: [data-input="…"]. */
+  input: string;
+}
+
+const { id, label, hint, options, selected, input } = Astro.props;
+---
+
+<div class="field">
+  <label for={id}>{label}</label>
+  <select id={id} name={id} aria-describedby={`${id}-hint`} data-input={input}>
+    {
+      options.map((option) => (
+        <option value={option.value} selected={option.value === selected}>
+          {option.label}
+        </option>
+      ))
+    }
+  </select>
+  <p id={`${id}-hint`} class="hint">{hint}</p>
+</div>
+
+<style>
+  label {
+    display: block;
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .hint {
+    margin-top: var(--spacing-4);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    color: var(--color-graphite);
+  }
+
+  select {
+    width: 100%;
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-12) var(--spacing-16);
+    border: 1px solid var(--color-ash);
+    border-radius: var(--radius-inputs);
+    background: var(--color-pure-white);
+    color: var(--color-off-black-ink);
+    font-family: inherit;
+    /*
+      The native dropdown arrow is kept: without it the control reads as a
+      text field. iOS only zooms on focus under 16px; this is 16px.
+    */
+    font-size: var(--text-body);
+    line-height: 1.4;
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+/**
+ * The frame every calculator island sits in: inputs on one side, the result
+ * on the other, and the island's parameters serialised as JSON.
+ *
+ * Rendered fully on the server, so the page is useful with JavaScript
+ * disabled and the result is in the HTML for crawlers. The island's script
+ * then recalculates on input, driven by the serialised parameters rather than
+ * by importing a data file (each is 100+ KB and must not reach the browser).
+ */
+interface Props {
+  /** Visually hidden heading that names the calculator for screen readers. */
+  legend: string;
+  /** Which island script picks this up, e.g. "salary". */
+  name: string;
+  /** Parameters and labels the island needs in the browser. */
+  config: unknown;
+}
+
+const { legend, name, config } = Astro.props;
+---
+
+<section class="calc" aria-labelledby={`${name}-calc-heading`} data-calculator={name}>
+  <h2 id={`${name}-calc-heading`} class="sr-only">{legend}</h2>
+
+  <form class="inputs" novalidate>
+    <slot />
+  </form>
+
+  <slot name="result" />
+
+  {/* A data block, not code: is:inline keeps Astro from trying to bundle it. */}
+  <script
+    is:inline
+    type="application/json"
+    data-calc-config
+    set:html={JSON.stringify(config).replace(/</g, "\\u003c")}
+  />
+</section>
+
+<style>
+  .calc {
+    display: grid;
+    gap: var(--spacing-24);
+    padding: var(--spacing-24);
+    border-radius: var(--radius-cards);
+    background: var(--surface-off-white-card);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .inputs {
+    display: grid;
+    gap: var(--spacing-20);
+    align-content: start;
+  }
+
+  @media (min-width: 768px) {
+    .calc {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      padding: var(--spacing-32);
+      gap: var(--spacing-32);
+    }
+  }
+</style>

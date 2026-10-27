@@ -1,0 +1,179 @@
+---
+/**
+ * The lime result panel: the headline figure, then the step-by-step
+ * breakdown (base, each line with its formula, total with its share).
+ *
+ * The island script updates it through the data- attributes, using
+ * applyBreakdown in src/scripts/calc-island.ts.
+ */
+import type { RenderedBreakdown } from "../../lib/breakdown.ts";
+
+interface Props {
+  /** Accessible name of the region, e.g. "Result". */
+  heading: string;
+  /** Label above the headline figure, e.g. "Take-home pay". */
+  resultLabel: string;
+  /** Label of the first row, e.g. "Gross salary". */
+  baseLabel: string;
+  /** Label of the total row, e.g. "Total withheld". */
+  totalLabel: string;
+  /** Label for each line, by line key. */
+  lineLabels: Record<string, string>;
+  initial: RenderedBreakdown;
+  /** "minus" when the lines are taken off the base, "plus" when added to it. */
+  sign?: "minus" | "plus";
+  /** A warning shown under the headline, e.g. a regime limit was exceeded. */
+  warning?: string | null;
+}
+
+const {
+  heading,
+  resultLabel,
+  baseLabel,
+  totalLabel,
+  lineLabels,
+  initial,
+  sign = "minus",
+  warning = null,
+} = Astro.props;
+---
+
+<div class="result" role="region" aria-live="polite" aria-label={heading}>
+  <p class="result-label">{resultLabel}</p>
+  <p class="headline" data-result>{initial.result}</p>
+  <p class="warning" data-warning hidden={!warning}>{warning}</p>
+
+  <dl class="breakdown">
+    <div class="row base-row">
+      <dt>{baseLabel}</dt>
+      <dd class="formula" aria-hidden="true"></dd>
+      <dd class="value" data-base>{initial.base}</dd>
+    </div>
+
+    {
+      initial.lines.map((line) => (
+        <div class="row" data-line={line.key}>
+          <dt>{lineLabels[line.key]}</dt>
+          <dd class="formula" data-formula>
+            {line.formula}
+            {line.note && <span class="note">{line.note}</span>}
+          </dd>
+          <dd class:list={["value", sign]} data-value>
+            {line.amount}
+          </dd>
+        </div>
+      ))
+    }
+
+    <div class="row total">
+      <dt>{totalLabel}</dt>
+      <dd class="formula" data-effective>{initial.effectiveRate}</dd>
+      <dd class:list={["value", sign]} data-total>{initial.total}</dd>
+    </div>
+  </dl>
+</div>
+
+<style>
+  .result {
+    padding: var(--spacing-24);
+    border-radius: var(--radius-inner);
+    background: var(--color-electric-lime);
+  }
+
+  .result-label {
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .headline {
+    margin-top: var(--spacing-4);
+    font-size: var(--text-heading);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--text-heading--line-height);
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .warning {
+    margin-top: var(--spacing-8);
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .warning[hidden] {
+    display: none;
+  }
+
+  .breakdown {
+    margin: var(--spacing-20) 0 0;
+    display: grid;
+    gap: var(--spacing-4);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-4) var(--spacing-12);
+    align-items: baseline;
+    padding-block: var(--spacing-8);
+    /* Derived from the ink token rather than written as a literal, so the
+       rule stays tied to the palette. A divider on the lime surface has no
+       token of its own in DESIGN.md; see docs/design-gaps.md. */
+    border-top: 1px solid color-mix(in srgb, var(--color-off-black-ink) 15%, transparent);
+  }
+
+  .row dt {
+    font-size: var(--text-body-sm);
+  }
+
+  .row .formula {
+    grid-column: 1;
+    margin: 0;
+    font-size: var(--text-caption);
+    color: color-mix(in srgb, var(--color-off-black-ink) 70%, transparent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row .value {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0;
+    align-self: center;
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .minus::before {
+    content: "−";
+    margin-right: 2px;
+  }
+
+  .plus::before {
+    content: "+";
+    margin-right: 2px;
+  }
+
+  .total {
+    border-top-width: 2px;
+  }
+
+  .total dt {
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Also styles the note the island script appends, hence :global. */
+  .formula :global(.note) {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .headline {
+      font-size: var(--text-heading-lg);
+      line-height: var(--text-heading-lg--line-height);
+    }
+  }
+</style>

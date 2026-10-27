@@ -1,0 +1,61 @@
+---
+/**
+ * The sole-proprietor (ИП / ԱՁ) tax page: the shared calculator page with
+ * the entrepreneur island, its worked examples and its sources.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import { calculateEntrepreneurTax } from "../../lib/entrepreneur.ts";
+import { EXAMPLE_CASES, entrepreneurCopyParams } from "../../lib/entrepreneur-copy.ts";
+import { ENTREPRENEUR_SOURCES, LAST_VERIFIED } from "../../lib/entrepreneur-sources.ts";
+import { renderBreakdown } from "../../lib/breakdown.ts";
+import { formatAmd } from "../../lib/format.ts";
+import CalculatorPage from "./CalculatorPage.astro";
+import Calculator from "../entrepreneur/Calculator.astro";
+
+interface Props {
+  locale: Locale;
+  pageKey: string;
+}
+
+const { locale, pageKey } = Astro.props;
+
+const tt = useTranslations(locale);
+const copy = entrepreneurCopyParams(locale);
+const c = (key: string) => tt(`pages.entrepreneur.calculator.${key}`, copy);
+
+const LINE_KEYS = ["turnoverTax", "profitTax", "pension", "stamp", "health"] as const;
+const lineLabels = Object.fromEntries(LINE_KEYS.map((key) => [key, c(`lines.${key}`)]));
+
+// Worked examples run through the same code as the calculator.
+const formulaLabels = { exempt: c("exempt"), capNote: "", floorNote: c("floorNote") };
+const examples = EXAMPLE_CASES.map((input) => ({
+  label: tt("pages.entrepreneur.examples.caseLabel", {
+    ...copy,
+    regime: c(`regimes.${input.regime}`),
+    turnover: formatAmd(input.turnover, locale),
+  }),
+  result: renderBreakdown(calculateEntrepreneurTax(input), locale, formulaLabels),
+}));
+
+const sources = ENTREPRENEUR_SOURCES.map((source) => ({
+  label: tt(`pages.entrepreneur.sources.labels.${source.labelKey}`, copy),
+  name: source.sourceName,
+  url: source.sourceUrl,
+  effectiveFrom: source.effectiveFrom,
+  evidence: source.evidence,
+}));
+---
+
+<CalculatorPage
+  locale={locale}
+  pageKey={pageKey}
+  ns="entrepreneur"
+  copy={copy}
+  examples={examples}
+  lineLabels={lineLabels}
+  sources={sources}
+  lastVerified={LAST_VERIFIED}
+>
+  <Calculator locale={locale} />
+</CalculatorPage>

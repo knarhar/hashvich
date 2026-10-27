@@ -47,7 +47,7 @@ export const ROUTES: PageRoute[] = [
       hy: "adz-harker",
       en: "sole-proprietor-tax",
     },
-    enabled: false,
+    enabled: true,
   },
   {
     key: "car-customs",

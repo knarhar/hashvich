@@ -1,0 +1,54 @@
+---
+/** A checkbox with its label beside it and a hint below. */
+interface Props {
+  id: string;
+  label: string;
+  hint: string;
+  checked?: boolean;
+  /** Name the island script reads it by: [data-input="…"]. */
+  input: string;
+}
+
+const { id, label, hint, checked = false, input } = Astro.props;
+---
+
+<div class="field">
+  <label class="check">
+    <input
+      id={id}
+      type="checkbox"
+      checked={checked}
+      aria-describedby={`${id}-hint`}
+      data-input={input}
+    />
+    <span>{label}</span>
+  </label>
+  <p id={`${id}-hint`} class="hint">{hint}</p>
+</div>
+
+<style>
+  .check {
+    display: flex;
+    gap: var(--spacing-12);
+    align-items: flex-start;
+    font-size: var(--text-body-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+
+  /* 24px minimum, per the WCAG 2.2 target-size rule. */
+  input {
+    margin-top: 1px;
+    width: 24px;
+    height: 24px;
+    accent-color: var(--color-off-black-ink);
+    flex: none;
+  }
+
+  .hint {
+    margin-top: var(--spacing-4);
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    color: var(--color-graphite);
+  }
+</style>

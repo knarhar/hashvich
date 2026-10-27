@@ -118,7 +118,8 @@
         "intro": "Every value in the calculator is taken from the law as currently consolidated. Here is what came from where.",
         "effectiveFrom": "in force from",
         "lastUpdated": "Data verified",
-        "openLaw": "Open the law"
+        "openLaw": "Open the law",
+        "minimumWage": "Minimum wage"
       },
       "disclaimer": {
         "heading": "Please note",
@@ -127,6 +128,144 @@
           "The pension cap is assessed on income from all employers combined. The calculator sees one salary, so it can overstate the contribution for someone with more than one job.",
           "For {year} the law says the {healthReduced} health premium is paid by the tax agent. That it comes out of the employee's own pay is confirmed by published guidance rather than by the wording of the law itself.",
           "The law does not state which month's salary decides between the {healthReduced} and {healthFull} share. The calculator uses the current month's salary from that employer."
+        ]
+      }
+    },
+    "entrepreneur": {
+      "title": "Armenia Individual Entrepreneur Tax Calculator {year}",
+      "description": "Work out what an individual entrepreneur (sole proprietor) pays in Armenia in {year}: turnover tax by activity, the micro-enterprise regime, the fixed {fixedProfitTaxMonthly} a month, pension, stamp payment and health insurance. Step by step, with links to the law.",
+      "breadcrumb": "Sole proprietor tax",
+      "h1": "Armenia individual entrepreneur tax calculator {year}",
+      "intro": "Choose a regime and an activity, enter a year's turnover, and see what an individual entrepreneur (sole proprietor) in Armenia pays: turnover tax, the fixed profit tax, the pension payment, the stamp payment and health insurance. Every rate comes from the Tax Code and the laws in force; the sources are listed at the foot of the page.",
+      "calculator": {
+        "legend": "Calculation inputs",
+        "regimeLabel": "Tax regime",
+        "regimeHint": "Turnover tax is open up to {turnoverThreshold} of turnover a year, the micro-enterprise regime up to {microThreshold}. Above that, the general regime with VAT applies.",
+        "regimes": {
+          "turnover": "Turnover tax",
+          "micro": "Micro-enterprise"
+        },
+        "activityLabel": "Activity",
+        "activityHint": "Sets the turnover tax rate. The {rateIt} rate applies only to activities on the government's high-technology list.",
+        "activities": {
+          "services": "Services and other ({rateServices})",
+          "it": "IT on the high-tech list ({rateIt})",
+          "trade": "Trade ({rateTrade})",
+          "production": "Production ({rateProduction})",
+          "catering": "Catering ({rateCatering})",
+          "rent": "Rent, interest, royalties ({rateRent})"
+        },
+        "turnoverLabel": "Turnover for the year",
+        "turnoverHint": "All sales revenue for the year, before expenses.",
+        "expensesLabel": "Documented expenses for the year",
+        "expensesHint": "Reduce turnover tax for services, trade, production and catering. They must be documented; buying fixed assets does not count.",
+        "pensionLabel": "Pays the funded pension contribution",
+        "pensionHint": "Mandatory for anyone born on or after 1 January 1974.",
+        "resultHeading": "Result",
+        "resultLabel": "Left after tax for the year",
+        "baseLabel": "Turnover",
+        "totalLabel": "Total tax and payments",
+        "lines": {
+          "turnoverTax": "Turnover tax",
+          "profitTax": "Fixed profit tax",
+          "pension": "Pension contribution",
+          "stamp": "Stamp payment",
+          "health": "Health insurance"
+        },
+        "exempt": "not payable",
+        "floorNote": "The minimum tax applies",
+        "warnings": {
+          "overTurnoverThreshold": "Above {turnoverThreshold} of turnover, turnover tax is not available: the entrepreneur moves to the general regime with VAT.",
+          "overMicroThreshold": "Above {microThreshold} of turnover, the micro-enterprise regime is not available.",
+          "microExcluded": "The micro-enterprise regime is closed to this activity: it excludes trade, software development and income from rent, interest and royalties."
+        }
+      },
+      "howItWorks": {
+        "heading": "How individual entrepreneur tax is calculated in Armenia",
+        "intro": "The calculator works over a full year. What an entrepreneur pays is a tax on the business itself, which depends on the regime, plus mandatory payments that almost everyone makes.",
+        "steps": [
+          "Turnover tax: the rate for the activity times the year's turnover. That is {rateServices} for services, {rateTrade} for trade, {rateProduction} for production, {rateCatering} for catering and {rateIt} for IT on the high-tech list.",
+          "Expenses: the tax falls by {creditServices} of documented expenses for services, {creditTrade} for trade, {creditProduction} for production and {creditCatering} for catering. It cannot fall below a minimum: {minServices} of turnover for services, {minTrade} for trade, {minProduction} for production and {minCatering} for catering.",
+          "Fixed profit tax: {fixedProfitTaxMonthly} a month, or {fixedProfitTaxYear} a year. Only entrepreneurs on turnover tax pay it.",
+          "Pension contribution: {turnoverPensionMonthly} a month ({turnoverPensionYear} a year) on turnover tax. A micro-enterprise pays {microPensionRate} of income.",
+          "Stamp payment: {stampLow} a year for turnover up to {stampThreshold}, and {stampHigh} above that.",
+          "Health insurance: {healthPremium} a year if last year's income was above {healthThreshold}.",
+          "Left after tax = turnover minus all of the above. Business expenses are not subtracted from this figure."
+        ],
+        "note": "A micro-enterprise pays no turnover tax, profit tax or VAT on its micro income, only the mandatory payments. The calculator does not cover the general regime (profit tax at {generalRate} and VAT at {vatRate}), because the result there depends on deductions and input VAT."
+      },
+      "examples": {
+        "heading": "Worked examples",
+        "intro": "An IT freelancer at {rateIt}, a services business with expenses and a small workshop on the micro-enterprise regime. Each is run through the same code as the calculator above.",
+        "caseLabel": "{regime} · {turnover}",
+        "netLabel": "Left",
+        "totalLabel": "Tax and payments"
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "q": "How much tax does an individual entrepreneur pay in Armenia in {year}?",
+            "a": "It depends on the regime and the activity. An IT entrepreneur at {rateIt} with {exampleItTurnover} of turnover pays {exampleItTotal} for the year, all mandatory payments included. A services business with {exampleServicesTurnover} of turnover and {exampleServicesExpenses} of expenses pays {exampleServicesTotal}. A micro-enterprise with {exampleMicroTurnover} of turnover pays {exampleMicroTotal}."
+          },
+          {
+            "q": "What is the turnover tax rate in Armenia in {year}?",
+            "a": "Since 1 January 2025: services and other activities {rateServices}, trade {rateTrade}, production {rateProduction}, catering {rateCatering}, rent, interest and royalties {rateRent}, and high-technology activities on the government list {rateIt}. Before 2025 the rates were lower, for example 5% for services and trade, which is why older sites quote different figures."
+          },
+          {
+            "q": "Do IT sole proprietors really pay {rateIt}?",
+            "a": "Yes, if the activity is on the government's high-technology list. The rate runs until the end of {itRateUntilYear}. IT work not on the list is taxed as other services, at {rateServices}. On top of the tax, the entrepreneur pays {fixedProfitTaxYear} a year of fixed profit tax and the mandatory payments, so the real burden is above {rateIt}."
+          },
+          {
+            "q": "Who can use the micro-enterprise regime?",
+            "a": "An entrepreneur or company whose turnover last year was no more than {microThreshold}. It is closed to trade, software development, consulting, legal, accounting, design, marketing and many other services, and to anyone receiving rent, interest or royalties. A micro-enterprise pays no turnover tax or profit tax, but does pay the {microPensionRate} pension contribution, the stamp payment and health insurance."
+          },
+          {
+            "q": "How do expenses reduce turnover tax?",
+            "a": "For services, trade, production and catering the tax falls by a share of documented expenses: {creditServices} of them for services. It never falls below the minimum, which is {minServices} of turnover for services. Fixed assets, business travel and entertainment do not count. The unused part carries forward to later periods; the calculator covers one year and leaves that out."
+          },
+          {
+            "q": "General regime or turnover tax: which is better for a sole proprietor?",
+            "a": "Under the general regime an entrepreneur pays profit tax at {generalRate} on income minus deductions, plus VAT at {vatRate}. It can pay off with large documented costs or clients who need a VAT invoice. Turnover tax is simpler and usually cheaper when costs are low. Above {turnoverThreshold} of turnover there is no choice: the general regime applies."
+          },
+          {
+            "q": "What does a sole proprietor pay besides the tax?",
+            "a": "The pension contribution: {turnoverPensionMonthly} a month on turnover tax, if you were born on or after 1 January 1974. The stamp payment: {stampLow} or {stampHigh} a year depending on turnover. And from {year}, health insurance of {healthPremium} a year if last year's income was above {healthThreshold}."
+          },
+          {
+            "q": "What changes for entrepreneurs in {nextYear}?",
+            "a": "From 1 January {nextYear}, every entrepreneur pays the {healthPremium} health insurance premium, including those with income up to {healthThreshold}. E-commerce platform operators lose access to turnover tax and the micro-enterprise regime. No change to the {microThreshold} and {turnoverThreshold} thresholds had been adopted when the data was checked."
+          }
+        ]
+      },
+      "related": {
+        "heading": "Other calculators"
+      },
+      "sources": {
+        "heading": "Sources",
+        "intro": "Every value in the calculator comes from the Tax Code and the laws as currently in force. Here is where each one comes from.",
+        "effectiveFrom": "in force from",
+        "lastUpdated": "Data checked",
+        "openLaw": "Open the law",
+        "labels": {
+          "turnoverTax": "Turnover tax rates",
+          "profitTax": "Fixed profit tax",
+          "pension": "Pension contribution on turnover tax",
+          "microPension": "Micro-enterprise pension contribution",
+          "stamp": "Stamp payment",
+          "health": "Health insurance",
+          "microThreshold": "Micro-enterprise threshold"
+        }
+      },
+      "disclaimer": {
+        "heading": "Important",
+        "text": "This is an estimate, not tax advice. What you actually pay depends on when you registered, whether you suspended activity and which activities you carry out.",
+        "caveats": [
+          "The calculator covers a full year. Fixed payments accrue by month, so they are lower if you registered mid-year.",
+          "Health insurance depends on last year's income. The calculator assumes it equalled this year's turnover.",
+          "The law does not say outright what counts as \"income\" for the micro-enterprise pension contribution ({microPensionRate}). The calculator uses all turnover.",
+          "The {rateIt} rate applies only to activities on the government's high-technology list; we have not checked the list itself.",
+          "With several activities, turnover tax is calculated for each one separately. The calculator handles one."
         ]
       }
     }
@@ -138,7 +277,7 @@
     },
     "entrepreneur": {
       "name": "Sole proprietor tax",
-      "summary": "Turnover tax, micro-enterprise and the general regime compared."
+      "summary": "Turnover tax and micro-enterprise: what a sole proprietor pays a year."
     },
     "car-customs": {
       "name": "Car import customs",

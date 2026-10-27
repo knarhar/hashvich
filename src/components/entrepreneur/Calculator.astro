@@ -1,0 +1,160 @@
+---
+/**
+ * The sole-proprietor tax calculator island.
+ *
+ * Built from the shared calculator parts in src/components/calc. The browser
+ * gets ENTREPRENEUR_PARAMS serialised into the page and runs the same pure
+ * functions as the server.
+ */
+import type { Locale } from "../../i18n/config.ts";
+import { useTranslations } from "../../i18n/utils.ts";
+import {
+  ACTIVITY_KEYS,
+  ENTREPRENEUR_PARAMS,
+  calculateEntrepreneurTax,
+  type EntrepreneurInput,
+} from "../../lib/entrepreneur.ts";
+import { entrepreneurCopyParams } from "../../lib/entrepreneur-copy.ts";
+import { renderBreakdown } from "../../lib/breakdown.ts";
+import { formatAmount } from "../../lib/format.ts";
+import CalcShell from "../calc/CalcShell.astro";
+import AmountField from "../calc/AmountField.astro";
+import CheckField from "../calc/CheckField.astro";
+import SelectField from "../calc/SelectField.astro";
+import ResultPanel from "../calc/ResultPanel.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = useTranslations(locale);
+const copy = entrepreneurCopyParams(locale);
+const c = (key: string) => t(`pages.entrepreneur.calculator.${key}`, copy);
+
+const defaults: EntrepreneurInput = {
+  regime: "turnover",
+  activity: "services",
+  turnover: 6_000_000,
+  expenses: 0,
+};
+
+const labels = { exempt: c("exempt"), capNote: "", floorNote: c("floorNote") };
+const warnings = {
+  overTurnoverThreshold: c("warnings.overTurnoverThreshold"),
+  overMicroThreshold: c("warnings.overMicroThreshold"),
+  microExcluded: c("warnings.microExcluded"),
+};
+
+const result = calculateEntrepreneurTax(defaults);
+const initial = renderBreakdown(result, locale, labels);
+const lineLabels = Object.fromEntries(
+  initial.lines.map((line) => [line.key, c(`lines.${line.key}`)]),
+);
+
+// Serialised for the browser: a few numbers, not the data file.
+const config = { params: ENTREPRENEUR_PARAMS, locale, labels, warnings };
+---
+
+<CalcShell legend={c("legend")} name="entrepreneur" config={config}>
+  <SelectField
+    id="regime"
+    input="regime"
+    label={c("regimeLabel")}
+    hint={c("regimeHint")}
+    selected={defaults.regime}
+    options={[
+      { value: "turnover", label: c("regimes.turnover") },
+      { value: "micro", label: c("regimes.micro") },
+    ]}
+  />
+  <SelectField
+    id="activity"
+    input="activity"
+    label={c("activityLabel")}
+    hint={c("activityHint")}
+    selected={defaults.activity}
+    options={ACTIVITY_KEYS.map((key) => ({ value: key, label: c(`activities.${key}`) }))}
+  />
+  <AmountField
+    id="turnover"
+    input="turnover"
+    label={c("turnoverLabel")}
+    hint={c("turnoverHint")}
+    value={formatAmount(defaults.turnover, locale)}
+  />
+  <AmountField
+    id="expenses"
+    input="expenses"
+    label={c("expensesLabel")}
+    hint={c("expensesHint")}
+    value={formatAmount(defaults.expenses ?? 0, locale)}
+  />
+  <CheckField
+    id="pension"
+    input="pension"
+    label={c("pensionLabel")}
+    hint={c("pensionHint")}
+    checked
+  />
+
+  <ResultPanel
+    slot="result"
+    heading={c("resultHeading")}
+    resultLabel={c("resultLabel")}
+    baseLabel={c("baseLabel")}
+    totalLabel={c("totalLabel")}
+    lineLabels={lineLabels}
+    initial={initial}
+    warning={result.warning ? warnings[result.warning] : null}
+  />
+</CalcShell>
+
+<script>
+  import {
+    calculateEntrepreneurTax,
+    type ActivityKey,
+    type EntrepreneurParams,
+    type Warning,
+  } from "../../lib/entrepreneur-core.ts";
+  import { renderBreakdown, type FormulaLabels } from "../../lib/breakdown.ts";
+  import type { Locale } from "../../i18n/config.ts";
+  import {
+    amountReader,
+    applyBreakdown,
+    inputOf,
+    mountIslands,
+    onAnyInput,
+  } from "../../scripts/calc-island.ts";
+
+  interface Config {
+    params: EntrepreneurParams;
+    locale: Locale;
+    labels: FormulaLabels;
+    warnings: Record<Warning, string>;
+  }
+
+  mountIslands<Config>("entrepreneur", (root, config) => {
+    const regime = inputOf<HTMLSelectElement>(root, "regime");
+    const activity = inputOf<HTMLSelectElement>(root, "activity");
+    const turnover = amountReader(inputOf(root, "turnover"), config.locale);
+    const expenses = amountReader(inputOf(root, "expenses"), config.locale);
+    const pension = inputOf(root, "pension");
+
+    onAnyInput(root, () => {
+      const result = calculateEntrepreneurTax(config.params, {
+        regime: regime.value === "micro" ? "micro" : "turnover",
+        activity: activity.value as ActivityKey,
+        turnover: turnover(),
+        expenses: expenses(),
+        pensionParticipant: pension.checked,
+      });
+      applyBreakdown(
+        root,
+        renderBreakdown(result, config.locale, config.labels),
+        result.warning ? config.warnings[result.warning] : null,
+      );
+    });
+  });
+</script>

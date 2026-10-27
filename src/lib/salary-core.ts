@@ -12,6 +12,10 @@
  * `src/lib/salary.ts` binds these to the real data for server and test use.
  */
 
+import type { Formula } from "./breakdown.ts";
+
+export type { Formula } from "./breakdown.ts";
+
 /** A band of the form "from AMD to AMD (inclusive) charge `amount`". */
 export interface Band {
   from: number;
@@ -37,23 +41,6 @@ export interface SalaryParams {
 
 /** Which deduction a line represents. Used as an i18n key. */
 export type DeductionKey = "incomeTax" | "pension" | "stamp" | "health";
-
-/**
- * How a line was arrived at, in machine-readable form, so the UI can render
- * "20% × 300,000 = 60,000" without this module knowing any language.
- */
-export type Formula =
-  | { kind: "percent"; rate: number; base: number }
-  | {
-      kind: "percentMinus";
-      rate: number;
-      base: number;
-      minus: number;
-      /** True when the base was clipped to the statutory cap. */
-      capped: boolean;
-    }
-  | { kind: "band"; from: number; to: number | null }
-  | { kind: "exempt" };
 
 export interface DeductionLine {
   key: DeductionKey;
