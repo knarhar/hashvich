@@ -24,9 +24,9 @@ interface Props {
   title: string;
   description: string;
   /**
-   * Absolute or site-relative image for og:image. There is no default share
-   * image yet, so pages without one emit no image tags rather than a link
-   * to a missing file.
+   * Absolute or site-relative 1200x630 image for og:image: the link preview
+   * on LinkedIn, Telegram and the like. BaseLayout passes the locale's
+   * public/og-<locale>.png.
    */
   image?: string;
   /** Set on pages that should not be indexed (the 404). */
@@ -79,6 +79,9 @@ const siteName = t("site.name", locale);
 <meta property="og:description" content={description} />
 {!noindex && <meta property="og:url" content={canonical} />}
 {ogImage && <meta property="og:image" content={ogImage} />}
+{ogImage && <meta property="og:image:width" content="1200" />}
+{ogImage && <meta property="og:image:height" content="630" />}
+{ogImage && <meta property="og:image:alt" content={t("pages.home.heading", locale)} />}
 <meta property="og:locale" content={ogLocale(locale)} />
 {
   ogAlternateLocales(locale).map((alt) => (

@@ -106,14 +106,19 @@ surface is a design element within the light theme, not a dark theme.
 
 ---
 
-## 7. Favicon and OG image are placeholders
+## 7. Favicon and link-preview image
 
 **DESIGN.md says:** the logo is an OTSono wordmark; no favicon or social image
 spec.
 
 **Built:** `public/favicon.svg` is a lime rounded square with three ink rules,
-built from palette tokens only. `og:image` points at `/og-default.png`, **which
-does not exist yet** — social previews will show no image until it is added.
+built from palette tokens only. The link preview (`og:image`) is one
+1200x630 PNG per language, `public/og-ru.png`, `og-hy.png`, `og-en.png`: the
+lime accent surface with the wordmark, the home heading, the five calculator
+names as parchment pills, the tagline and the address, all text taken from
+the translation files and set in the self-hosted Noto fonts. They were
+rendered once with headless Chromium on 2026-10-28; re-render them if the
+heading, calculator names or tagline change.
 
 ---
 
